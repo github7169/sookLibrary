@@ -8,35 +8,34 @@
 </head>
 <body>
 <jsp:include page="menubar.jsp"></jsp:include>
-<jsp:include page="booksearchfilter.jsp"></jsp:include>
-<table border="1">
-<!-- if -->
+	<br>
+	<hr>
+	<br>
+	<table border="1">
 		<tr>
-			<th><input type="checkbox" name="isChecked"></th>
 			<th>no</th>
 			<th>등록번호</th>
 			<th>서명</th>
 			<th>저자</th>
 			<th>출판사</th>
-			<th>ISBN</th>
 			<th>청구기호</th>
-			<th>이용자</th>
-			<th>대출상태</th>
+			<th>대출일</th>
 			<th>반납예정일</th>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="isChecked"></td>
 			<td>1</td>
-			<td>1094080</td>
-			<td><a href="#">Head first servlets ＆ JSP™ :상상력을 자극하는 몰입의 학습법</a></td>
-			<td>Sierra, Kathy.</td>
-			<td>한빛미디어</td>
-			<td>9788979146639</td>
-			<td>005.133 S572hs2K</td>
-			<td></td>
-			<td>대출가능</td>
-			<td></td>
+			<td>1131357</td>
+			<td><a href="#">Software engineering/ 9th ed</a></td>
+			<td> Ian Sommerville.</td>
+			<td>Addison-Wesley</td>
+			<td>005.1 S697s9 c2</td>
+			<td>2014.11.9</td>
+			<td>2014.11.25</td>
 		</tr>
 	</table>
+	<br>
+	<hr>
+	<br>
+	<jsp:include page="bookdetail.jsp"></jsp:include>
 </body>
 </html>

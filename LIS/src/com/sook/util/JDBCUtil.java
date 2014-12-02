@@ -23,7 +23,7 @@ public class JDBCUtil {
 			System.out.println("fail connect");
 		}
 		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/mindmap_threestorm";
+			String jdbcUrl = "jdbc:mysql://localhost:3306/sooklibrary";
 			String userId = "root";
 			String userPass = "0000";
 

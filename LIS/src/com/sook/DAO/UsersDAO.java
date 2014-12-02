@@ -1,11 +1,15 @@
 package com.sook.DAO;
 import com.mysql.jdbc.Connection;
-import java.sql.DriverManager;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.ResultSet;
-import java.sql.SQLException;
-import com.mysql.jdbc.Statement;
 
+import java.sql.DriverManager;
+
+import com.mysql.jdbc.PreparedStatement;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.mysql.jdbc.Statement;
 import com.sook.DTO.UsersDTO;
 import com.sook.util.JDBCUtil;
 import com.sook.util.StatusUtil;
@@ -13,28 +17,28 @@ import com.sook.util.StatusUtil;
 public class UsersDAO {
 	private final String INSERT_USER = "INSERT INTO user VALUE(?,?,?,?,?)";
 	private final String UPDATE_USER = "UPDATE user SET(?,?,?) where id=?";
-//	private final String GET_USERS = "selete number,name,major,phone,status,money,books FROM user WHERE status ?";
-//	private final String GET_USERS = "selete number,name,major,phone,status,money,books FROM user WHERE id ?";
-//	private final String GET_USERS = "selete number,name,major,phone,status,money,books FROM user WHERE name ?";
+//	private final String GET_USERS = "SELECT number,name,major,phone,status,money,books FROM user WHERE status ?";
+//	private final String GET_USERS = "SELECT number,name,major,phone,status,money,books FROM user WHERE id ?";
+//	private final String GET_USERS = "SELECT number,name,major,phone,status,money,books FROM user WHERE name ?";
 	
-	private com.mysql.jdbc.Connection conn =null;
-	private PreparedStatement pstmt=null;
-	private RewultSet rs =null;
+	private java.sql.Connection conn =null;
+	private java.sql.PreparedStatement pstmt=null;
+	private ResultSet rs =null;
 	
 	private UsersDTO user = new UsersDTO();
 	
 	//-회원가입 (joinuser.jsp - managemember.jsp)
-	public int insertUser(UsersDTO usersDTO) {
+	public void insertUser(UsersDTO usersDTO) throws SQLException {
 		try{
 			conn=JDBCUtil.getInstance().getConnection();
 			pstmt=conn.prepareStatement(INSERT_USER);
 
 			int idx=0;
-			pstmt.setString(++idx,dto.getUser_id());
-			pstmt.setString(++idx,dto.getUser_pwd());
-			pstmt.setString(++idx,dto.getUser_name());
-			pstmt.setString(++idx,dto.getUser_major());
-			pstmt.setString(++idx,dto.getUser_phone());
+			pstmt.setString(++idx,user.getUserId());
+			pstmt.setString(++idx,user.getUserPwd());
+			pstmt.setString(++idx,user.getUserName());
+			pstmt.setString(++idx,user.getUserDepartment());
+			pstmt.setString(++idx,user.getUserPhoneNum());
 		
 		}
 		
@@ -50,16 +54,16 @@ public class UsersDAO {
 	
 
 	//- 계정관리 (updateuser.jsp)
-	public int updateUser(UsersDTO usersDTO) throws SQLException {
+	public void updateUser(UsersDTO usersDTO) throws SQLException {
 		try{
-			conn=JDBCUtil.getInstace().getConnection();
-			pstmt = conn.prepareStatemen(UPDATE_USER);
+			conn=JDBCUtil.getInstance().getConnection();
+			pstmt = conn.prepareStatement(UPDATE_USER);
 			
 			int idx = 0;
-			pstmt.setString(++idx,userDTO.getUser_id());
-			pstmt.setString(++idx,userDTO.getUser_pw());
-			pstmt.setString(++idx,userDTO.getUser_name());
-			pstmt.setString(++idx,userDTO.getUser_major());
+			pstmt.setString(++idx,usersDTO.getUserId());
+			pstmt.setString(++idx,usersDTO.getUserPwd());
+			pstmt.setString(++idx,usersDTO.getUserName());
+			pstmt.setString(++idx,usersDTO.getUserDepartment());
 			
 			//pstmt.executeUpdate();
 		}
@@ -76,7 +80,10 @@ public class UsersDAO {
 
 
 	//(Librarian) - 회원 조회 (getusers.jsp)
-	public ArrayList<UsersDTO> getUsers (UsersDTO usersDTO){
+	public ArrayList<UsersDTO> getUsers(UsersDTO usersDTO){
+		
+		
+		return null;
 		
 	}
 }

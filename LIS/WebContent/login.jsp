@@ -10,15 +10,15 @@
 <body>
 	<center>
 	<h1>도서관 정보 시스템</h1>
-		<form action="result.jsp" method="post">
+		<form action="users/login" method="post">
 			<table>
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" name="id"></td>
+					<td><input type="text" name="userId"></td>
 				</tr>
 				<tr>
 					<td>패스워드</td>
-					<td><input type="password" name="pwd"></td>
+					<td><input type="password" name="userPwd"></td>
 				</tr>
 				<tr>
 					<td><input type="submit" value="로그인"></td>

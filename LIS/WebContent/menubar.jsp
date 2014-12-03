@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,8 +12,12 @@
 </head>
 <body>
 <!-- if librarian -->
- ID : ###님 <a href="booksearch.jsp">도서 관리</a> <a href="managemember.jsp">회원 조회</a> <a href="editaccount.jsp">계정 관리</a>
+<c:if test="${USER.userPostion == 'librarian'}">
+ ID : ${USER.userName }님 <a href="<c:url value="/books/getBooks"/>">도서 관리</a> <a href="<c:url value="/users/getUsers"/>">회원 조회</a> <a href="<c:url value="/users/updateUser"/>">계정 관리</a>
+</c:if>
 <!-- if student -->
- ID : ###님 <a href="booksearch.jsp">도서 검색</a> <a href="rentlist.jsp">대출 목록</a> <a href="editaccount.jsp">계정 관리</a> 
+<c:if test="${USER.userPostion == 'student'}">
+ ID : ${USER.userName }님 <a href="<c:url value="/books/getBooks"/>">도서 검색</a> <a href="<c:url value="/books/getRentedList"/>">대출 목록</a> <a href="<c:url value="/users/updateUser"/>">계정 관리</a> 
+</c:if>
 </body>
 </html>

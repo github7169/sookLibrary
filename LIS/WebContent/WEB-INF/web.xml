@@ -9,4 +9,22 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+		<description></description>
+		<servlet-name>UsersController</servlet-name>
+		<servlet-class>com.sook.controller.UsersController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UsersController</servlet-name>
+		<url-pattern>/users/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<servlet-name>BooksController</servlet-name>
+		<servlet-class>com.sook.controller.BooksController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BooksController</servlet-name>
+		<url-pattern>/books/*</url-pattern>
+	</servlet-mapping>
 </web-app>

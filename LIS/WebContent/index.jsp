@@ -8,7 +8,7 @@
 </head>
 <body>
 <%
-	response.sendRedirect(request.getContextPath()+"/booksearch.jsp");
+	response.sendRedirect(request.getContextPath()+"/login.jsp");
 %>
 </body>
 </html>

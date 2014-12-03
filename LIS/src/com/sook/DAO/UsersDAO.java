@@ -37,7 +37,7 @@ public class UsersDAO {
 	private ResultSet rs =null;
 	
 	private UsersDTO user = new UsersDTO();
-	
+	//짜증짜증 ㅎㅎ 
 	//-회원가입 (joinuser.jsp - managemember.jsp)
 	public void insertUser(UsersDTO usersDTO) throws SQLException {
 		

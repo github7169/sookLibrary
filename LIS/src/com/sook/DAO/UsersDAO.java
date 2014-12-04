@@ -19,7 +19,8 @@ import com.sook.util.StatusUtil;
 public class UsersDAO {
 	private final String INSERT_USER = "INSERT INTO users VALUE(?,?,?,?,?);";
 	private final String UPDATE_USER = "UPDATE user SET(?,?,?) where id=?;";
-		//학생의 아이디 혹은 이름으로 검색 
+	
+	//아이디 혹은 이름으로 검색
 	private final String GET_USERS_ID = "SELECT * "
 			+ "FROM users WHERE userId LIKE ?";
 	
@@ -30,17 +31,15 @@ public class UsersDAO {
 	private final String GET_USERS_STATUS = "SELECT * "
 			+ "FROM users WHERE userStatus LIKE ?";
 	
-	private final String GET_LENTED_LIST = "SELECT * FROM books "
-			+ "WHERE bookRentedBy = ?;";
 
 	private java.sql.Connection conn =null;
 	private java.sql.PreparedStatement pstmt=null;
 	private ResultSet rs =null;
-	
 	private UsersDTO user = new UsersDTO();
-	//짜증짜증 ㅎㅎ 
+
 	//-회원가입 (joinuser.jsp - managemember.jsp)
 	public int insertUser(UsersDTO usersDTO) throws SQLException {
+		
 		int result = 0;
 		conn = JDBCUtil.getInstance().getConnection();
 		

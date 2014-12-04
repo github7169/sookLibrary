@@ -40,7 +40,9 @@ public class UsersDAO {
 	private UsersDTO user = new UsersDTO();
 	//짜증짜증 ㅎㅎ 
 	//-회원가입 (joinuser.jsp - managemember.jsp)
-	public void insertUser(UsersDTO usersDTO) throws SQLException {
+	public int insertUser(UsersDTO usersDTO) throws SQLException {
+		int result = 0;
+		conn = JDBCUtil.getInstance().getConnection();
 		
 		try{
 			conn=JDBCUtil.getInstance().getConnection();
@@ -53,21 +55,27 @@ public class UsersDAO {
 			pstmt.setString(++idx,usersDTO.getUserDepartment());
 			pstmt.setString(++idx,usersDTO.getUserPhoneNum());
 		
+			rs = pstmt.getGeneratedKeys();
 		}
 		
 		catch (SQLException e){
 			//TODO auto-generated catch block 
+			
 			e.printStackTrace();
 		}
 		
 		finally{
 			pstmt.close();
 		}
+		return result;
 	}
 	
 
 	//- 계정관리 (updateuser.jsp)
-	public void updateUser(UsersDTO usersDTO) throws SQLException {
+	public int updateUser(UsersDTO usersDTO) throws SQLException {
+		int result = 0;
+		conn = JDBCUtil.getInstance().getConnection();
+		
 		try{
 			conn=JDBCUtil.getInstance().getConnection();
 			pstmt = conn.prepareStatement(UPDATE_USER);
@@ -89,6 +97,7 @@ public class UsersDAO {
 		finally{
 			pstmt.close();
 		}
+		return result;
 	}
 
 
@@ -96,15 +105,10 @@ public class UsersDAO {
 	public ArrayList<UsersDTO> getUsers(UsersDTO usersDTO, int option, String keyword){
 		
 		
-		
-		//option = 20;
-		//keyword = "jinhee";	
-		
 		conn = JDBCUtil.getInstance().getConnection();
 		ArrayList<UsersDTO> list = new ArrayList<UsersDTO>();
 		
 		try {
-			System.out.println( "나와랏" );
 			
 			if ( option == StatusUtil.userOptionId ){				
 				pstmt = conn.prepareStatement(GET_USERS_ID);
@@ -142,23 +146,10 @@ public class UsersDAO {
 				
 				list.add(users);
 			}
-				
-			for(int i=0; i<list.size() ; i++){
-				System.out.println("루프를 돕니다.");
-				System.out.println("유저네임!"+ list.get(i).getUserName() + ", 유저 아이디!"+ list.get(i).getUserId() );
-				System.out.println("유저 학과!"+ list.get(i).getUserDepartment() + ", 유저 폰넘버! " + list.get(i).getUserPhoneNum());
-				System.out.println("-----------------------------------------------------------");
-			int status;
-				status=list.get(i).getUserStatus();
-				if (status==4){
-					System.out.println("연체중입니다.   " + list.get(i).getUserStatus());
-				}
-			}
 			
-
-		} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		}catch (SQLException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	
 	return list;

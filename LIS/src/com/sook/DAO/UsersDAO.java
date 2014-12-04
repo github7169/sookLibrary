@@ -1,77 +1,68 @@
 package com.sook.DAO;
 
-import java.sql.DriverManager;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.Statement;
-import com.sook.DTO.BooksDTO;
 import com.sook.DTO.UsersDTO;
 import com.sook.util.JDBCUtil;
 import com.sook.util.StatusUtil;
 
 public class UsersDAO {
-	private final String INSERT_USER = "INSERT INTO users VALUE(?,?,?,?,?)";
-	private final String UPDATE_USER = "UPDATE user SET(?,?,?) where id=?";
+	private final String INSERT_USER = "INSERT INTO users(userId, userPwd, userName, userDepartment, userPhoneNum, userPosition) VALUE(?,?,?,?,?,?)";
+	private final String UPDATE_USER = "UPDATE users SET userPwd = ?, userName = ?, userDepartment = ?, userPhoneNum =? where userId=?";
 	// 학생의 아이디 혹은 이름으로 검색
 	String userSearchCondition = null;
-	private String GET_USERS = "SELECT * FROM users WHERE" + userSearchCondition
-			+ " LIKE %?%";
-	// 학생의 상태에 따른 (대출가능,연체중,대출제한) 검색
-	private final String GET_USERS_STATUS = "SELECT * FROM users WHERE userStatus LIKE ?";
-
-	private final String GET_LENTED_LIST = "SELECT * FROM books WHERE bookRentedBy = ?;";
-
+	private final String GET_USERS_BY_ID = "SELECT * FROM users WHERE userId LIKE ?";
+	private String GET_USERS =  "SELECT * FROM users WHERE "+ userSearchCondition+ " LIKE ?";
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 
-	private UsersDTO user = new UsersDTO();
+	
 
-	// -회원가입 (joinuser.jsp - managemember.jsp)
-	public void insertUser(UsersDTO usersDTO) throws SQLException {
-
+	public int insertUser(UsersDTO usersDTO) {
+		conn = JDBCUtil.getInstance().getConnection();
+		int result = 0;
 		try {
-			conn = JDBCUtil.getInstance().getConnection();
 			pstmt = conn.prepareStatement(INSERT_USER);
-
+			
 			int idx = 0;
 			pstmt.setString(++idx, usersDTO.getUserId());
 			pstmt.setString(++idx, usersDTO.getUserPwd());
 			pstmt.setString(++idx, usersDTO.getUserName());
 			pstmt.setString(++idx, usersDTO.getUserDepartment());
 			pstmt.setString(++idx, usersDTO.getUserPhoneNum());
+			pstmt.setString(++idx, usersDTO.getUserPostion());
 			
-			pstmt.executeUpdate();
-
-		}
-
-		catch (SQLException e) {
-			// TODO auto-generated catch block
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		finally {
-			pstmt.close();
-		}
+		return result;
 	}
-
-	// - 계정관리 (updateuser.jsp)
-	public void updateUser(UsersDTO usersDTO) throws SQLException {
-		try {
-			conn = JDBCUtil.getInstance().getConnection();
+	
+	
+	//- 계정관리 (updateuser.jsp)
+	public int updateUser(UsersDTO usersDTO) throws SQLException {
+		
+		int result = 0;
+		conn = JDBCUtil.getInstance().getConnection();
+		
+		try{
 			pstmt = conn.prepareStatement(UPDATE_USER);
-
 			int idx = 0;
-			pstmt.setString(++idx, usersDTO.getUserId());
 			pstmt.setString(++idx, usersDTO.getUserPwd());
 			pstmt.setString(++idx, usersDTO.getUserName());
 			pstmt.setString(++idx, usersDTO.getUserDepartment());
+			pstmt.setString(++idx, usersDTO.getUserPhoneNum());
+			pstmt.setString(++idx, usersDTO.getUserId());
 
-			pstmt.executeUpdate();
+			result=pstmt.executeUpdate();
 		}
 
 		catch (SQLException e) {
@@ -82,20 +73,21 @@ public class UsersDAO {
 		finally {
 			pstmt.close();
 		}
+		return result;
 	}
 
 	// (Librarian) - 회원 조회 (getusers.jsp)
 	public ArrayList<UsersDTO> getUsers(UsersDTO usersDTO, int option,
 			String keyword) {
+		System.out.println("UserDAO : getUsers was called");
 		// option = 20;
 		// keyword = "jinhee";
-
 		conn = JDBCUtil.getInstance().getConnection();
 		ArrayList<UsersDTO> list = new ArrayList<UsersDTO>();
-
 		try {
 			switch (option) {
 			case StatusUtil.userOptionId:
+				System.out.println("userOptionId");
 				userSearchCondition= "userId";
 				break;
 			case StatusUtil.userOptionName:
@@ -113,11 +105,11 @@ public class UsersDAO {
 			default:
 				break;
 			}
+			System.out.println(GET_USERS);
 			pstmt = conn.prepareStatement(GET_USERS);
-			pstmt.setString(1, keyword);
+			pstmt.setString(1, "%"+keyword+"%");
 
 			rs = pstmt.executeQuery();
-
 			while (rs.next()) {
 
 				UsersDTO users = new UsersDTO();
@@ -139,12 +131,6 @@ public class UsersDAO {
 						+ ", 유저 폰넘버! " + list.get(i).getUserPhoneNum());
 				System.out
 						.println("-----------------------------------------------------------");
-				int status;
-				status = list.get(i).getUserStatus();
-				if (status == 4) {
-					System.out.println("연체중입니다.   "
-							+ list.get(i).getUserStatus());
-				}
 			}
 
 		} catch (SQLException e) {

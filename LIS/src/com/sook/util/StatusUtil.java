@@ -27,10 +27,13 @@ public class StatusUtil {
 	public final static int bookCategoryOthers = 13;
 	
 	//bookSearchOption
-	   public final static int bookOptionRegistNumber = 14;
-	   public final static int bookOptionTitle = 15;
-	   public final static int bookOptionAuthor = 16;
-	   public final static int bookOptionPublisher = 17;
-	   public final static int bookOptionISBN = 18;   
+	 public final static int bookOptionRegistNumber = 14;
+	 public final static int bookOptionTitle = 15;
+	 public final static int bookOptionAuthor = 16;
+	 public final static int bookOptionPublisher = 17;
+	 public final static int bookOptionISBN = 18;   
 	
+	   //userSearchOption
+	 public final static int userOptionId = 19;
+	 public final static int userOptionName =20;
 }

@@ -12,25 +12,25 @@
 		<table>
 			<tr>
 				<td>*ID</td>
-				<td><input type="text" name="id"></td>
+				<td><input type="text" name="userId"></td>
 				<!-- 조회 버튼은 학생의 경우 학생디비에서, 사서의 경우 교직원 디비에서 존재하는 학번, 교번인지 확인하는 것 -->
 				<td><input type="button" value="조회" onclick="window.location.href='<c:url value="users/checkUserId"/>'"/></td>
 			</tr>
 			<tr>
 				<td>패스워드</td>
-				<td><input type="password" name="pwd"> </td>
+				<td><input type="password" name="userPwd"> </td>
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td><input type="text" name="name"></td>
+				<td><input type="text" name="userName"></td>
 			</tr>
 			<tr>
 				<td>*학과</td>
-				<td><input type="text" name="department"></td>
+				<td><input type="text" name="userDepartment"></td>
 			</tr>
 			<tr>
 				<td>연락처</td>
-				<td><input type="text" name="phone"></td>
+				<td><input type="text" name="userPhoneNum"></td>
 			</tr>
 			<tr>
 				<td>* 사서의 경우 교직원 번호와 부서를 입력합니다.</td>

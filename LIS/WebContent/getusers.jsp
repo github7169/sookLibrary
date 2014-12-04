@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -15,32 +16,32 @@
 	<table border="1">
 		<tr>
 			<th>no</th>
-			<th>ÇÐ¹ø</th>
-			<th>ÀÌ¸§</th>
-			<th>ÇÐ°ú</th>
-			<th>ÇÚµåÆù ¹øÈ£</th>
-			<th>»óÅÂ</th>
-			<th>¿¬Ã¼·á</th>
-			<th>´ëÃâ±Ç¼ö</th>
+			<th>í•™ë²ˆ</th>
+			<th>ì´ë¦„</th>
+			<th>í•™ê³¼</th>
+			<th>í•¸ë“œí° ë²ˆí˜¸</th>
+			<th>ìƒíƒœ</th>
+			<th>ì—°ì²´ë£Œ</th>
+			<th>ëŒ€ì¶œê¶Œìˆ˜</th>
 		</tr>
 		<tr>
 			<td>1</td>
 			<td>1211514</td>
-			<td>ÃÖÀ¯Áø</td>
-			<td>¸ÖÆ¼¹Ìµð¾î°úÇÐ</td>
+			<td>ìµœìœ ì§„</td>
+			<td>ë©€í‹°ë¯¸ë””ì–´ê³¼í•™</td>
 			<td>01092454120</td>
-			<td>¿¬Ã¼Áß</td>
-			<td>100¿ø</td>
+			<td>ì—°ì²´ì¤‘</td>
+			<td>100ì›</td>
 			<td>2</td>
 		</tr>
 		<tr>
 			<td>2</td>
 			<td>1210453</td>
-			<td>ÀÓ¼öÁö</td>
-			<td>¸ÖÆ¼¹Ìµð¾î°úÇÐ</td>
+			<td>ìž„ìˆ˜ì§€</td>
+			<td>ë©€í‹°ë¯¸ë””ì–´ê³¼í•™</td>
 			<td>01077317169</td>
-			<td>¿¬Ã¼Áß</td>
-			<td>200¿ø</td>
+			<td>ì—°ì²´ì¤‘</td>
+			<td>200ì›</td>
 			<td>4</td>
 		</tr>
 	</table>

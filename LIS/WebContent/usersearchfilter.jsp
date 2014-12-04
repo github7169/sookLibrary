@@ -1,26 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="#" method="get">
-		<select name="user_filter">
-			<option value="registnum">ÇÐ¹ø</option>
-			<option value="title">ÀÌ¸§</option>
+	<form action="<c:url value="/users/getUsers"/>" method="POST">
+		<select name="userFilter">
+			<option value="userId">í•™ë²ˆ</option>
+			<option value="userPwd">ì´ë¦„</option>
 		</select>
 		<input type="text" name="keyword">
-		»óÅÂ
-		<select name="user_filter">
+		ìƒíƒœ
+		<select name="statusFilter">
 			<option value="default"></option>
-			<option value="rentavilable">´ëÃâ°¡´É</option>
-			<option value="rentlimit">´ëÃâÁ¦ÇÑ</option>
-			<option value="overdue">¿¬Ã¼Áß</option>	
+			<option value="available">ëŒ€ì¶œê°€ëŠ¥</option>
+			<option value="restricted">ëŒ€ì¶œì œí•œ</option>
+			<option value="overdue">ì—°ì²´ì¤‘</option>	
 		</select>
-		 <input type="submit"	value="°Ë»ö" />
+		 <input type="submit"	value="ê²€ìƒ‰" />
 	</form>
 </body>
 </html>

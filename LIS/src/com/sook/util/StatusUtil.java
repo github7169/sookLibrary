@@ -33,7 +33,9 @@ public class StatusUtil {
 	 public final static int bookOptionPublisher = 17;
 	 public final static int bookOptionISBN = 18;   
 	
+	 
 	   //userSearchOption
 	 public final static int userOptionId = 19;
 	 public final static int userOptionName =20;
+	 public final static int userOptionStatus=21;
 }

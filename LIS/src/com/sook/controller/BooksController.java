@@ -2,7 +2,9 @@ package com.sook.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sook.DAO.BooksDAO;
 import com.sook.DTO.BooksDTO;
+import com.sook.DTO.UsersDTO;
 import com.sook.util.AbstractController;
 
 public class BooksController extends AbstractController{
@@ -46,7 +50,36 @@ public class BooksController extends AbstractController{
 
 	private void insertBook(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		// TODO Auto-generated method stub
+		BooksDTO booksDTO = new BooksDTO();
+		BooksDAO booksDAO = new BooksDAO();
+		
+		int bookRegistNumber = Integer.parseInt(request.getParameter("bookRegistNumber")); 
+		String bookTitle = request.getParameter("bookTitle");
+		String bookAuthor = request.getParameter("bookAuthor");  	 
+		String bookPublisher = request.getParameter("bookPublisher");
+		int bookPublicationYear = Integer.parseInt(request.getParameter("bookPublicationYear")); 
+		int bookISBN = Integer.parseInt(request.getParameter("bookISBN"));
+		int bookApplicationMark = Integer.parseInt(request.getParameter("bookApplicationMark"));
+		int bookCategory = Integer.parseInt(request.getParameter("bookCategory"));
+		int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
+		
+		booksDTO.setBookApplicationMark(bookApplicationMark);
+		booksDTO.setBookAuthor(bookAuthor);
+		booksDTO.setBookCategory(bookCategory);
+		booksDTO.setBookISBN(bookISBN);
+		booksDTO.setBookPrice(bookPrice);
+		booksDTO.setBookPublicationYear(bookPublicationYear);
+		booksDTO.setBookPublisher(bookPublisher);
+		booksDTO.setBookRegistNumber(bookRegistNumber);
+		booksDTO.setBookTitle(bookTitle);
+		
+		try {
+			booksDAO.insertBook(booksDTO);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
 

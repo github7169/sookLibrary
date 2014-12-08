@@ -22,9 +22,9 @@ public class UsersDAO {
 	
 	private final String GET_USERS_BY_STATUS ="SElECT * FROM users WHERE userStatus LIKE?";
 	
-	private final String GET_Restricted_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
-	private final String GET_Available_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
-	private final String GET_Overdue_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
+//	private final String GET_Restricted_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
+//	private final String GET_Available_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
+//	private final String GET_Overdue_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
 	
 
 	//private final String GET_USER_LIST = "SELECT * FROM users WHERE bookRentedBy = ?;";

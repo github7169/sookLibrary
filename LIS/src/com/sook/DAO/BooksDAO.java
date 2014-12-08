@@ -51,12 +51,12 @@ public class BooksDAO {
 			pstmt=conn.prepareStatement(INSERT_BOOK, Statement.RETURN_GENERATED_KEYS);
 			
 			int idx=0;
-			pstmt.setInt(++idx, booksDTO.getBookRegistNumber());
+			pstmt.setString(++idx, booksDTO.getBookRegistNumber());
 			pstmt.setString(++idx, booksDTO.getBookTitle());
 			pstmt.setString(++idx, booksDTO.getBookAuthor());
 			pstmt.setString(++idx, booksDTO.getBookPublisher());
 			pstmt.setInt(++idx, booksDTO.getBookPublicationYear());
-			pstmt.setInt(++idx, booksDTO.getBookISBN());
+			pstmt.setString(++idx, booksDTO.getBookISBN());
 			pstmt.setInt(++idx, booksDTO.getBookApplicationMark());
 			pstmt.setInt(++idx, booksDTO.getBookCategory());
 			pstmt.setInt(++idx, booksDTO.getBookPrice());
@@ -98,7 +98,7 @@ public class BooksDAO {
 			
 			book = list.get(i++);
 			
-			pstmt.setInt(1, book.getBookRegistNumber());
+			pstmt.setString(1, book.getBookRegistNumber());
 			rs = pstmt.executeQuery();
 	
 		}
@@ -124,17 +124,17 @@ public class BooksDAO {
 			pstmt=conn.prepareStatement(UPDATE_BOOK, Statement.RETURN_GENERATED_KEYS);
 		
 			int idx=0;
-			pstmt.setInt(++idx, booksDTO.getBookRegistNumber());
+			pstmt.setString(++idx, booksDTO.getBookRegistNumber());
 			pstmt.setString(++idx, booksDTO.getBookTitle());
 			pstmt.setString(++idx, booksDTO.getBookAuthor());
 			pstmt.setString(++idx, booksDTO.getBookPublisher());
 			pstmt.setInt(++idx, booksDTO.getBookPublicationYear());
-			pstmt.setInt(++idx, booksDTO.getBookISBN());
+			pstmt.setString(++idx, booksDTO.getBookISBN());
 			pstmt.setInt(++idx, booksDTO.getBookApplicationMark());
 			pstmt.setInt(++idx, booksDTO.getBookCategory());
 			pstmt.setInt(++idx, booksDTO.getBookPrice());
 			
-			pstmt.setInt(++idx, booksDTO.getBookRegistNumber());
+			pstmt.setString(++idx, booksDTO.getBookRegistNumber());
 			
 			rs = pstmt.getGeneratedKeys();
 			while(rs.next()){
@@ -155,16 +155,11 @@ public class BooksDAO {
 	
 	
 public ArrayList<BooksDTO> selectBook (BooksDTO booksDTO, int option, String keyword) {
-
-	option = 15;
-	keyword = "자바";	
 	
 	conn = JDBCUtil.getInstance().getConnection();
 	//결과 마인드맵 리스트를 담을 객체
 	ArrayList<BooksDTO> list = new ArrayList<BooksDTO>();
-	try {
-			System.out.println( "나와랏" );
-			
+	try {			
 			if ( option == StatusUtil.bookOptionRegistNumber ){				
 				pstmt = conn.prepareStatement(GET_BOOKS_REGISTNUMBER);
 
@@ -182,6 +177,7 @@ public ArrayList<BooksDTO> selectBook (BooksDTO booksDTO, int option, String key
 				
 			}
 			
+			System.out.println("키워드당"+keyword);
 			pstmt.setString(1, "%" + keyword + "%");
 			
 			rs = pstmt.executeQuery();
@@ -190,12 +186,12 @@ public ArrayList<BooksDTO> selectBook (BooksDTO booksDTO, int option, String key
 				BooksDTO books = new BooksDTO();
 				UsersDTO users = new UsersDTO();
 				
-				books.setBookRegistNumber(rs.getInt("bookRegistNumber"));
+				books.setBookRegistNumber(rs.getString("bookRegistNumber"));
 				books.setBookTitle(rs.getString("bookTitle"));
 				books.setBookAuthor(rs.getString("bookAuthor"));
 				books.setBookPublisher(rs.getString("bookPublisher"));
 				books.setBookPublicationYear(rs.getInt("bookPublicationYear"));
-				books.setBookISBN(rs.getInt("bookISBN"));
+				books.setBookISBN(rs.getString("bookISBN"));
 				books.setBookApplicationMark(rs.getInt("bookApplicationMark"));
 				books.setBookCategory(rs.getInt("bookCategory"));
 				books.setBookPrice(rs.getInt("bookPrice"));
@@ -224,9 +220,7 @@ public ArrayList<BooksDTO> selectBook (BooksDTO booksDTO, int option, String key
 	return list;
 }
 
-public ArrayList<BooksDTO> getRentedList (BooksDTO booksDTO) {
-
-	String user = "1211453";	
+public ArrayList<BooksDTO> getRentedList (BooksDTO booksDTO, String userId) {
 	
 	conn = JDBCUtil.getInstance().getConnection();
 	//결과 마인드맵 리스트를 담을 객체
@@ -235,7 +229,7 @@ public ArrayList<BooksDTO> getRentedList (BooksDTO booksDTO) {
 			System.out.println( "나와랏2" );
 			
 			pstmt = conn.prepareStatement(GET_LENTED_LIST);
-			pstmt.setString(1, user);
+			pstmt.setString(1, userId);
 			
 			rs = pstmt.executeQuery();
 			
@@ -243,12 +237,12 @@ public ArrayList<BooksDTO> getRentedList (BooksDTO booksDTO) {
 				BooksDTO books = new BooksDTO();
 				UsersDTO users = new UsersDTO();
 				
-				books.setBookRegistNumber(rs.getInt("bookRegistNumber"));
+				books.setBookRegistNumber(rs.getString("bookRegistNumber"));
 				books.setBookTitle(rs.getString("bookTitle"));
 				books.setBookAuthor(rs.getString("bookAuthor"));
 				books.setBookPublisher(rs.getString("bookPublisher"));
 				books.setBookPublicationYear(rs.getInt("bookPublicationYear"));
-				books.setBookISBN(rs.getInt("bookISBN"));
+				books.setBookISBN(rs.getString("bookISBN"));
 				books.setBookApplicationMark(rs.getInt("bookApplicationMark"));
 				books.setBookCategory(rs.getInt("bookCategory"));
 				books.setBookPrice(rs.getInt("bookPrice"));

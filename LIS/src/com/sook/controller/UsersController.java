@@ -52,7 +52,8 @@ public class UsersController extends AbstractController{
 			UsersDTO user = new UsersDTO();
 			user.setUserId(userId);
 			user.setUserPwd(userPwd);
-			user.setUserName("사서_관리자");
+			user.setUserName("사서");
+			// (임시) 신분 지정
 			user.setUserPostion(StatusUtil.userPositionLibrarian);
 			
 			session.setAttribute("USER", user);

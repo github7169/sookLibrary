@@ -16,7 +16,7 @@ import com.sook.DTO.UsersDTO;
 import com.sook.util.AbstractController;
 import com.sook.util.StatusUtil;
 
-public class UsersController extends AbstractController{
+public class UsersController extends AbstractController {
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -24,79 +24,120 @@ public class UsersController extends AbstractController{
 		System.out.println(uri);
 		if ("/users/insertUser".equals(uri)) {
 			insertUser(request, response);
-		}else if("/users/login".equals(uri)){
+		} else if ("/users/login".equals(uri)) {
 			login(request, response);
-		}else if("/users/getUsers".equals(uri)){
-			getUsers(request,response);
-		} else if("/users/updateUser".equals(uri)){
-			updateUser(request,response);
-		} else if("/users/checkUserId".equals(uri)){
+		} else if ("/users/getUsers".equals(uri)) {
+			getUsers(request, response);
+		} else if ("/users/updateUser".equals(uri)) {
+			updateUser(request, response);
+		} else if ("/users/checkUserId".equals(uri)) {
 			checkUserId(request, response);
+		} else if("/users/logout".equals(uri)) {
+			logout(request, response);
 		}
+	}
+
+	private void logout(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		session.invalidate();
+
+		response.sendRedirect(request.getContextPath() + "/login.jsp");
 	}
 
 	private void checkUserId(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
-		//학생인지 사서인지 및 중복확인 등..
-		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
-	}
-
-	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
-			String userId = request.getParameter("userId");
-			String userPwd = request.getParameter("userPwd");
-			
-			HttpSession session = request.getSession();
-			
-			UsersDTO user = new UsersDTO();
-			user.setUserId(userId);
-			user.setUserPwd(userPwd);
-			user.setUserName("사서_관리자");
-			user.setUserPostion(StatusUtil.userPositionLibrarian);
-			
-			session.setAttribute("USER", user);
-			response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
-	}
-
-	private void updateUser(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
-		
-		HttpSession session = request.getSession();
-		
-		UsersDTO user = (UsersDTO)session.getAttribute("USER");
-		String userId = user.getUserId();
-		
 		UsersDTO usersDTO = new UsersDTO();
 		UsersDAO usersDAO = new UsersDAO();
-		
-		String userPhoneNum = request.getParameter("userPhoneNum");
-		String userName = request.getParameter("userName");
-		String userPwd = request.getParameter("userPwd");
-		String userDepartment = request.getParameter("userDepartment");
-		
-		System.out.println("userName"+userName);
-		System.out.println("userDepartment"+userDepartment);
-		System.out.println("userName"+userName);
-		
-		usersDTO.setUserPhoneNum(userPhoneNum);
-		usersDTO.setUserDepartment(userDepartment);
-		usersDTO.setUserName(userName);
-		usersDTO.setUserPwd(userPwd);
+
+		String userId = request.getParameter("userId");
+
+		System.out.println("userId : " + userId);
+
 		usersDTO.setUserId(userId);
+
+		try {
+			usersDTO = usersDAO.checkUserId(usersDTO);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (userId == null) {
+			// 아이디를 입력하세요
+		}
+
+		// 학생인지 사서인지 및 중복확인 등..
+		// 집가서 찾아보기
+		PrintWriter out = response.getWriter();
+		out.print("<script>");
+		out.print("alert('" + usersDTO.getUserPosition() + "sdfsdfds')");
+		out.print("</script>");
+
+		out.close();
+
+	}
+
+	private void login(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		// TODO Auto-generated method stub
+		UsersDAO usersDAO = new UsersDAO();
+		UsersDTO usersDTO = new UsersDTO();
+		
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
+
+		usersDTO.setUserId(userId);
+		usersDTO.setUserPwd(userPwd);
 		
 		try {
-			int result = usersDAO.updateUser(usersDTO);
-			if(result==0)
-				System.out.println("user update error");
+			usersDTO = usersDAO.login(usersDTO);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		response.sendRedirect(request.getContextPath()+"/updateuser.jsp");
+		HttpSession session = request.getSession();
+		session.setAttribute("USER", usersDTO);
+		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
+	}
+
+	private void updateUser(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+
+		UsersDTO user = (UsersDTO) session.getAttribute("USER");
+		String userId = user.getUserId();
+
+		UsersDTO usersDTO = new UsersDTO();
+		UsersDAO usersDAO = new UsersDAO();
+
+		String userPhoneNum = request.getParameter("userPhoneNum");
+		String userName = request.getParameter("userName");
+		String userPwd = request.getParameter("userPwd");
+		String userDepartment = request.getParameter("userDepartment");
+
+		System.out.println("userName" + userName);
+		System.out.println("userDepartment" + userDepartment);
+		System.out.println("userName" + userName);
+
+		usersDTO.setUserPhoneNum(userPhoneNum);
+		usersDTO.setUserDepartment(userDepartment);
+		usersDTO.setUserName(userName);
+		usersDTO.setUserPwd(userPwd);
+		usersDTO.setUserId(userId);
+
+		try {
+			int result = usersDAO.updateUser(usersDTO);
+			if (result == 0)
+				System.out.println("user update error");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		response.sendRedirect(request.getContextPath() + "/updateuser.jsp");
 	}
 
 	private void getUsers(HttpServletRequest request,
@@ -108,7 +149,7 @@ public class UsersController extends AbstractController{
 		String keyword = request.getParameter("keyword");
 		String[] selectedOption = request.getParameterValues("userFilter");
 		int option = 0;
-		//연체 유저 리스트를 여기에 넣는다.
+		// 연체 유저 리스트를 여기에 넣는다.
 		ArrayList<UsersDTO> userlist = new ArrayList<UsersDTO>();
 
 		switch (selectedOption[0]) {
@@ -122,13 +163,13 @@ public class UsersController extends AbstractController{
 		default:
 			break;
 		}
-		
+
 		userlist = usersDAO.getUsers(usersDTO, option, keyword);
-		
+
 		request.setAttribute("USERLIST", userlist);
-		
-		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");  
-        view.forward(request, response);
+
+		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");
+		view.forward(request, response);
 	}
 
 	private void insertUser(HttpServletRequest request,
@@ -136,28 +177,27 @@ public class UsersController extends AbstractController{
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		UsersDTO usersDTO = new UsersDTO();
-		UsersDAO usersDAO= new UsersDAO();
-		
-		//가입 처리 후 책 찾기 화면으로 이동
+		UsersDAO usersDAO = new UsersDAO();
+
+		// 가입 처리 후 책 찾기 화면으로 이동
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		String userName = request.getParameter("userName");
 		String userDepartment = request.getParameter("userDepartment");
 		String userPhoneNum = request.getParameter("userPhoneNum");
-	
-		
+
 		usersDTO.setUserDepartment(userDepartment);
 		usersDTO.setUserId(userId);
 		usersDTO.setUserName(userName);
 		usersDTO.setUserPhoneNum(userPhoneNum);
 		usersDTO.setUserPwd(userPwd);
-		//임시로 사서로 가입
-		usersDTO.setUserPostion(StatusUtil.userPositionLibrarian);
-		
-		int result=usersDAO.insertUser(usersDTO);
-		if(result==0)
+		// 임시로 사서로 가입
+		usersDTO.setUserPosition(StatusUtil.userPositionLibrarian);
+
+		int result = usersDAO.insertUser(usersDTO);
+		if (result == 0)
 			System.out.println("유저 생성에 실패하였습니다.");
-		
+
 		session.setAttribute("USER", usersDTO);
 		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}

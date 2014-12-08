@@ -8,27 +8,28 @@
 <title>계정 관리</title>
 </head>
 <body>
+<jsp:include page="menubar.jsp"></jsp:include>
 <form action="<c:url value="/users/updateUser"/>" method="post">
 		<table>
 			<tr>
 				<td>*ID</td>
-				<td>dbwls878</td>
+				<td> ${USER.userId} </td>
 			</tr>
 			<tr>
 				<td>패스워드</td>
-				<td><input type="password" name="userPwd"> </td>
+				<td><input type="password" name="userPwd" value="${USER.userPwd }" maxlength="20"> </td>
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td><input type="text" name="userName"></td>
+				<td><input type="text" name="userName" value="${USER.userName }" maxlength="10"></td>
 			</tr>
 			<tr>
 				<td>*학과</td>
-				<td><input type="text" name="userDepartment"></td>
+				<td><input type="text" name="userDepartment" value="${USER.userDepartment}" maxlength="30"></td>
 			</tr>
 			<tr>
 				<td>연락처</td>
-				<td><input type="text" name="userPhoneNum"></td>
+				<td><input type="text" name="userPhoneNum" value="${USER.userPhoneNum}" maxlength="20"></td>
 			</tr>
 			<tr>
 				<td>* 사서의 경우 교직원 번호와 부서를 입력합니다.</td>

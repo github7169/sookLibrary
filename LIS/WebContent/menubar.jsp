@@ -12,13 +12,12 @@
 </head>
 <body>
 <!-- if librarian -->
-<c:if test="${USER.userPosition == 'librarian'}">
- ID : ${USER.userName }님 <a href="<c:url value="/getbooks.jsp"/>">도서 관리</a> <a href="<c:url value="/getusers.jsp"/>">회원 조회</a> 
+<c:if test="${USER.userPostion == 'librarian'}">
+ ID : ${USER.userName }님 <a href="<c:url value="/getbooks.jsp"/>">도서 관리</a> <a href="<c:url value="/getusers.jsp"/>">회원 조회</a> <a href="<c:url value="/updateuser.jsp"/>">계정 관리</a>
 </c:if>
 <!-- if student -->
-<c:if test="${USER.userPosition == 'student'}">
- ID : ${USER.userName }님 <a href="<c:url value="/getbooks.jsp"/>">도서 검색</a> <a href="<c:url value="/getrentedlist.jsp"/>">대출 목록</a>
+<c:if test="${USER.userPostion == 'student'}">
+ ID : ${USER.userName }님 <a href="<c:url value="/getbooks.jsp"/>">도서 검색</a> <a href="<c:url value="/getrentedlist.jsp"/>">대출 목록</a> <a href="<c:url value="/updateuser.jsp"/>">계정 관리</a> 
 </c:if>
-<a href="<c:url value="/updateuser.jsp"/>">계정 관리</a> <a href="<c:url value="/users/logout"/>">로그아웃</a> 
 </body>
 </html>

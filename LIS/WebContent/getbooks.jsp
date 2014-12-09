@@ -11,8 +11,8 @@
 <jsp:include page="menubar.jsp"></jsp:include>
 <jsp:include page="booksearchfilter.jsp"></jsp:include>
 <table border="1">
-<c:if test="${USER.userPosition == 'librarian'}">
-<!-- if librarian -->	
+<c:if test="${USER.userPostion == 'librarian'}">
+<!-- if librarian -->
 		<tr>
 			<th><input type="checkbox" name="isChecked"></th>
 			<th>no</th>
@@ -43,7 +43,7 @@
 		</tr>
 </c:if>
 <!-- if student -->
-<c:if test="${USER.userPosition == 'student'}">
+<c:if test="${USER.userPostion == 'student'}">
 <!-- 등록번호, 서명, 저자, 출판사, 청구기호, 대출상태, 반납예정일 -->
 		<tr>
 			<th><input type="checkbox" name="isChecked"></th>

@@ -22,9 +22,6 @@ public class UsersDAO {
 	
 	private final String GET_USERS_BY_STATUS ="SElECT * FROM users WHERE userStatus LIKE?";
 	
-	
-	private final String CHECK_USER_ID = "SELECT * FROM sookmyung WHERE userId = ?";
-	private final String LOGIN = "SELECT * FROM users WHERE userId = ?";
 //	private final String GET_Restricted_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
 //	private final String GET_Available_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
 //	private final String GET_Overdue_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
@@ -40,8 +37,6 @@ public class UsersDAO {
 	
 
 	public int insertUser(UsersDTO usersDTO) {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		conn = JDBCUtil.getInstance().getConnection();
 		int result = 0;
 		try {
@@ -53,7 +48,7 @@ public class UsersDAO {
 			pstmt.setString(++idx, usersDTO.getUserName());
 			pstmt.setString(++idx, usersDTO.getUserDepartment());
 			pstmt.setString(++idx, usersDTO.getUserPhoneNum());
-			pstmt.setString(++idx, usersDTO.getUserPosition());
+			pstmt.setString(++idx, usersDTO.getUserPostion());
 			
 			result = pstmt.executeUpdate();
 			
@@ -161,79 +156,12 @@ public class UsersDAO {
 
 		return list;
 	}
-//	public static void main(String[] args) {
-//		UsersDAO dao = new UsersDAO();
-//		UsersDTO dto = new UsersDTO();
-//		
-//		dao.getUsers(dto,21, "3");
-//		
-//	}
-
-
-	public UsersDTO checkUserId(UsersDTO usersDTO) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		conn = JDBCUtil.getInstance().getConnection();
-
-		try {
-			pstmt = conn.prepareStatement(CHECK_USER_ID);
-			
-			pstmt.setString(1, usersDTO.getUserId());
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()){
-				usersDTO.setUserId(rs.getString("userId"));
-				usersDTO.setUserPosition(rs.getString("userPosition"));
-			} else {
-				System.out.println("존재하지 않는 학번, 교번입니다.");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally{
-			pstmt.close();
-			rs.close();
-		}
+	public static void main(String[] args) {
+		UsersDAO dao = new UsersDAO();
+		UsersDTO dto = new UsersDTO();
 		
-		return usersDTO;
-	}
-
-
-	public UsersDTO login(UsersDTO usersDTO) throws SQLException {
-		// TODO Auto-generated method stub
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		conn = JDBCUtil.getInstance().getConnection();
+		dao.getUsers(dto,21, "3");
 		
-		try {
-			pstmt = conn.prepareStatement(LOGIN);
-			
-			pstmt.setString(1, usersDTO.getUserId());
-			
-			rs = pstmt.executeQuery();
-			if(rs.next()){
-				String userPwd = rs.getString("userPwd");
-				if(userPwd.equals(usersDTO.getUserPwd())){
-					usersDTO.setUserDepartment(rs.getString("userDepartment"));
-					usersDTO.setUserId(rs.getString("userId"));
-					usersDTO.setUserName(rs.getString("userName"));
-					usersDTO.setUserPhoneNum(rs.getString("userPhoneNum"));
-					usersDTO.setUserPosition(rs.getString("userPosition"));
-				} else {
-					System.out.println("비밀번호가 틀립니다.");
-				}
-			} else {
-				System.out.println("존재하지 않는 아이디 입니다.");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			rs.close();
-			pstmt.close();
-		}
-		return usersDTO;
 	}
 
 }

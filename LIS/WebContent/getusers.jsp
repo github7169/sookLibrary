@@ -14,12 +14,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 
 <%
 	UsersDAO dao = new UsersDAO(); 
 	UsersDTO dto = new UsersDTO();
-	
+	int option = 0;
+	String keyword=null;
 	ArrayList<UsersDTO> list =dao.getUsers(dto, option, keyword);
 %>
+ -->
 <jsp:include page="menubar.jsp"></jsp:include>
 	<br>
 	<hr>
@@ -36,7 +39,7 @@
 			<th>연체료</th>
 			<th>대출권수</th>
 		</tr>
-		
+		<!-- 
 		<%
 		for(int i=0; i<list.size(); i++){
 			UsersDTO users = list.get(i);
@@ -53,6 +56,7 @@
 			<td>0권</td>
 		</tr>
 		<%} %>
+		 -->
 		<tr>
 			<td>2</td>
 			<td>1210453</td>

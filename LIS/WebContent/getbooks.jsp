@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,61 +12,73 @@
 <jsp:include page="booksearchfilter.jsp"></jsp:include>
 <table border="1">
 <c:if test="${USER.userPosition == 'librarian'}">
-<!-- if librarian -->	
+<!-- if librarian -->
 		<tr>
 			<th><input type="checkbox" name="isChecked"></th>
 			<th>no</th>
-			<th>µî·Ï¹øÈ£</th>
-			<th>¼­¸í</th>
-			<th>ÀúÀÚ</th>
-			<th>ÃâÆÇ»ç</th>
+			<th>ë“±ë¡ë²ˆí˜¸</th>
+			<th>ì„œëª…</th>
+			<th>ì €ì</th>
+			<th>ì¶œíŒì‚¬</th>
 			<th>ISBN</th>
-			<th>Ã»±¸±âÈ£</th>
-			<th>ÀÌ¿ëÀÚ</th>
-			<th>´ëÃâ»óÅÂ</th>
-			<th>´ëÃâÀÏ</th>
-			<th>¹İ³³¿¹Á¤ÀÏ</th>
+			<th>ì²­êµ¬ê¸°í˜¸</th>
+			<th>ì´ìš©ì</th>
+			<th>ëŒ€ì¶œìƒíƒœ</th>
+			<th>ëŒ€ì¶œì¼</th>
+			<th>ë°˜ë‚©ì˜ˆì •ì¼</th>
 		</tr>
-		<tr>
-			<td><input type="checkbox" name="isChecked"></td>
-			<td>1</td>
-			<td>1094080</td>
-			<td><a href="#">Head first servlets £¦ JSP¢â :»ó»ó·ÂÀ» ÀÚ±ØÇÏ´Â ¸ôÀÔÀÇ ÇĞ½À¹ı</a></td>
-			<td>Sierra, Kathy.</td>
-			<td>ÇÑºû¹Ìµğ¾î</td>
-			<td>9788979146639</td>
-			<td>005.133 S572hs2K</td>
-			<td></td>
-			<td>´ëÃâ°¡´É</td>
-			<td></td>
-			<td></td>
-		</tr>
+		
+    	<% int cnt=1; %>
+		<c:forEach var="booklist" items="${GETBOOKLIST}">			
+    	<tr>
+    		<td><input type="checkbox" name="isChecked"></td>
+			<td><%= cnt++ %></td>
+    		<td>${booklist.bookRegistNumber}</td>
+			<td>${booklist.bookTitle}</td>
+			<td>${booklist.bookAuthor}</td>
+			<td>${booklist.bookPublisher}</td>
+			<td>${booklist.bookISBN}</td>
+			<td>${booklist.bookApplicationMark}</td>
+			<td>${booklist.bookRentedBy.userId}</td>
+			<!-- ëŒ€ì¶œìƒíƒœ -->
+			<c:if test="${booklist.bookStatus == '6'}"><td>ëŒ€ì¶œê°€ëŠ¥</td></c:if> 
+			<c:if test="${booklist.bookStatus == '7'}"><td>ëŒ€ì¶œì¤‘</td></c:if> 
+			<td>${booklist.bookRentDate}</td>
+			<td>${booklist.bookReturnDate}</td>
+    	</tr>
+		</c:forEach>
+		
 </c:if>
 <!-- if student -->
 <c:if test="${USER.userPosition == 'student'}">
-<!-- µî·Ï¹øÈ£, ¼­¸í, ÀúÀÚ, ÃâÆÇ»ç, Ã»±¸±âÈ£, ´ëÃâ»óÅÂ, ¹İ³³¿¹Á¤ÀÏ -->
+<!-- ë“±ë¡ë²ˆí˜¸, ì„œëª…, ì €ì, ì¶œíŒì‚¬, ì²­êµ¬ê¸°í˜¸, ëŒ€ì¶œìƒíƒœ, ë°˜ë‚©ì˜ˆì •ì¼ -->
 		<tr>
 			<th><input type="checkbox" name="isChecked"></th>
 			<th>no</th>
-			<th>µî·Ï¹øÈ£</th>
-			<th>¼­¸í</th>
-			<th>ÀúÀÚ</th>
-			<th>ÃâÆÇ»ç</th>
-			<th>Ã»±¸±âÈ£</th>
-			<th>´ëÃâ»óÅÂ</th>
-			<th>¹İ³³¿¹Á¤ÀÏ</th>
+			<th>ë“±ë¡ë²ˆí˜¸</th>
+			<th>ì„œëª…</th>
+			<th>ì €ì</th>
+			<th>ì¶œíŒì‚¬</th>
+			<th>ì²­êµ¬ê¸°í˜¸</th>
+			<th>ëŒ€ì¶œìƒíƒœ</th>
+			<th>ë°˜ë‚©ì˜ˆì •ì¼</th>
 		</tr>
-		<tr>
-			<td><input type="checkbox" name="isChecked"></td>
-			<td>1</td>
-			<td>1094080</td>
-			<td><a href="#">Head first servlets £¦ JSP¢â :»ó»ó·ÂÀ» ÀÚ±ØÇÏ´Â ¸ôÀÔÀÇ ÇĞ½À¹ı</a></td>
-			<td>Sierra, Kathy.</td>
-			<td>ÇÑºû¹Ìµğ¾î</td>
-			<td>9788979146639</td>
-			<td>´ëÃâ°¡´É</td>
-			<td></td>
-		</tr>
+		<% int cnt=1; %>
+		<c:forEach var="booklist" items="${GETBOOKLIST}">			
+    	<tr>
+    		<td><input type="checkbox" name="isChecked"></td>
+			<td><%= cnt++ %></td>
+    		<td>${booklist.bookRegistNumber}</td>
+			<td>${booklist.bookTitle}</td>
+			<td>${booklist.bookAuthor}</td>
+			<td>${booklist.bookPublisher}</td>
+			<td>${booklist.bookApplicationMark}</td>
+			<!-- ëŒ€ì¶œìƒíƒœ -->
+			<c:if test="${booklist.bookStatus == '6'}"><td>ëŒ€ì¶œê°€ëŠ¥</td></c:if> 
+			<c:if test="${booklist.bookStatus == '7'}"><td>ëŒ€ì¶œì¤‘</td></c:if> 
+			<td>${booklist.bookReturnDate}</td>
+    	</tr>
+		</c:forEach>
 </c:if>
 	</table>
 	<jsp:include page="bookdetail.jsp"></jsp:include>

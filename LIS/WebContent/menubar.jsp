@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
 <style type="text/css">
 
@@ -13,12 +14,12 @@
 <body>
 <!-- if librarian -->
 <c:if test="${USER.userPosition == 'librarian'}">
- ID : ${USER.userName }´Ô <a href="<c:url value="/getbooks.jsp"/>">µµ¼­ °ü¸®</a> <a href="<c:url value="/getusers.jsp"/>">È¸¿ø Á¶È¸</a> 
+ ID : ${USER.userName }ë‹˜ <a href="<c:url value="/getbooks.jsp"/>">ë„ì„œ ê´€ë¦¬</a> <a href="<c:url value="/getusers.jsp"/>">íšŒì› ì¡°íšŒ</a> 
 </c:if>
 <!-- if student -->
 <c:if test="${USER.userPosition == 'student'}">
- ID : ${USER.userName }´Ô <a href="<c:url value="/getbooks.jsp"/>">µµ¼­ °Ë»ö</a> <a href="<c:url value="/getrentedlist.jsp"/>">´ëÃâ ¸ñ·Ï</a>
+ ID : ${USER.userName }ë‹˜ <a href="<c:url value="/getbooks.jsp"/>">ë„ì„œ ê²€ìƒ‰</a> <a href="<c:url value="/books/getRentedList"/>?userId=${users.userId}"">ëŒ€ì¶œ ëª©ë¡</a>  
 </c:if>
-<a href="<c:url value="/updateuser.jsp"/>">°èÁ¤ °ü¸®</a> <a href="<c:url value="/users/logout"/>">·Î±×¾Æ¿ô</a> 
+<a href="<c:url value="/updateuser.jsp"/>">ê³„ì • ê´€ë¦¬</a> <a href="<c:url value="/users/logout"/>">ë¡œê·¸ì•„ì›ƒ</a> 
 </body>
 </html>

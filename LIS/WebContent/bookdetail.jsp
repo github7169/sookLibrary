@@ -1,14 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
 	function deleteBook(){
-		var status = confirm("Á¤¸»·Î »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?");
+		var status = confirm("ì •ë§ë¡œ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 		if(status==true)
 			window.location.href='<c:url value="books/deleteBook"/>';
 	}
@@ -19,70 +20,71 @@
 	<c:if test="${USER.userPosition == 'librarian'}">
 		<table>
 			<tr>
-				<td>µî·Ï¹øÈ£</td><td> <input type="text" name="bookRegistNumber"> </td>
+				<td>ë“±ë¡ë²ˆí˜¸</td><td> <input type="text" name="bookRegistNumber"> </td>
 				<td> ISBN</td><td> <input type="text" name="bookISBN"></td>
-				<td> ÀÌ¿ëÀÚ </td><td><input type="text" name="bookRentedBy"></td>
+				<td> ì´ìš©ì </td><td><input type="text" name="bookRentedBy"></td>
 			</tr>
 			<tr>
-				<td>¼­¸í</td><td> <input type="text" name="bookTitle"> </td>
-				<td>Ã»±¸±âÈ£</td><td> <input type="text" name="bookApplicationMark"></td>
-				<td>´ëÃâ»óÅÂ </td><td><input type="text" name="bookStatus"></td>
+				<td>ì„œëª…</td><td> <input type="text" name="bookTitle"> </td>
+				<td>ì²­êµ¬ê¸°í˜¸</td><td> <input type="text" name="bookApplicationMark"></td>
+				<td>ëŒ€ì¶œìƒíƒœ </td><td><input type="text" name="bookStatus"></td>
 			</tr>
 			<tr>
-				<td>ÀúÀÚ </td><td><input type="text" name="bookAuthor"> </td>
-				<td>ºĞ·ù</td>
+				<td>ì €ì </td><td><input type="text" name="bookAuthor"> </td>
+				<td>ë¶„ë¥˜</td>
 				<td>
-					<input type="radio" name="bookCategory" value="8">¹®ÇĞ
-					<input type="radio" name="bookCategory" value="9">¿ª»ç
+					<input type="radio" name="bookCategory" value="8">ë¬¸í•™
+					<input type="radio" name="bookCategory" value="9">ì—­ì‚¬
 					<input type="radio" name="bookCategory" value="10">IT
-					<input type="radio" name="bookCategory" value="11">¿¹¼ú
-					<input type="radio" name="bookCategory" value="12">»çÈ¸
-					<input type="radio" name="bookCategory" value="13">±âÅ¸
+					<input type="radio" name="bookCategory" value="11">ì˜ˆìˆ 
+					<input type="radio" name="bookCategory" value="12">ì‚¬íšŒ
+					<input type="radio" name="bookCategory" value="13">ê¸°íƒ€
 				</td>
-				<td>´ëÃâ³¯Â¥ </td><td><input type="text" name="bookRentDate"></td>
+				<td>ëŒ€ì¶œë‚ ì§œ</td><td><input type="text" name="bookRentDate"></td>
 			</tr>
 			<tr>
-				<td>ÃâÆÇ»ç</td><td> <input type="text" name="bookPublisher"></td>
-				<td>°¡°İ</td><td> <input type="text" name="bookPrice"></td>
-				<td>¹İ³³¿¹Á¤ÀÏ</td><td> <input type="text" name="bookReturnDate"></td>
+				<td>ì¶œíŒì‚¬</td><td>${BOOK.bookPublisher }</td>
+				<td></td><td></td>
+				<td></td>
 			</tr>
 			<tr>
-				<td>ÃâÆÇ³âµµ</td><td> <input type="text" name="bookPublicationYear"></td>
-				<td>´ëÃâÈ½¼ö</td><td> <input type="text" name="bookCount"></td>
+				<td>ì¶œíŒë…„ë„</td><td>${BOOK.bookPublicationYear }</td>
+				<td></td>
+				<td></td>
 			</tr>
 		</table>
 		
-		<input type="button" value="¼öÁ¤" onclick="window.location.href='<c:url value="books/updateBook"/>'">
-		<input type="submit" value="ÀúÀå">			
-		<input type="button" value="»èÁ¦" onClick="deleteBook()">
+		<input type="button" value="ìˆ˜ì •" onclick="window.location.href='<c:url value="books/updateBook"/>'">
+		<input type="submit" value="ì €ì¥">			
+		<input type="button" value="ì‚­ì œ" onClick="deleteBook()">
 	</c:if>
 	</form>
 	<c:if test="${USER.userPosition == 'student'}">
 		<table>
 			<tr>
-				<td>µî·Ï¹øÈ£</td><td>${BOOK.bookRegistNumber }</td>
+				<td>ë“±ë¡ë²ˆí˜¸</td><td>${BOOK.bookRegistNumber }</td>
 				<td>ISBN</td><td>${BOOK.bookISBN }</td>
-				<td>´ëÃâ»óÅÂ </td><td>${BOOK.bookStatus }</td>
+				<td>ëŒ€ì¶œìƒíƒœ </td><td>${BOOK.bookStatus }</td>
 				
 			</tr>
 			<tr>
-				<td>¼­¸í</td><td>${BOOK.bookTitle }</td>
-				<td>Ã»±¸±âÈ£</td><td>${BOOK.bookApplicationMark }</td>
-				<td>´ëÃâÀÏ</td><td>${BOOK.bookRentDate }</td>
+				<td>ì„œëª…</td><td>${BOOK.bookTitle }</td>
+				<td>ì²­êµ¬ê¸°í˜¸</td><td>${BOOK.bookApplicationMark }</td>
+				<td>ëŒ€ì¶œì¼</td><td>${BOOK.bookRentDate }</td>
 			</tr>
 			<tr>
-				<td>ÀúÀÚ </td><td>${BOOK.bookAuthor }</td>
-				<td>ºĞ·ù </td><td>${BOOK.bookCategory }</td>
-				<td>¹İ³³¿¹Á¤ÀÏ</td><td>${BOOK.bookReturnDate }</td>
+				<td>ì €ì </td><td>${BOOK.bookAuthor }</td>
+				<td>ë¶„ë¥˜ </td><td>${BOOK.bookCategory }</td>
+				<td>ë°˜ë‚©ì˜ˆì •ì¼</td><td>${BOOK.bookReturnDate }</td>
 				<td></td>
 			</tr>
 			<tr>
-				<td>ÃâÆÇ»ç</td><td>${BOOK.bookPublisher }</td>
+				<td>ì¶œíŒì‚¬</td><td>${BOOK.bookPublisher }</td>
 				<td></td><td></td>
 				<td></td>
 			</tr>
 			<tr>
-				<td>ÃâÆÇ³âµµ</td><td>${BOOK.bookPublicationYear }</td>
+				<td>ì¶œíŒë…„ë„</td><td>${BOOK.bookPublicationYear }</td>
 				<td></td>
 				<td></td>
 			</tr>

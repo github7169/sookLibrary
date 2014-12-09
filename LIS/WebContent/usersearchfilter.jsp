@@ -10,8 +10,9 @@
 <body>
 	<form action="<c:url value="/users/getUsers"/>" method="POST">
 		<select name="userFilter">
+			<option value="default"></option>
 			<option value="userId">학번</option>
-			<option value="userPwd">이름</option>
+			<option value="userName">이름</option>
 		</select>
 		<input type="text" name="keyword">
 		상태

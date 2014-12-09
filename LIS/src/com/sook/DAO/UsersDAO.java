@@ -20,11 +20,11 @@ public class UsersDAO {
 	private final String GET_USERS_BY_ID = "SELECT * FROM users WHERE userId LIKE ?";
 	private final String GET_USERS_BY_NAME ="SELECT * FROM users WHERE userName LIKE ?";
 	
-	private final String GET_USERS_BY_STATUS ="SElECT * FROM users WHERE userStatus LIKE?";
+//	private final String GET_USERS_BY_STATUS ="SElECT * FROM users WHERE userStatus LIKE?";
 	
-//	private final String GET_Restricted_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
-//	private final String GET_Available_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
-//	private final String GET_Overdue_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
+	private final String GET_Restricted_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
+	private final String GET_Available_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
+	private final String GET_Overdue_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
 	
 
 	//private final String GET_USER_LIST = "SELECT * FROM users WHERE bookRentedBy = ?;";
@@ -33,8 +33,6 @@ public class UsersDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-
-	
 
 	public int insertUser(UsersDTO usersDTO) {
 		conn = JDBCUtil.getInstance().getConnection();
@@ -93,38 +91,43 @@ public class UsersDAO {
 	public ArrayList<UsersDTO> getUsers(UsersDTO usersDTO, int option,
 			String keyword) {
 		System.out.println("UserDAO : getUsers was called");
-
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		conn = JDBCUtil.getInstance().getConnection();
 		ArrayList<UsersDTO> list = new ArrayList<UsersDTO>();
 		try {
 			switch (option) {
 			case StatusUtil.userOptionId:
-				//userSearchCondition= "userId";
+				System.out.println("호출되었습니다.keyword값 : " +keyword);
 				pstmt = conn.prepareStatement(GET_USERS_BY_ID);
+				userSearchCondition= "userId";
 				break;
 			case StatusUtil.userOptionName:
-				//userSearchCondition="userName";
+				userSearchCondition="userName";
 				pstmt = conn.prepareStatement(GET_USERS_BY_NAME);
 				break;
-			case StatusUtil.userOptionStatus:
-				pstmt = conn.prepareStatement(GET_USERS_BY_STATUS);
-				//userSearchCondition="userStatusRestricted";
+			case StatusUtil.userStatusRestricted:
+				System.out.println("호출되었습니다.keyword값 : " +keyword);
+				userSearchCondition="restricted";
+				pstmt = conn.prepareStatement(GET_Restricted_LIST);
 				break;
-			/*case StatusUtil.userStatusAvailable:
-				pstmt = conn.prepareStatement(GET_USERS_BY_STATUS);
-				//userSearchCondition="userStatusAvailable";
+			case StatusUtil.userStatusAvailable:
+				userSearchCondition="available";
+				pstmt = conn.prepareStatement(GET_Available_LIST);
 				break;
 			case StatusUtil.userStatusOverdue:
-				pstmt = conn.prepareStatement(GET_USERS_BY_STATUS);
-				//userSearchCondition="userStatusOverdue";
-				break;*/
+				userSearchCondition="overdue";
+				pstmt = conn.prepareStatement(GET_Overdue_LIST);
+				break;
+	
 			default:
 				break;
 			}
+		
 			
-			System.out.println(GET_USERS_BY_NAME);
-			//pstmt = conn.prepareStatement(GET_USERS);
 			
 			pstmt.setString(1, "%"+keyword+"%");
 
@@ -141,13 +144,13 @@ public class UsersDAO {
 
 				list.add(users);
 			}
-			
 			//test
 			for(int i=0; i<list.size() ; i++){
 				System.out.println("성공");
 				System.out.println( "name "+ list.get(i).getUserName()+ "  department  "+list.get(i).getUserDepartment());
 				System.out.println( "phone "+ list.get(i).getUserPhoneNum()+ "  status  "+list.get(i).getUserStatus());
-			}
+			}	
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -156,12 +159,74 @@ public class UsersDAO {
 
 		return list;
 	}
-	public static void main(String[] args) {
-		UsersDAO dao = new UsersDAO();
-		UsersDTO dto = new UsersDTO();
+	
+	
+	
+	public ArrayList<UsersDTO> getUsers_by_status(UsersDTO usersDTO, int option,
+			int stat) {
+		System.out.println("UserDAO : getUsers was called");
 		
-		dao.getUsers(dto,21, "3");
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		conn = JDBCUtil.getInstance().getConnection();
+		ArrayList<UsersDTO> list = new ArrayList<UsersDTO>();
+		try {
+			switch (option) {
+			
+			case StatusUtil.userStatusRestricted:
+				System.out.println("호출되었습니다.keyword값 : " +stat);
+				
+				userSearchCondition="restricted";
+				pstmt = conn.prepareStatement(GET_Restricted_LIST);
+				break;
+			case StatusUtil.userStatusAvailable:
+				userSearchCondition="available";
+				pstmt = conn.prepareStatement(GET_Available_LIST);
+				break;
+			case StatusUtil.userStatusOverdue:
+				userSearchCondition="overdue";
+				pstmt = conn.prepareStatement(GET_Overdue_LIST);
+				break;
+	
+			default:
+				break;
+			}
+			
+			System.out.println(stat);
+			//pstmt = conn.prepareStatement(GET_USERS);
+			
+
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+
+				UsersDTO users = new UsersDTO();
+
+				users.setUserId(rs.getString("userId"));
+				users.setUserName(rs.getString("userName"));
+				users.setUserPhoneNum(rs.getString("userPhoneNum"));
+				users.setUserDepartment(rs.getString("userDepartment"));
+				users.setUserStatus(rs.getInt("userStatus"));
+
+				list.add(users);
+			}
+			//test
+			for(int i=0; i<list.size() ; i++){
+				System.out.println("성공");
+				System.out.println( "name "+ list.get(i).getUserName()+ "  department  "+list.get(i).getUserDepartment());
+				System.out.println( "phone "+ list.get(i).getUserPhoneNum()+ "  status  "+list.get(i).getUserStatus());
+			}	
+
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
 	}
+
 
 }

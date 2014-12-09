@@ -16,7 +16,7 @@
 </head>
 <body>
 <form action="books/insertBook" method="post">
-	<c:if test="${USER.userPostion == 'librarian'}">
+	<c:if test="${USER.userPosition == 'librarian'}">
 		<table>
 			<tr>
 				<td>등록번호</td><td> <input type="text" name="bookRegistNumber"> </td>
@@ -30,7 +30,15 @@
 			</tr>
 			<tr>
 				<td>저자 </td><td><input type="text" name="bookAuthor"> </td>
-				<td>분류 </td><td><input type="text" name="bookCategory"></td>
+				<td>분류</td>
+				<td>
+					<input type="radio" name="bookCategory" value="8">문학
+					<input type="radio" name="bookCategory" value="9">역사
+					<input type="radio" name="bookCategory" value="10">IT
+					<input type="radio" name="bookCategory" value="11">예술
+					<input type="radio" name="bookCategory" value="12">사회
+					<input type="radio" name="bookCategory" value="13">기타
+				</td>
 				<td>대출날짜 </td><td><input type="text" name="bookRentDate"></td>
 			</tr>
 			<tr>
@@ -49,7 +57,7 @@
 		<input type="button" value="삭제" onClick="deleteBook()">
 	</c:if>
 	</form>
-	<c:if test="${USER.userPostion == 'student'}">
+	<c:if test="${USER.userPosition == 'student'}">
 		<table>
 			<tr>
 				<td>등록번호</td><td>${BOOK.bookRegistNumber }</td>

@@ -7,30 +7,35 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>회원가입 페이지</title>
 </head>
+<script type="text/javascript">
+function checkUserId(){
+	
+}
+</script>
 <body>
 	<form action="users/insertUser" method="post">
 		<table>
 			<tr>
 				<td>*ID</td>
-				<td><input type="text" name="userId"></td>
+				<td><input type="text" name="userId" maxlength="7"></td>
 				<!-- 조회 버튼은 학생의 경우 학생디비에서, 사서의 경우 교직원 디비에서 존재하는 학번, 교번인지 확인하는 것 -->
-				<td><input type="button" value="조회" onclick="window.location.href='<c:url value="users/checkUserId"/>'"/></td>
+				<td><input type="button" value="조회" onclick="window.location.href='<c:url value="users/checkUserId"/>?userId=1211514'" /></td>
 			</tr>
 			<tr>
 				<td>패스워드</td>
-				<td><input type="password" name="userPwd"> </td>
+				<td><input type="password" name="userPwd" maxlength="20"> </td>
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td><input type="text" name="userName"></td>
+				<td><input type="text" name="userName" maxlength="10"></td>
 			</tr>
 			<tr>
 				<td>*학과</td>
-				<td><input type="text" name="userDepartment"></td>
+				<td><input type="text" name="userDepartment" maxlength="30"></td>
 			</tr>
 			<tr>
 				<td>연락처</td>
-				<td><input type="text" name="userPhoneNum"></td>
+				<td><input type="text" name="userPhoneNum" maxlength="20"></td>
 			</tr>
 			<tr>
 				<td>* 사서의 경우 교직원 번호와 부서를 입력합니다.</td>

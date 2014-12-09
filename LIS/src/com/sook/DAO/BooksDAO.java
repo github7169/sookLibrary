@@ -42,13 +42,7 @@ public class BooksDAO {
 	Statement stmt = null;
 	private ResultSet rs = null;
 
-	public int insertBook(BooksDTO booksDTO) throws SQLException{ // 등록번호, 서명,
-																	// 저자, 출판사,
-																	// 출판 년도,
-																	// ISBN,
-																	// 청구기호, 분류,
-																	// 가격
-		// if insertion fail -> return 0
+	public int insertBook(BooksDTO booksDTO) throws SQLException{ 
 		int result = 0;
 		conn = JDBCUtil.getInstance().getConnection();
 

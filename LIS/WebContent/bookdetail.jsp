@@ -43,13 +43,13 @@
 				<td>대출날짜</td><td><input type="text" name="bookRentDate"></td>
 			</tr>
 			<tr>
-				<td>출판사</td><td>${BOOK.bookPublisher }</td>
-				<td></td><td></td>
-				<td></td>
+				<td>출판사</td><td><input type="text" name="bookPublisher"></td>
+				<td>가격</td><td><input type="text" name="bookPrice"></td>
+				<td>반납예정일</td>
 			</tr>
 			<tr>
-				<td>출판년도</td><td>${BOOK.bookPublicationYear }</td>
-				<td></td>
+				<td>출판년도</td><td> <input type="text" name="bookPublicationYear"></td>
+				<td>대출횟수</td>
 				<td></td>
 			</tr>
 		</table>
@@ -79,14 +79,13 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>출판사</td><td>${BOOK.bookPublisher }</td>
-				<td></td><td></td>
-				<td></td>
+				<td>출판사</td><td> <input type="text" name="bookPublisher"></td>
+				<td>가격</td><td> <input type="text" name="bookPrice"></td>
+				<td>반납예정일</td><td> <input type="text" name="bookReturnDate"></td>
 			</tr>
 			<tr>
-				<td>출판년도</td><td>${BOOK.bookPublicationYear }</td>
-				<td></td>
-				<td></td>
+				<td>출판년도</td><td> <input type="text" name="bookPublicationYear"></td>
+				<td>대출횟수</td><td> <input type="text" name="bookCount"></td>
 			</tr>
 		</table>
 		</c:if>

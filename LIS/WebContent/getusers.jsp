@@ -14,15 +14,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<!-- 
-<%
-	UsersDAO dao = new UsersDAO(); 
-	UsersDTO dto = new UsersDTO();
-	int option = 0;
-	String keyword=null;
-	ArrayList<UsersDTO> list =dao.getUsers(dto, option, keyword);
-%>
- -->
 <jsp:include page="menubar.jsp"></jsp:include>
 	<br>
 	<hr>
@@ -39,24 +30,6 @@
 			<th>연체료</th>
 			<th>대출권수</th>
 		</tr>
-		<!-- 
-		<%
-		for(int i=0; i<list.size(); i++){
-			UsersDTO users = list.get(i);
-			 %>
-		
-		<tr>
-			<td>1</td>
-			<td><%= users.getUserId() %></td>
-			<td><%= users.getUserName() %></td>
-			<td><%= users.getUserDepartment() %></td>
-			<td><%= users.getUserPhoneNum() %></td>
-			<td><%= users.getUserStatus() %></td>
-			<td>0원</td>
-			<td>0권</td>
-		</tr>
-		<%} %>
-		 -->
 		<tr>
 			<td>2</td>
 			<td>1210453</td>

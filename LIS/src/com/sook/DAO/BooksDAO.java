@@ -142,9 +142,6 @@ public class BooksDAO {
 	public ArrayList<BooksDTO> selectBook(BooksDTO booksDTO, int option,
 			String keyword) {
 
-		option = 15;
-		keyword = "자바";
-
 		conn = JDBCUtil.getInstance().getConnection();
 		// 결과 마인드맵 리스트를 담을 객체
 		ArrayList<BooksDTO> list = new ArrayList<BooksDTO>();

@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import= "com.sook.DAO.UsersDAO" %>
-<%@ page import= "com.sook.DTO.UsersDTO" %>
-<%@ page import= "java.util.ArrayList" %>
-<%@ page import= "com.sook.util.JDBCUtil" %>
-<%@ page import= "com.sook.util.StatusUtil" %>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -14,12 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
-	UsersDAO dao = new UsersDAO(); 
-	UsersDTO dto = new UsersDTO();
-	
-	ArrayList<UsersDTO> list =dao.getUsers(dto, option, keyword);
-%>
+
 <jsp:include page="menubar.jsp"></jsp:include>
 	<br>
 	<hr>
@@ -37,33 +28,23 @@
 			<th>대출권수</th>
 		</tr>
 		
-		<%
-		for(int i=0; i<list.size(); i++){
-			UsersDTO users = list.get(i);
-			 %>
+<% int cnt=1; %>
+      <c:forEach var="userlist" items="${USERLIST}">         
+       <tr>
+         
+         <td><%= cnt++ %></td>
+          <td>${users.usersId}</td>
+         <td>${users.usersName}</td>
+         <td>${users.usersDepartment}</td>
+         <td>${users.usersPhoneNum}</td>
+         <c:if test="${users.usersStatus == '6'}"><td>대출제한</td></c:if> 
+         <c:if test="${users.usersStatus == '4'}"><td>연체중</td></c:if>
+         <c:if test="${users.usersStatus == '5'}"><td>대출가능</td></c:if>  
+         <td>0원</td>
+         <td>0권</td>
+       </tr>
+      </c:forEach>
 		
-		<tr>
-			<td>1</td>
-			<td><%= users.getUserId() %></td>
-			<td><%= users.getUserName() %></td>
-			<td><%= users.getUserDepartment() %></td>
-			<td><%= users.getUserPhoneNum() %></td>
-			<td><%= users.getUserStatus() %></td>
-			<td>0원</td>
-			<td>0권</td>
-		</tr>
-		<%} %>
-		<tr>
-			<td>2</td>
-			<td>1210453</td>
-			<td>임수지</td>
-			<td>멀티미디어과학</td>
-			<td>01077317169</td>
-			<td>연체중</td>
-			<td>200원</td>
-			<td>4</td>
-		</tr>
-
 	</table>
 </body>
 </html>

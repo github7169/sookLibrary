@@ -33,13 +33,16 @@
        <tr>
          
          <td><%= cnt++ %></td>
-          <td>${users.usersId}</td>
-         <td>${users.usersName}</td>
-         <td>${users.usersDepartment}</td>
-         <td>${users.usersPhoneNum}</td>
-         <c:if test="${users.usersStatus == '6'}"><td>대출제한</td></c:if> 
-         <c:if test="${users.usersStatus == '4'}"><td>연체중</td></c:if>
-         <c:if test="${users.usersStatus == '5'}"><td>대출가능</td></c:if>  
+          <td>${userlist.userId}</td>
+         <td>${userlist.userName}</td>
+         <td>${userlist.userDepartment}</td>
+         <td>${userlist.userPhoneNum}</td>
+         <td>${userlist.userStatus }</td>
+         <!--  
+         <c:if test="${userlist.userStatus == '6'}"><td>대출제한</td></c:if> 
+         <c:if test="${userlist.userStatus == '4'}"><td>연체중</td></c:if>
+         <c:if test="${userlist.userStatus == '5'}"><td>대출가능</td></c:if>  
+         -->
          <td>0원</td>
          <td>0권</td>
        </tr>

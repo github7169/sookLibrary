@@ -3,7 +3,7 @@ sookLibrary
 
 Library manage system
 
-첨부된 1216634_src내의 스키마를 생성 후,
+첨부된 1216634_src내의 sooklibrary_schema를 생성 후,
 
 index.jsp를 실행한다.
 

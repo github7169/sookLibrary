@@ -3,6 +3,8 @@ sookLibrary
 
 Library manage system
 
+index.jsp를 실행한다.
+
 회원가입 후 로그인을 하여 서비스를 이용한다.
 
 아직 한글 지원이 되지 않는다.

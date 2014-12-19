@@ -10,6 +10,7 @@ public class StatusUtil {
 	
 	//userState
 	public final static int userStatusLibrarian = 2;
+	
 	public final static int userStatusRestricted = 3;
 	public final static int userStatusOverdue = 4;
 	public final static int userStatusAvailable = 5;
@@ -37,5 +38,5 @@ public class StatusUtil {
 	   //userSearchOption
 	 public final static int userOptionId = 19;
 	 public final static int userOptionName =20;
-	 public final static int userOptionStatus=21;
+	// public final static int userOptionStatus=21;
 }

@@ -9,6 +9,7 @@
 </head>
 <body>
 	<form action="<c:url value="/users/getUsers"/>" method="POST">
+		
 		<select name="userFilter">
 			<option value="default"></option>
 			<option value="userId">학번</option>

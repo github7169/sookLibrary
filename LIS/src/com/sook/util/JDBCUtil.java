@@ -25,7 +25,7 @@ public class JDBCUtil {
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/sooklibrary";
 			String userId = "root";
-			String userPass = "qkqh8526";
+			String userPass = "0000";
 
 			conn = DriverManager.getConnection(jdbcUrl, userId, userPass);// Connection
 			System.out.println("getConnection Success");

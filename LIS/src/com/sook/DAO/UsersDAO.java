@@ -20,14 +20,11 @@ public class UsersDAO {
 	private final String GET_USERS_BY_ID = "SELECT * FROM users WHERE userId LIKE ?";
 	private final String GET_USERS_BY_NAME ="SELECT * FROM users WHERE userName LIKE ?";
 	
-//	private final String GET_USERS_BY_STATUS ="SElECT * FROM users WHERE userStatus LIKE?";
 	
 	private final String GET_Restricted_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
 	private final String GET_Available_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
 	private final String GET_Overdue_LIST ="SELECT * FROM users WHERE userStatus LIKE ?";
 	
-
-	//private final String GET_USER_LIST = "SELECT * FROM users WHERE bookRentedBy = ?;";
 
 
 	private Connection conn = null;
@@ -90,7 +87,6 @@ public class UsersDAO {
 	// (Librarian) - 회원 조회 (getusers.jsp)
 	public ArrayList<UsersDTO> getUsers(UsersDTO usersDTO, int option,
 			String keyword) {
-		System.out.println("UserDAO : getUsers was called");
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -100,35 +96,21 @@ public class UsersDAO {
 		ArrayList<UsersDTO> list = new ArrayList<UsersDTO>();
 		try {
 			switch (option) {
+			
 			case StatusUtil.userOptionId:
-				System.out.println("호출되었습니다.keyword값 : " +keyword);
 				pstmt = conn.prepareStatement(GET_USERS_BY_ID);
 				userSearchCondition= "userId";
 				break;
+				
 			case StatusUtil.userOptionName:
 				userSearchCondition="userName";
 				pstmt = conn.prepareStatement(GET_USERS_BY_NAME);
 				break;
-				/*
-			case StatusUtil.userStatusRestricted:
-				System.out.println("호출되었습니다.keyword값 : " +keyword);
-				userSearchCondition="restricted";
-				pstmt = conn.prepareStatement(GET_Restricted_LIST);
-				break;
-			case StatusUtil.userStatusAvailable:
-				userSearchCondition="available";
-				pstmt = conn.prepareStatement(GET_Available_LIST);
-				break;
-			case StatusUtil.userStatusOverdue:
-				userSearchCondition="overdue";
-				pstmt = conn.prepareStatement(GET_Overdue_LIST);
-				break; */
 	
 			default:
 				break;
 			}
-		
-			
+	
 			
 			pstmt.setString(1, "%"+keyword+"%");
 
@@ -145,13 +127,6 @@ public class UsersDAO {
 
 				list.add(users);
 			}
-			//test
-			for(int i=0; i<list.size() ; i++){
-				System.out.println("성공");
-				System.out.println( "name "+ list.get(i).getUserName()+ "  department  "+list.get(i).getUserDepartment());
-				System.out.println( "phone "+ list.get(i).getUserPhoneNum()+ "  status  "+list.get(i).getUserStatus());
-			}	
-
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -163,9 +138,10 @@ public class UsersDAO {
 	
 	
 	
+	
+	// 유저 상태에 따른 유저 검색 
 	public ArrayList<UsersDTO> getUsers_by_status(UsersDTO usersDTO, int option,
 			int stat) {
-		System.out.println("UserDAO : getUsers_by_status was called");
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -177,18 +153,14 @@ public class UsersDAO {
 			switch (option) {
 			
 			case StatusUtil.userStatusRestricted:
-				System.out.println("호출되었습니다.keyword값 : " +stat);
-				
 				userSearchCondition="restricted";
 				pstmt = conn.prepareStatement(GET_Restricted_LIST);
 				break;
 			case StatusUtil.userStatusAvailable:
-				System.out.println("호출되었습니다.keyword값 : " +stat);
 				userSearchCondition="available";
 				pstmt = conn.prepareStatement(GET_Available_LIST);
 				break;
 			case StatusUtil.userStatusOverdue:
-				System.out.println("호출되었습니다.keyword값 : " +stat);
 				userSearchCondition="overdue";
 				pstmt = conn.prepareStatement(GET_Overdue_LIST);
 				break;
@@ -215,13 +187,6 @@ public class UsersDAO {
 
 				list.add(users);
 			}
-			//test
-			for(int i=0; i<list.size() ; i++){
-				System.out.println("성공");
-				System.out.println( "name "+ list.get(i).getUserName()+ "  department  "+list.get(i).getUserDepartment());
-				System.out.println( "phone "+ list.get(i).getUserPhoneNum()+ "  status  "+list.get(i).getUserStatus());
-			}	
-
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

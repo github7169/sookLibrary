@@ -104,7 +104,6 @@ public class UsersController extends AbstractController{
 		// TODO Auto-generated method stub
 		UsersDAO usersDAO = new UsersDAO();
 		UsersDTO usersDTO = new UsersDTO();
-		System.out.println("usersController_getUsers+getUsersByStatus");
 		String keyword = request.getParameter("keyword");
 		
 
@@ -125,47 +124,42 @@ public class UsersController extends AbstractController{
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
 			break;
 		case "userName":
+			System.out.println("userName was selected");
 			usersDTO.setUserName(keyword);
 			option = StatusUtil.userOptionName;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
 			break;
 			
 		default:
-			System.out.println("호출되었습니다.default : " +selectedOption[0]);
 			break;
 			
 		}
 		
 		switch (selectedOption_status[0]){
 		case "overdue":
-			System.out.println("호출되었습니다.overdue : " +selectedOption_status[0]);
+			System.out.println("userStatus was selected_overdue");
 			usersDTO.setUserStatus(4);
 			option = StatusUtil.userStatusOverdue;
 			userlist = usersDAO.getUsers_by_status(usersDTO, option, 4);
 			break;
 			
 		case "restricted":
-			System.out.println("호출되었습니다.restricted : " +selectedOption_status[0]);
+			System.out.println("userStatus was selected_restricted");
 			usersDTO.setUserStatus(3);
 			option = StatusUtil.userStatusRestricted;
 			userlist = usersDAO.getUsers_by_status(usersDTO, option, 3);
 			break;
 			
 		case "available":
-			System.out.println("호출되었습니다.available : " +selectedOption_status[0]);
+			System.out.println("userStatus was selected_available");
 			usersDTO.setUserStatus(5);
 			option = StatusUtil.userStatusAvailable;
 			userlist = usersDAO.getUsers_by_status(usersDTO, option, 5);
 			break;
 			
 		default:
-			System.out.println("호출되었습니다.default : " +selectedOption[0]);
 			break;
 		}
-		
-		
-	
-		
 		
 		request.setAttribute("USERLIST", userlist);
 		

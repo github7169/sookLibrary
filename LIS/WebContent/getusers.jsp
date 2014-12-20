@@ -27,7 +27,8 @@
 			<th>연체료</th>
 			<th>대출권수</th>
 		</tr>
-		
+		<br>
+
 <% int cnt=1; %>
       <c:forEach var="userlist" items="${USERLIST}">         
        <tr>
@@ -37,12 +38,9 @@
          <td>${userlist.userName}</td>
          <td>${userlist.userDepartment}</td>
          <td>${userlist.userPhoneNum}</td>
-         <td>${userlist.userStatus }</td>
-         <!--  
-         <c:if test="${userlist.userStatus == '6'}"><td>대출제한</td></c:if> 
+         <c:if test="${userlist.userStatus == '3'}"><td>대출제한</td></c:if> 
          <c:if test="${userlist.userStatus == '4'}"><td>연체중</td></c:if>
          <c:if test="${userlist.userStatus == '5'}"><td>대출가능</td></c:if>  
-         -->
          <td>0원</td>
          <td>0권</td>
        </tr>

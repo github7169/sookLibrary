@@ -44,20 +44,89 @@ public class UsersController extends AbstractController{
 
 	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
-			String userId = request.getParameter("userId");
-			String userPwd = request.getParameter("userPwd");
-			
-			HttpSession session = request.getSession();
-			
-			UsersDTO user = new UsersDTO();
-			user.setUserId(userId);
-			user.setUserPwd(userPwd);
-			user.setUserName("사서_관리자");
-			user.setUserPostion(StatusUtil.userPositionLibrarian);
-			
-			session.setAttribute("USER", user);
-			response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
+		UsersDAO usersDAO = new UsersDAO();
+		UsersDTO usersDTO = new UsersDTO();
+		
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
+
+		usersDTO.setUserId(userId);
+		usersDTO.setUserPwd(userPwd);
+		
+		try {
+			usersDTO = usersDAO.login(usersDTO);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("USER", usersDTO);
+		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
+
+
+	private void getUsers(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		UsersDAO usersDAO = new UsersDAO();
+		UsersDTO usersDTO = new UsersDTO();
+		System.out.println("getUsers was called + getUsers_by_status");
+		String keyword = request.getParameter("keyword");
+	
+
+		
+		
+		String[] selectedOption = request.getParameterValues("userFilter");
+
+		int option = 0;
+		//연체 유저 리스트를 여기에 넣는다.
+		ArrayList<UsersDTO> userlist = new ArrayList<UsersDTO>();
+
+		switch (selectedOption[0]) {
+		case "userId":
+			System.out.println("userId was selected");
+			usersDTO.setUserId(keyword);
+			option = StatusUtil.userOptionId;
+			userlist = usersDAO.getUsers(usersDTO, option, keyword);
+			break;
+		case "userName":
+			usersDTO.setUserName(keyword);
+			option = StatusUtil.userOptionName;
+			userlist = usersDAO.getUsers(usersDTO, option, keyword);
+			break;
+			
+		case "overdue":
+			usersDTO.setUserStatus(4);
+			option = StatusUtil.userStatusOverdue;
+			userlist = usersDAO.getUsers_by_status(usersDTO, option, 4);
+			break;
+			
+		case "restricted":
+			usersDTO.setUserStatus(3);
+			option = StatusUtil.userStatusRestricted;
+			userlist = usersDAO.getUsers_by_status(usersDTO, option, 3);
+			break;
+			
+		case "available":
+			usersDTO.setUserStatus(5);
+			option = StatusUtil.userStatusAvailable;
+			userlist = usersDAO.getUsers_by_status(usersDTO, option, 5);
+			break;
+			
+		default:
+			break;
+		}
+		
+		
+	
+		
+		
+		request.setAttribute("USERLIST", userlist);
+		
+		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");  
+        view.forward(request, response);
+        }
 
 	private void updateUser(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -99,74 +168,6 @@ public class UsersController extends AbstractController{
 		response.sendRedirect(request.getContextPath()+"/updateuser.jsp");
 	}
 
-	private void getUsers(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		UsersDAO usersDAO = new UsersDAO();
-		UsersDTO usersDTO = new UsersDTO();
-		String keyword = request.getParameter("keyword");
-		
-
-		
-		
-		String[] selectedOption = request.getParameterValues("userFilter");
-		String[] selectedOption_status = request.getParameterValues("statusFilter");
-		
-		int option = 0;
-		//연체 유저 리스트를 여기에 넣는다.
-		ArrayList<UsersDTO> userlist = new ArrayList<UsersDTO>();
-
-		switch (selectedOption[0]) {
-		case "userId":
-			System.out.println("userId was selected");
-			usersDTO.setUserId(keyword);
-			option = StatusUtil.userOptionId;
-			userlist = usersDAO.getUsers(usersDTO, option, keyword);
-			break;
-		case "userName":
-			System.out.println("userName was selected");
-			usersDTO.setUserName(keyword);
-			option = StatusUtil.userOptionName;
-			userlist = usersDAO.getUsers(usersDTO, option, keyword);
-			break;
-			
-		default:
-			break;
-			
-		}
-		
-		switch (selectedOption_status[0]){
-		case "overdue":
-			System.out.println("userStatus was selected_overdue");
-			usersDTO.setUserStatus(4);
-			option = StatusUtil.userStatusOverdue;
-			userlist = usersDAO.getUsers_by_status(usersDTO, option, 4);
-			break;
-			
-		case "restricted":
-			System.out.println("userStatus was selected_restricted");
-			usersDTO.setUserStatus(3);
-			option = StatusUtil.userStatusRestricted;
-			userlist = usersDAO.getUsers_by_status(usersDTO, option, 3);
-			break;
-			
-		case "available":
-			System.out.println("userStatus was selected_available");
-			usersDTO.setUserStatus(5);
-			option = StatusUtil.userStatusAvailable;
-			userlist = usersDAO.getUsers_by_status(usersDTO, option, 5);
-			break;
-			
-		default:
-			break;
-		}
-		
-		request.setAttribute("USERLIST", userlist);
-		
-		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");  
-        view.forward(request, response);
-	}
-
 	private void insertUser(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
@@ -188,7 +189,7 @@ public class UsersController extends AbstractController{
 		usersDTO.setUserPhoneNum(userPhoneNum);
 		usersDTO.setUserPwd(userPwd);
 		//임시로 사서로 가입
-		usersDTO.setUserPostion(StatusUtil.userPositionLibrarian);
+		usersDTO.setUserPosition(StatusUtil.userPositionLibrarian);
 		
 		int result=usersDAO.insertUser(usersDTO);
 		if(result==0)

@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class BooksDTO implements Serializable{
-	private int bookRegistNumber; 		/* 등록번호 */
+	private String bookRegistNumber; 		/* 등록번호 */
 	private String bookTitle;
 	private String bookAuthor;  	 	/* 책 저자 */
 	private String bookPublisher;  	/* 출판사 */
 	private int bookPublicationYear; 		/* 출판년도 */
-	private int bookISBN;
+	private String bookISBN;
 	private int bookApplicationMark; 	/* 청구기호 */
 	private int bookCategory; 	/* 도서분류 ( literature, history, IT, art, social, others ) */
 	private int bookPrice;
@@ -18,10 +18,11 @@ public class BooksDTO implements Serializable{
 	private Date bookRentDate;			/* 대출일자  (YYMMDD) */
 	private Date bookReturnDate; 		/* 반납일자  (YYMMDD) */
 	private UsersDTO bookRentedBy;
-	public int getBookRegistNumber() {
+	
+	public String getBookRegistNumber() {
 		return bookRegistNumber;
 	}
-	public void setBookRegistNumber(int bookRegistNumber) {
+	public void setBookRegistNumber(String bookRegistNumber) {
 		this.bookRegistNumber = bookRegistNumber;
 	}
 	public String getBookTitle() {
@@ -48,10 +49,10 @@ public class BooksDTO implements Serializable{
 	public void setBookPublicationYear(int bookPublicationYear) {
 		this.bookPublicationYear = bookPublicationYear;
 	}
-	public int getBookISBN() {
+	public String getBookISBN() {
 		return bookISBN;
 	}
-	public void setBookISBN(int bookISBN) {
+	public void setBookISBN(String bookISBN) {
 		this.bookISBN = bookISBN;
 	}
 	public int getBookApplicationMark() {
@@ -101,6 +102,5 @@ public class BooksDTO implements Serializable{
 	}
 	public void setBookRentedBy(UsersDTO bookRentedBy) {
 		this.bookRentedBy = bookRentedBy;
-	}
-	
+	}	
 }

@@ -16,6 +16,7 @@ import com.sook.DAO.BooksDAO;
 import com.sook.DTO.BooksDTO;
 import com.sook.DTO.UsersDTO;
 import com.sook.util.AbstractController;
+import com.sook.util.StatusUtil;
 
 public class BooksController extends AbstractController{
 	public void service(HttpServletRequest request, HttpServletResponse response)
@@ -24,7 +25,7 @@ public class BooksController extends AbstractController{
 		String uri = getURI(request);
 		System.out.println("uri : "+uri);
 		if ("/books/getBooks".equals(uri)) {
-			getBooks(request, response);
+			selectBook(request, response);
 		} else if ("/books/getRentedList".equals(uri)) {
 			getRentedList(request, response);
 		} else if("/books/insertBook".equals(uri)) {
@@ -53,12 +54,12 @@ public class BooksController extends AbstractController{
 		BooksDTO booksDTO = new BooksDTO();
 		BooksDAO booksDAO = new BooksDAO();
 		
-		int bookRegistNumber = Integer.parseInt(request.getParameter("bookRegistNumber")); 
+		String bookRegistNumber = request.getParameter("bookRegistNumber"); 
 		String bookTitle = request.getParameter("bookTitle");
 		String bookAuthor = request.getParameter("bookAuthor");  	 
 		String bookPublisher = request.getParameter("bookPublisher");
 		int bookPublicationYear = Integer.parseInt(request.getParameter("bookPublicationYear")); 
-		int bookISBN = Integer.parseInt(request.getParameter("bookISBN"));
+		String bookISBN = request.getParameter("bookISBN");
 		int bookApplicationMark = Integer.parseInt(request.getParameter("bookApplicationMark"));
 		int bookCategory = Integer.parseInt(request.getParameter("bookCategory"));
 		int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
@@ -96,16 +97,49 @@ public class BooksController extends AbstractController{
         view.forward(request, response);  
 	}
 
-	private void getBooks(HttpServletRequest request,
+	private void selectBook(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		
-		//set book list at this arraylist variable
-		ArrayList<BooksDTO> booklist = new ArrayList<BooksDTO>();
-				
-		request.setAttribute("BOOKLIST", booklist);
-		
-		RequestDispatcher view = request.getRequestDispatcher("/getbooks.jsp");  
-        view.forward(request, response);
+			BooksDTO booksDTO = new BooksDTO();
+			BooksDAO booksDAO = new BooksDAO();			
+			System.out.println("selectBook was called");
+			
+			String keyword = request.getParameter("keyword");
+			String[] bookfilter = request.getParameterValues("book_filter");
+			
+			ArrayList<BooksDTO> getBookList =new ArrayList<BooksDTO>();
+			
+			int option = 0;
+			
+			switch (bookfilter[0]) {
+			case "registnum":
+				booksDTO.setBookRegistNumber(keyword);
+				option = StatusUtil.bookOptionRegistNumber;
+				break;
+			case "title":
+				booksDTO.setBookTitle(keyword);
+				option = StatusUtil.bookOptionTitle;
+				break;
+			case "author":
+				booksDTO.setBookAuthor(keyword);
+				option = StatusUtil.bookOptionAuthor;
+				break;
+			case "publisher":
+				booksDTO.setBookPublisher(keyword);
+				option = StatusUtil.bookOptionPublisher;
+				break;
+			case "ISBN":
+				booksDTO.setBookISBN(keyword);
+				option = StatusUtil.bookOptionISBN;
+				break;
+			default:
+				break;
+			}
+			getBookList = booksDAO.selectBook(booksDTO, option, keyword);
+			request.setAttribute("GETBOOKLIST", getBookList );
+	
+	        RequestDispatcher rd = request.getRequestDispatcher("/getbooks.jsp");  
+	        rd.forward(request, response);  
 	}
 }

@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,24 +15,28 @@
 	<table border="1">
 		<tr>
 			<th>no</th>
-			<th>µî·Ï¹øÈ£</th>
-			<th>¼­¸í</th>
-			<th>ÀúÀÚ</th>
-			<th>ÃâÆÇ»ç</th>
-			<th>Ã»±¸±âÈ£</th>
-			<th>´ëÃâÀÏ</th>
-			<th>¹İ³³¿¹Á¤ÀÏ</th>
+			<th>ë“±ë¡ë²ˆí˜¸</th>
+			<th>ì„œëª…</th>
+			<th>ì €ì</th>
+			<th>ì¶œíŒì‚¬</th>
+			<th>ì²­êµ¬ê¸°í˜¸</th>
+			<th>ëŒ€ì¶œì¼</th>
+			<th>ë°˜ë‚©ì˜ˆì •ì¼</th>
 		</tr>
-		<tr>
-			<td>1</td>
-			<td>1131357</td>
-			<td><a href="#">Software engineering/ 9th ed</a></td>
-			<td> Ian Sommerville.</td>
-			<td>Addison-Wesley</td>
-			<td>005.1 S697s9 c2</td>
-			<td>2014.11.9</td>
-			<td>2014.11.25</td>
-		</tr>
+		
+		<% int cnt=1; %>
+			<c:forEach var="rentedlist" items="${GETRENTEDBOOKLIST}">			
+	    	<tr>
+				<td><%= cnt++ %></td>
+	    		<td>${rentedlist.bookRegistNumber}</td>
+				<td>${rentedlist.bookTitle}</td>
+				<td>${rentedlist.bookAuthor}</td>
+				<td>${rentedlist.bookPublisher}</td>
+				<td>${rentedlist.bookApplicationMark}</td> 
+				<td>${rentedlist.bookRentDate}</td>
+				<td>${rentedlist.bookReturnDate}</td>
+	    	</tr>
+			</c:forEach>
 	</table>
 	<br>
 	<hr>

@@ -9,5 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.1.25-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/org.json-20120521.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

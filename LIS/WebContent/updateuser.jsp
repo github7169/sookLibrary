@@ -8,7 +8,7 @@
 <title>계정 관리</title>
 <script type="text/javascript">
 	function deleteCheck(){
-		var deleteConfirm = alert('삭제하시겠습니까?');
+		var deleteConfirm = alert('탈퇴하시겠습니까?');
 		if(deleteConfirm = true)
 			location.href="<c:url value='/users/deleteUser'/>";
 	}

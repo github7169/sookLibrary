@@ -9,20 +9,47 @@
 </head>
 <script type="text/javascript">
 function checkUserId(){
-	alert("dd");
+	var userId = document.getElementById("userId").value;
+	alert(userId);
+	if(userId != null)
+		location.href="<c:url value='/users/checkUserId'/>?userId="+userId;
+	else
+		alert("아이디를 입력하세요");
+}
+function checkResult(checkResult){
+	if(checkResult == true)
+		alert("존재하는 학번 / 교번 입니다.");
+	else
+		alert("존재하지 않는 학번 / 교번입니다.");
 }
 </script>
 <body>
-<c:if test="${checkResult == 'sadfsdf'}">
-<h1>sss</h1>
+<c:if test="${checkResult == 'error'}">
+<script type="text/javascript">
+	checkResult(false);
+</script>
+</c:if>
+<c:if test="${checkResult == 'ok'}">
+<script type="text/javascript">
+	checkResult(true);
+</script>
 </c:if>
 	<form action="users/insertUser" method="post">
 		<table>
 			<tr>
 				<td>*ID</td>
-				<td><input type="text" name="userId" maxlength="7"></td>
+				<td><input type="text"  id="userId" name="userId" maxlength="7"></td>
 				<!-- 조회 버튼은 학생의 경우 학생디비에서, 사서의 경우 교직원 디비에서 존재하는 학번, 교번인지 확인하는 것 -->
-				<td><input type="button" value="조회" onclick="window.location.href='<c:url value="users/checkUserId"/>?userId='"+userId /></td>
+				<td><input type="button" value="조회" onclick="checkUserId()" /></td>
+			</tr>
+			<tr>
+				<td>신분</td>
+				<td>
+					학번 / 교번을 조회하세요
+					<c:if test="${position }!='null'">
+						${position}
+					</c:if>
+				</td>
 			</tr>
 			<tr>
 				<td>패스워드</td>

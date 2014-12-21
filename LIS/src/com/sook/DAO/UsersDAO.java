@@ -249,6 +249,7 @@ public class UsersDAO {
 				usersDTO.setUserId(rs.getString("userId"));
 				usersDTO.setUserPosition(rs.getString("userPosition"));
 			} else {
+				usersDTO.setUserId(null);
 				System.out.println("존재하지 않는 학번, 교번입니다.");
 			}
 		} catch (SQLException e) {

@@ -83,26 +83,26 @@ public class UsersController extends AbstractController {
 		UsersDAO usersDAO = new UsersDAO();
 
 		String userId = request.getParameter("userId");
-
-		System.out.println("userId : " + userId);
-
 		usersDTO.setUserId(userId);
 
 		try {
 			usersDTO = usersDAO.checkUserId(usersDTO);
+			if(usersDTO.getUserId()==null){
+				System.out.println("check userId error");
+				request.setAttribute("checkResult", "error");
+			}
+			else{
+				request.setAttribute("checkResult","ok");
+				request.setAttribute("position", usersDTO.getUserPosition());
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		if (userId == null) {
-			// 아이디를 입력하세요
-		}
-
-		request.setAttribute("checkResult", "sadfsdf");
 		
-		RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");  
-        view.forward(request, response);
+		RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");
+		view.forward(request, response);
 
 	}
 

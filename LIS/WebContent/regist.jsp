@@ -4,22 +4,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>회원가입 페이지</title>
 </head>
 <script type="text/javascript">
 function checkUserId(){
-	
+	alert("dd");
 }
 </script>
 <body>
+<c:if test="${checkResult == 'sadfsdf'}">
+<h1>sss</h1>
+</c:if>
 	<form action="users/insertUser" method="post">
 		<table>
 			<tr>
 				<td>*ID</td>
 				<td><input type="text" name="userId" maxlength="7"></td>
 				<!-- 조회 버튼은 학생의 경우 학생디비에서, 사서의 경우 교직원 디비에서 존재하는 학번, 교번인지 확인하는 것 -->
-				<td><input type="button" value="조회" onclick="window.location.href='<c:url value="users/checkUserId"/>?userId=1211514'" /></td>
+				<td><input type="button" value="조회" onclick="window.location.href='<c:url value="users/checkUserId"/>?userId='"+userId /></td>
 			</tr>
 			<tr>
 				<td>패스워드</td>

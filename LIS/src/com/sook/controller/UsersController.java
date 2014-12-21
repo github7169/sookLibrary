@@ -36,7 +36,36 @@ public class UsersController extends AbstractController {
 			checkUserId(request, response);
 		} else if("/users/logout".equals(uri)) {
 			logout(request, response);
+		} else if("/users/deleteUser".equals(uri)) {
+			deleteuser(request, response);
 		}
+	}
+
+	private void deleteuser(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		UsersDTO usersDTO = new UsersDTO();
+		UsersDAO usersDAO = new UsersDAO();
+
+		HttpSession session = request.getSession();
+		
+		usersDTO = (UsersDTO)session.getAttribute("USER");
+		
+		try {
+			int result = usersDAO.deleteUser(usersDTO);
+			if(result != 0){
+				System.out.println("삭제되었습니다.");
+			} else {
+				System.out.println("삭제에 실패하였습니다.");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		session.invalidate();
+		response.sendRedirect(request.getContextPath() + "/login.jsp");
+
 	}
 
 	private void logout(HttpServletRequest request, HttpServletResponse response)
@@ -49,7 +78,7 @@ public class UsersController extends AbstractController {
 	}
 
 	private void checkUserId(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws IOException, ServletException {
 		UsersDTO usersDTO = new UsersDTO();
 		UsersDAO usersDAO = new UsersDAO();
 
@@ -70,14 +99,10 @@ public class UsersController extends AbstractController {
 			// 아이디를 입력하세요
 		}
 
-		// 학생인지 사서인지 및 중복확인 등..
-		// 집가서 찾아보기
-		PrintWriter out = response.getWriter();
-		out.print("<script>");
-		out.print("alert('" + usersDTO.getUserPosition() + "sdfsdfds')");
-		out.print("</script>");
-
-		out.close();
+		request.setAttribute("checkResult", "sadfsdf");
+		
+		RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");  
+        view.forward(request, response);
 
 	}
 
@@ -138,7 +163,7 @@ public class UsersController extends AbstractController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		session.setAttribute("USER", usersDTO);
 		response.sendRedirect(request.getContextPath() + "/updateuser.jsp");
 	}
 

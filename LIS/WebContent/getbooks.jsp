@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<% String check=""; %>
 <jsp:include page="menubar.jsp"></jsp:include>
 <jsp:include page="booksearchfilter.jsp"></jsp:include>
 <table border="1">
@@ -28,13 +29,16 @@
 			<th>반납예정일</th>
 		</tr>
 		
+		<form method="post" action="bookdetail.jsp">
     	<% int cnt=1; %>
 		<c:forEach var="booklist" items="${GETBOOKLIST}">			
     	<tr>
     		<td><input type="checkbox" name="isChecked"></td>
 			<td><%= cnt++ %></td>
     		<td>${booklist.bookRegistNumber}</td>
-			<td>${booklist.bookTitle}</td>
+			<td>			 
+			<a href="<c:url value="/books/getBooks?book_filter=registnum&keyword=${booklist.bookRegistNumber}&check=yes"/>">${booklist.bookTitle}</a>  					 
+			</td>
 			<td>${booklist.bookAuthor}</td>
 			<td>${booklist.bookPublisher}</td>
 			<td>${booklist.bookISBN}</td>
@@ -47,6 +51,7 @@
 			<td>${booklist.bookReturnDate}</td>
     	</tr>
 		</c:forEach>
+		</form>
 		
 </c:if>
 <!-- if student -->
@@ -63,13 +68,15 @@
 			<th>대출상태</th>
 			<th>반납예정일</th>
 		</tr>
-		<% int cnt=1; %>
+		<% int cnt=1;  %>
 		<c:forEach var="booklist" items="${GETBOOKLIST}">			
     	<tr>
     		<td><input type="checkbox" name="isChecked"></td>
 			<td><%= cnt++ %></td>
     		<td>${booklist.bookRegistNumber}</td>
-			<td>${booklist.bookTitle}</td>
+			<td>	
+			<a href="<c:url value="/books/getBooks?book_filter=registnum&keyword=${booklist.bookRegistNumber}&check=yes"/>">${booklist.bookTitle}</a>  					 
+			</td>
 			<td>${booklist.bookAuthor}</td>
 			<td>${booklist.bookPublisher}</td>
 			<td>${booklist.bookApplicationMark}</td>
@@ -81,6 +88,10 @@
 		</c:forEach>
 </c:if>
 	</table>
-	<jsp:include page="bookdetail.jsp"></jsp:include>
+	<%  check = request.getParameter("check");
+		System.out.println("check:"+check);
+		if( "yes".equals(check)){ 	%>
+			<jsp:include page="bookdetail.jsp"></jsp:include>
+	<% } %>
 </body>
 </html>

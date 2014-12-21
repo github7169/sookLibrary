@@ -12,6 +12,7 @@ import com.sook.util.StatusUtil;
 
 public class UsersDAO {
 
+	private static final String DELETE = "DELETE FROM users WHERE userId= ?";
 	private final String INSERT_USER = "INSERT INTO users(userId, userPwd, userName, userDepartment, userPhoneNum, userPosition) VALUE(?,?,?,?,?,?)";
 	private final String UPDATE_USER = "UPDATE users SET userPwd = ?, userName = ?, userDepartment = ?, userPhoneNum =? where userId=?";
 	// 학생의 아이디 혹은 이름으로 검색
@@ -295,6 +296,27 @@ public class UsersDAO {
 			pstmt.close();
 		}
 		return usersDTO;
+	}
+
+	public int deleteUser(UsersDTO usersDTO) throws SQLException {
+		// TODO Auto-generated method stub
+		PreparedStatement pstmt = null;
+		conn = JDBCUtil.getInstance().getConnection();
+		int result=0;
+		try {
+			pstmt = conn.prepareStatement(DELETE);
+			int idx= 0;
+			pstmt.setString(++idx, usersDTO.getUserId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			pstmt.close();
+			conn.close();
+		}
+		return result;
 	}
 
 }

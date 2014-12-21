@@ -6,6 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>계정 관리</title>
+<script type="text/javascript">
+	function deleteCheck(){
+		var deleteConfirm = alert('삭제하시겠습니까?');
+		if(deleteConfirm = true)
+			location.href="<c:url value='/users/deleteUser'/>";
+	}
+</script>
 </head>
 <body>
 <jsp:include page="menubar.jsp"></jsp:include>
@@ -36,7 +43,8 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="submit" value="수정"> <input type="reset" value="취소"> <input type="button" value="탈퇴" onClick="confirm('정말로 탈퇴하시겠습니까?')">
+					<input type="submit" value="수정"> <input type="reset" value="취소">
+					<input type="button" value="탈퇴" onClick="deleteCheck()">
 				</td>			
 			</tr>		
 			</tr>

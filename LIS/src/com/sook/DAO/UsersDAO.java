@@ -129,19 +129,6 @@ public class UsersDAO {
 				userSearchCondition = "userName";
 				pstmt = conn.prepareStatement(GET_USERS_BY_NAME);
 				break;
-			case StatusUtil.userStatusRestricted:
-				System.out.println("호출되었습니다.keyword값 : " + keyword);
-				userSearchCondition = "restricted";
-				pstmt = conn.prepareStatement(GET_Restricted_LIST);
-				break;
-			case StatusUtil.userStatusAvailable:
-				userSearchCondition = "available";
-				pstmt = conn.prepareStatement(GET_Available_LIST);
-				break;
-			case StatusUtil.userStatusOverdue:
-				userSearchCondition = "overdue";
-				pstmt = conn.prepareStatement(GET_Overdue_LIST);
-				break;
 
 			default:
 				break;
@@ -179,7 +166,7 @@ public class UsersDAO {
 		return list;
 	}
 
-	public ArrayList<UsersDTO> getUsers_by_status(UsersDTO usersDTO,
+	public ArrayList<UsersDTO> getUsersByStatus(UsersDTO usersDTO,
 			int option, int stat) {
 		System.out.println("UserDAO : getUsers was called");
 		Connection conn = null;
@@ -209,10 +196,10 @@ public class UsersDAO {
 				break;
 			}
 
-			System.out.println(stat);
-			// pstmt = conn.prepareStatement(GET_USERS);
+			pstmt.setString(1, "%" + stat + "%");
 
 			rs = pstmt.executeQuery();
+
 			while (rs.next()) {
 
 				UsersDTO users = new UsersDTO();

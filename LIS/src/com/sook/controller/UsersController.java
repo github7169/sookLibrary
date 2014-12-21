@@ -157,6 +157,7 @@ public class UsersController extends AbstractController {
 		String keyword = request.getParameter("keyword");
 
 		String[] selectedOption = request.getParameterValues("userFilter");
+		String[] selectedOptionStatus = request.getParameterValues("statusFilter");
 
 		int option = 0;
 		// 연체 유저 리스트를 여기에 넣는다.
@@ -174,23 +175,29 @@ public class UsersController extends AbstractController {
 			option = StatusUtil.userOptionName;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
 			break;
+			
+		default:
+			break;
+		}
 
+			
+		switch (selectedOptionStatus[0]) {
 		case "overdue":
 			usersDTO.setUserStatus(4);
 			option = StatusUtil.userStatusOverdue;
-			userlist = usersDAO.getUsers_by_status(usersDTO, option, 4);
+			userlist = usersDAO.getUsersByStatus(usersDTO, option, 4);
 			break;
 
 		case "restricted":
 			usersDTO.setUserStatus(3);
 			option = StatusUtil.userStatusRestricted;
-			userlist = usersDAO.getUsers_by_status(usersDTO, option, 3);
+			userlist = usersDAO.getUsersByStatus(usersDTO, option, 3);
 			break;
 
 		case "available":
 			usersDTO.setUserStatus(5);
 			option = StatusUtil.userStatusAvailable;
-			userlist = usersDAO.getUsers_by_status(usersDTO, option, 5);
+			userlist = usersDAO.getUsersByStatus(usersDTO, option, 5);
 			break;
 
 		default:

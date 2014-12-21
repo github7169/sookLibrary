@@ -148,6 +148,8 @@ public class UsersController extends AbstractController {
 		UsersDAO usersDAO = new UsersDAO();
 		UsersDTO usersDTO = new UsersDTO();
 		System.out.println("getUsers was called + getUsers_by_status");
+		
+		
 		String keyword = request.getParameter("keyword");
 	
 

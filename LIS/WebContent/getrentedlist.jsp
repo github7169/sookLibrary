@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+
+"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
@@ -24,8 +26,18 @@
 			<th>반납예정일</th>
 		</tr>
 		
+		<!-- 검색결과가 없습니다 -->
+		<% 
+			String notFound = (String) request.getAttribute("notFound");
+			if( "notFound".equals(notFound)){ 	
+				%><tr>
+	    		<td colspan="8" align="center">검색결과가 없습니다.</td></tr>
+		<% } %>
+		
 		<% int cnt=1; %>
-			<c:forEach var="rentedlist" items="${GETRENTEDBOOKLIST}">			
+			<c:forEach var="rentedlist" items="${GETRENTEDBOOKLIST}">		
+
+	
 	    	<tr>
 				<td><%= cnt++ %></td>
 	    		<td>${rentedlist.bookRegistNumber}</td>

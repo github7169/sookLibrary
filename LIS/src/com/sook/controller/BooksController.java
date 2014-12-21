@@ -1,4 +1,3 @@
-
 package com.sook.controller;
 
 import java.io.IOException;
@@ -95,6 +94,9 @@ public class BooksController extends AbstractController{
 		ArrayList<BooksDTO> getRentedBookList = new ArrayList<BooksDTO>();
 				
 		getRentedBookList = booksDAO.getRentedList(booksDTO, userId);
+		if(getRentedBookList.size()==0){
+			request.setAttribute("notFound", "notFound");
+		}
 		request.setAttribute("GETRENTEDBOOKLIST", getRentedBookList );
 						
 		RequestDispatcher view = request.getRequestDispatcher("/getrentedlist.jsp");  
@@ -141,6 +143,10 @@ public class BooksController extends AbstractController{
 				break;
 			}
 			getBookList = booksDAO.selectBook(booksDTO, option, keyword);
+
+			if(getBookList.size()==0){
+				request.setAttribute("notFound", "notFound");
+			}
 			request.setAttribute("GETBOOKLIST", getBookList );
 	
 	        RequestDispatcher rd = request.getRequestDispatcher("/getbooks.jsp");  

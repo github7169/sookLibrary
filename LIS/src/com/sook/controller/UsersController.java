@@ -1,5 +1,3 @@
-
-
 package com.sook.controller;
 
 import java.io.IOException;
@@ -34,9 +32,9 @@ public class UsersController extends AbstractController {
 			updateUser(request, response);
 		} else if ("/users/checkUserId".equals(uri)) {
 			checkUserId(request, response);
-		} else if("/users/logout".equals(uri)) {
+		} else if ("/users/logout".equals(uri)) {
 			logout(request, response);
-		} else if("/users/deleteUser".equals(uri)) {
+		} else if ("/users/deleteUser".equals(uri)) {
 			deleteuser(request, response);
 		}
 	}
@@ -48,21 +46,16 @@ public class UsersController extends AbstractController {
 		UsersDAO usersDAO = new UsersDAO();
 
 		HttpSession session = request.getSession();
-		
-		usersDTO = (UsersDTO)session.getAttribute("USER");
-		
-		try {
-			int result = usersDAO.deleteUser(usersDTO);
-			if(result != 0){
-				System.out.println("삭제되었습니다.");
-			} else {
-				System.out.println("삭제에 실패하였습니다.");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		usersDTO = (UsersDTO) session.getAttribute("USER");
+
+		int result = usersDAO.deleteUser(usersDTO);
+		if (result != 0) {
+			System.out.println("삭제되었습니다.");
+		} else {
+			System.out.println("삭제에 실패하였습니다.");
 		}
-		
+
 		session.invalidate();
 		response.sendRedirect(request.getContextPath() + "/login.jsp");
 
@@ -87,12 +80,11 @@ public class UsersController extends AbstractController {
 
 		try {
 			usersDTO = usersDAO.checkUserId(usersDTO);
-			if(usersDTO.getUserId()==null){
+			if (usersDTO.getUserId() == null) {
 				System.out.println("check userId error");
 				request.setAttribute("checkResult", "error");
-			}
-			else{
-				request.setAttribute("checkResult","ok");
+			} else {
+				request.setAttribute("checkResult", "ok");
 				request.setAttribute("position", usersDTO.getUserPosition());
 			}
 		} catch (SQLException e) {
@@ -100,7 +92,6 @@ public class UsersController extends AbstractController {
 			e.printStackTrace();
 		}
 
-		
 		RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");
 		view.forward(request, response);
 
@@ -111,20 +102,15 @@ public class UsersController extends AbstractController {
 		// TODO Auto-generated method stub
 		UsersDAO usersDAO = new UsersDAO();
 		UsersDTO usersDTO = new UsersDTO();
-		
+
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 
 		usersDTO.setUserId(userId);
 		usersDTO.setUserPwd(userPwd);
-		
-		try {
-			usersDTO = usersDAO.login(usersDTO);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
+		usersDTO = usersDAO.login(usersDTO);
+
 		HttpSession session = request.getSession();
 		session.setAttribute("USER", usersDTO);
 		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
@@ -155,14 +141,9 @@ public class UsersController extends AbstractController {
 		usersDTO.setUserPwd(userPwd);
 		usersDTO.setUserId(userId);
 
-		try {
-			int result = usersDAO.updateUser(usersDTO);
-			if (result == 0)
-				System.out.println("user update error");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		int result = usersDAO.updateUser(usersDTO);
+		if (result == 0)
+			System.out.println("user update error");
 		session.setAttribute("USER", usersDTO);
 		response.sendRedirect(request.getContextPath() + "/updateuser.jsp");
 	}
@@ -174,14 +155,11 @@ public class UsersController extends AbstractController {
 		UsersDTO usersDTO = new UsersDTO();
 		System.out.println("getUsers was called + getUsers_by_status");
 		String keyword = request.getParameter("keyword");
-	
 
-		
-		
 		String[] selectedOption = request.getParameterValues("userFilter");
 
 		int option = 0;
-		//연체 유저 리스트를 여기에 넣는다.
+		// 연체 유저 리스트를 여기에 넣는다.
 		ArrayList<UsersDTO> userlist = new ArrayList<UsersDTO>();
 
 		switch (selectedOption[0]) {
@@ -196,37 +174,33 @@ public class UsersController extends AbstractController {
 			option = StatusUtil.userOptionName;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
 			break;
-			
+
 		case "overdue":
 			usersDTO.setUserStatus(4);
 			option = StatusUtil.userStatusOverdue;
 			userlist = usersDAO.getUsers_by_status(usersDTO, option, 4);
 			break;
-			
+
 		case "restricted":
 			usersDTO.setUserStatus(3);
 			option = StatusUtil.userStatusRestricted;
 			userlist = usersDAO.getUsers_by_status(usersDTO, option, 3);
 			break;
-			
+
 		case "available":
 			usersDTO.setUserStatus(5);
 			option = StatusUtil.userStatusAvailable;
 			userlist = usersDAO.getUsers_by_status(usersDTO, option, 5);
 			break;
-			
+
 		default:
 			break;
 		}
-		
-		
-	
-		
-		
+
 		request.setAttribute("USERLIST", userlist);
-		
-		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");  
-        view.forward(request, response);
+
+		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");
+		view.forward(request, response);
 	}
 
 	private void insertUser(HttpServletRequest request,
@@ -259,4 +233,3 @@ public class UsersController extends AbstractController {
 		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
 }
-

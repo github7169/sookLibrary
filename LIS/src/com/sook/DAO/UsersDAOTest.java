@@ -33,12 +33,15 @@ public class UsersDAOTest {
 
    @Test
    public void testUpdateUser() {
-      fail("Not yet implemented");
+	   usersDTO.setUserName("limjisu");
+      assertEquals(usersDAO.updateUser(usersDTO), 1);
    }
-
+   
    @Test
-   public void testLogin() {
-      fail("Not yet implemented");
+   public void testLoginUser() {
+      assertEquals(usersDAO.login(usersDTO), 1);
    }
+   
+
 
 }

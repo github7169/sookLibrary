@@ -46,7 +46,6 @@ public class UsersDAO {
 
 	public int insertUser(UsersDTO usersDTO) {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		conn = JDBCUtil.getInstance().getConnection();
 		int result = 0;
 		try {
@@ -65,12 +64,19 @@ public class UsersDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
 
 	// - 계정관리 (updateuser.jsp)
-	public int updateUser(UsersDTO usersDTO) throws SQLException {
+	public int updateUser(UsersDTO usersDTO){
 
 		int result = 0;
 		conn = JDBCUtil.getInstance().getConnection();
@@ -90,10 +96,13 @@ public class UsersDAO {
 		catch (SQLException e) {
 			// TODO auto-generated catch block
 			e.printStackTrace();
-		}
-
-		finally {
-			pstmt.close();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -263,7 +272,7 @@ public class UsersDAO {
 		return usersDTO;
 	}
 
-	public UsersDTO login(UsersDTO usersDTO) throws SQLException {
+	public UsersDTO login(UsersDTO usersDTO){
 		// TODO Auto-generated method stub
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -293,13 +302,18 @@ public class UsersDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			rs.close();
-			pstmt.close();
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return usersDTO;
 	}
 
-	public int deleteUser(UsersDTO usersDTO) throws SQLException {
+	public int deleteUser(UsersDTO usersDTO) {
 		// TODO Auto-generated method stub
 		PreparedStatement pstmt = null;
 		conn = JDBCUtil.getInstance().getConnection();
@@ -314,8 +328,12 @@ public class UsersDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			pstmt.close();
-			conn.close();
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}

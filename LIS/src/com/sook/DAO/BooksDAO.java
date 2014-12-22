@@ -34,8 +34,8 @@ public class BooksDAO {
 	private final String INSERT_BOOK = "INSERT INTO books(bookRegistNumber, bookTitle, bookAuthor, bookPublisher, "
 			+ "bookPublicationYear, bookISBN, bookApplicationMark, bookCategory, bookPrice) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String DELETE_BOOK = "DELETE FROM books WHERE bookResgistNumber = ?";
-	private final String UPDATE_BOOK = "UPDATE books SET bookRegistNumber=? bookTitle=? bookAuthor=? bookPublisher=?"
-			+ "bookPublicationYear=? bookISBN=? bookApplivationMark=? bookCategory=? bookPrice=? WHERE bookRegistNumber=?";
+	private final String UPDATE_BOOK = "UPDATE books SET bookRegistNumber=?, bookTitle=?, bookAuthor=?, bookPublisher=?,"
+			+ "bookPublicationYear=?, bookISBN=?, bookApplicationMark=?, bookCategory=?, bookPrice=? WHERE bookRegistNumber=?";
 
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
@@ -123,10 +123,7 @@ public class BooksDAO {
 			pstmt.setInt(++idx, booksDTO.getBookPrice());			
 			pstmt.setString(++idx, booksDTO.getBookRegistNumber());
 
-			rs = pstmt.getGeneratedKeys();
-			while (rs.next()) {
-				result = (int) rs.getInt(1);
-			}
+			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -135,6 +132,7 @@ public class BooksDAO {
 			pstmt.close();
 		}
 
+		System.out.println("query result:"+result);
 		return result;
 
 	}

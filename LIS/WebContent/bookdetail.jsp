@@ -7,18 +7,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+/*
 	function deleteBook(){
 		var status = confirm("정말로 삭제하시겠습니까?");
 		if(status==true)
 			window.location.href='<c:url value="books/deleteBook"/>';
+	}*/
+	
+	function sendUpdate(){
+		alert("sendUpdate");
+		document.detailform.action="updateBook";
+		document.detailform.submit();		
 	}
+	
+	function sendDelete(){
+		alert("sendDelete");
+		document.detailform.action="deleteBook";
+		document.detailform.submit();	
+	}
+	
 </script>
 </head>
 <body>
-<form action="books/insertBook" method="post">
-	
+<!-- <form action="books/insertBook" method="post">
+	 -->
+	 <form name="detailform" method="post">
 	<c:if test="${USER.userPosition == 'librarian'}">	
-	<c:forEach var="booklist" items="${GETBOOKLIST}">		
+	
+	<c:forEach var="booklist" items="${GETBOOKLIST}">
+	<!--  		
+	 <c:set var="book" value="${GETBOOK}"/>
+	  -->
 	<table>
 			<tr>
 				<td>등록번호</td><td> <input type="text" name="bookRegistNumber" value="${booklist.bookRegistNumber}"> </td>
@@ -68,6 +87,7 @@
 		<input type="button" value="삭제" onClick="deleteBook()">
 	</c:if>
 	</form>
+	
 	
 	<c:if test="${USER.userPosition == 'student'}">
 	<c:forEach var="booklist" items="${GETBOOKLIST}">	

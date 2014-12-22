@@ -83,7 +83,7 @@
 		</table>
 		</c:forEach>
 		
-		<input type="button" value="수정" onclick="window.location.href='<c:url value="books/updateBook"/>'">		
+		<input type="button" value="수정" onclick="sendUpdate()">		
 		<input type="button" value="삭제" onClick="deleteBook()">
 	</c:if>
 	</form>

@@ -24,6 +24,14 @@
 			<th>반납예정일</th>
 		</tr>
 		
+		<!-- 검색결과가 없습니다 -->
+		<% 
+			String notFound = (String) request.getAttribute("notFound");
+			if( "notFound".equals(notFound)){ 	
+				%><tr>
+	    		<td colspan="8" align="center">검색결과가 없습니다.</td></tr>
+		<% } %>
+		
 		<% int cnt=1; %>
 			<c:forEach var="rentedlist" items="${GETRENTEDBOOKLIST}">			
 	    	<tr>

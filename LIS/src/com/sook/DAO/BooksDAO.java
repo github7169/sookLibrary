@@ -163,7 +163,6 @@ public class BooksDAO {
 
 			}
 			
-			System.out.println("키워드당"+keyword);
 			pstmt.setString(1, "%" + keyword + "%");
 
 			rs = pstmt.executeQuery();

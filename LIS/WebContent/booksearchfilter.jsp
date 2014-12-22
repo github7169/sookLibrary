@@ -20,7 +20,13 @@
 		<input type="submit" value="검색" />
 		
 		<!-- if Librarian -->
-		<input type="button" value="삽입" onClick=/>
+		<input type="button" value="삽입" onClick="insert()"/>
+		<script type="text/javascript">
+			function insert(){
+				location.href=
+					"<c:url value='/books/getBooks?book_filter=registnum&keyword=&button=insert'/>";
+			}
+		</script>		
 		<input type="button" value="삭제" onClick="alert('정말로 삭제하시겠습니까?')"/>
 	</form>
 </body>

@@ -8,7 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<% String check=""; %>
+<%  String button="";
+	String check=""; %>
 <jsp:include page="menubar.jsp"></jsp:include>
 <jsp:include page="booksearchfilter.jsp"></jsp:include>
 <table border="1">
@@ -59,8 +60,6 @@
 			<td>${booklist.bookReturnDate}</td>
     	</tr>		
 		</c:forEach>
-		
-		
 		</form>		
 </c:if>
 
@@ -112,7 +111,13 @@
 		</c:if>
 	</table>
 	
-	<!--  상세보기 눌렀는지 확인 -->
+	<!--  책 삽입 버튼 눌렀을 때 빈 등록칸 뜨게 -->
+	<%  button = request.getParameter("button");
+		if( "insert".equals(button)){ 	%>
+			<jsp:include page="bookinsert.jsp"></jsp:include>
+	<% } %>
+	
+	<!--  각 책 제목 눌렀을 때 해당 상세정보가 뜨게 -->
 	<%  check = request.getParameter("check");
 		if( "yes".equals(check)){ 	%>
 			<jsp:include page="bookdetail.jsp"></jsp:include>

@@ -77,7 +77,7 @@ public class BooksController extends AbstractController{
 			e.printStackTrace();
 		}
 
-		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
+		response.sendRedirect(request.getContextPath() + "/books/getBooks?book_filter=registnum&keyword=");
 	}
 
 	private void getRentedList(HttpServletRequest request,

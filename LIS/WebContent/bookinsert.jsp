@@ -43,7 +43,7 @@
 			</tr>
 			<tr>
 				<td>출판년도</td><td><input type="text" name="bookPublicationYear"></td>
-				<td>대출횟수</td><td><input type="text" name="bookCount" value="1" disabled></td>
+				<td>대출횟수</td><td><input type="text" name="bookCount" value="0" disabled></td>
 			</tr>
 		</table>
 		

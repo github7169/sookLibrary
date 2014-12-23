@@ -29,7 +29,12 @@ public class BooksController extends AbstractController{
 		} else if("/books/insertBook".equals(uri)) {
 			insertBook(request, response);
 		} else if("/books/deleteBook".equals(uri)) {
-			deleteBook(request, response);
+			try {
+				deleteBook(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if("/books/updateBook".equals(uri)){
 			try {
 				updateBook(request, response);
@@ -89,8 +94,19 @@ public class BooksController extends AbstractController{
 	}
 
 	private void deleteBook(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws IOException, SQLException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("deleteBook was called");
+		
+		BooksDAO booksDAO = new BooksDAO();
+		
+		String registnum= request.getParameter("bookRegistNumber");
+		
+		//System.out.println(registnum);
+		
+		booksDAO.deleteBook(registnum);
+			
 		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
 

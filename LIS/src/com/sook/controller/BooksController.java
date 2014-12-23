@@ -108,6 +108,8 @@ public class BooksController extends AbstractController{
 		int bookApplicationMark = Integer.parseInt(request.getParameter("bookApplicationMark"));
 		int bookCategory = Integer.parseInt(request.getParameter("bookCategory"));
 		int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
+		int bookCount = 0;
+		int bookStatus = 6;
 		
 		booksDTO.setBookApplicationMark(bookApplicationMark);
 		booksDTO.setBookAuthor(bookAuthor);
@@ -118,6 +120,8 @@ public class BooksController extends AbstractController{
 		booksDTO.setBookPublisher(bookPublisher);
 		booksDTO.setBookRegistNumber(bookRegistNumber);
 		booksDTO.setBookTitle(bookTitle);
+		booksDTO.setBookCount(bookCount);
+		booksDTO.setBookStatus(bookStatus);
 		
 		try {
 			booksDAO.insertBook(booksDTO);

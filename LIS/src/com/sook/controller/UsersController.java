@@ -173,7 +173,7 @@ public class UsersController extends AbstractController {
 		
 		ArrayList<BooksDTO> getOverdueDay = new ArrayList<BooksDTO>();
 				
-		getOverdueDay = usersDAO.getOverdueDay(booksDTO, keyword);
+		
 		
 		
 		switch (selectedOption[0]) {
@@ -182,43 +182,39 @@ public class UsersController extends AbstractController {
 			usersDTO.setUserId(keyword);
 			option = StatusUtil.userOptionId;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
+			getOverdueDay = usersDAO.getOverdueDay(booksDTO, option, keyword);
 			break;
 		case "userName":
 			usersDTO.setUserName(keyword);
 			option = StatusUtil.userOptionName;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
+			getOverdueDay = usersDAO.getOverdueDay(booksDTO, option, keyword);
 			break;
 			
 		default:
 			break;
 		}
-
-		
-
-		
-		
-				
-		//getRentedBookList = booksDAO.getRentedList(booksDTO, bookRentedBy);
-		//request.setAttribute("GETRENTEDBOOKLIST", getRentedBookList );
-						
-			
+	
 		switch (selectedOptionStatus[0]) {
 		case "overdue":
 			usersDTO.setUserStatus(4);
 			option = StatusUtil.userStatusOverdue;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 4);
+			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		case "restricted":
 			usersDTO.setUserStatus(3);
 			option = StatusUtil.userStatusRestricted;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 3);
+			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		case "available":
 			usersDTO.setUserStatus(5);
 			option = StatusUtil.userStatusAvailable;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 5);
+			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		default:
@@ -267,23 +263,5 @@ public class UsersController extends AbstractController {
 		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
 	
-/*	
-	private void getOverdueDay(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		
-		BooksDTO booksDTO = new BooksDTO();
-		UsersDAO usersDAO = new UsersDAO();			
-		System.out.println("getOverdueDay was called");
-		
-		String bookRentedBy = request.getParameter("Keyword");
-		
-		ArrayList<BooksDTO> getOverdueDay = new ArrayList<BooksDTO>();
-				
-		getOverdueDay = usersDAO.getOverdueDay(booksDTO, bookRentedBy);
-		request.setAttribute("GETOVERDUEDAY", getOverdueDay );
-						
-		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");  
-		//view.forward(request, response);  
-	}*/
+
 }

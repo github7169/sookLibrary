@@ -9,22 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-
-<script type="text/javascript">  
-var today = new Date();  
-
-var dateString = "2014-12-10";  
-  
-var dateArray = dateString.split("-");  
-  
-var dateObj = new Date(dateArray[0], Number(dateArray[1])-1, dateArray[2]);  
-  
-var betweenDay = (today.getDate() - dateObj.getDate());  
-
-int overdueDay = (int)betweenDay;
-  
-//alert(betweenDay);  
-</script>  
+ 
 
 
 <body>
@@ -44,7 +29,6 @@ int overdueDay = (int)betweenDay;
 			<th>상태</th>
 			<th>연체료</th>
 			<th>대출권수</th>
-			<th>반납날짜</th>
 		</tr>
 		<br>
 		
@@ -58,6 +42,7 @@ int overdueDay = (int)betweenDay;
 		
 		
 <% int cnt=1; %>
+<% int money = 0; %>
       <c:forEach var="userlist" items="${USERLIST}">    
           
        <tr>
@@ -71,8 +56,7 @@ int overdueDay = (int)betweenDay;
          <c:if test="${userlist.userStatus == '4'}"><td>연체중</td></c:if>
          <c:if test="${userlist.userStatus == '5'}"><td>대출가능</td></c:if> 
          <c:forEach var= "overdueday" items ="${GETOVERDUEDAY }">
-         
-         <td>${overdueday.bookOverdueDay}</td>
+         <td>${overdueday.bookOverdueDay}원</td>
          
          </c:forEach>
          <td>0권</td>

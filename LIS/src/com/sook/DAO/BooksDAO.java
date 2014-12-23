@@ -33,7 +33,7 @@ public class BooksDAO {
 
 	private final String INSERT_BOOK = "INSERT INTO books(bookRegistNumber, bookTitle, bookAuthor, bookPublisher, "
 			+ "bookPublicationYear, bookISBN, bookApplicationMark, bookCategory, bookPrice, bookCount, bookStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String DELETE_BOOK = "DELETE FROM books WHERE bookResgistNumber = ?";
+	private final String DELETE_BOOK = "DELETE FROM books WHERE bookRegistNumber = ?";
 	private final String UPDATE_BOOK = "UPDATE books SET bookRegistNumber=?, bookTitle=?, bookAuthor=?, bookPublisher=?,"
 			+ "bookPublicationYear=?, bookISBN=?, bookApplicationMark=?, bookCategory=?, bookPrice=? WHERE bookRegistNumber=?";
 
@@ -62,7 +62,7 @@ public class BooksDAO {
 			pstmt.setInt(++idx, 0);
 			pstmt.setInt(++idx, 6);
 
-			pstmt.executeUpdate();
+			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

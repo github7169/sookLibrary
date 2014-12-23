@@ -38,6 +38,7 @@ public class UsersDAOTest {
 	public void testLoginUser() {
 		assertEquals(usersDAO.login(usersDTO).getUserId(), "100000");
 	}
+	
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {

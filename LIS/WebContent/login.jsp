@@ -6,11 +6,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인 페이지</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
 function login(){
 	var userId = document.getElementById("userId").value;
 	var userPwd =document.getElementById("userPwd").value;
-	
+	if(userId!=null && userPwd !=null)
+		 $.ajax({
+		   		type : "POST",
+		   		url : "users/login",
+		   		data : { userId : userId, userPwd : userPwd },
+		   		success : function(data){
+		   			if(data.result=="ok"){
+		   				location.href="getbooks.jsp"
+		   			} else {
+		   				alert('아이디와 비밀번호를 입력하세요.');
+		   			}
+		   				
+		   			}
+		   		}
+		 );
+	else
+		alert('아이디와 비밀번호를 입력하세요');
 }
 </script>
 </head>
@@ -28,7 +45,7 @@ function login(){
 					<td><input type="password" name="userPwd" id="userPwd"></td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="로그인"></td>
+					<td><input type="button" value="로그인" onclick="login();"></td>
 					<td><input type="button" value="회원가입" onclick="location.href='regist.jsp' "></td>
 					<br>
 				</tr>

@@ -136,9 +136,26 @@ public class UsersController extends AbstractController {
 
 		usersDTO = usersDAO.login(usersDTO);
 
+		PrintWriter out;
+		JSONObject jsonObj;
+		out = response.getWriter();
+		response.setContentType("application/json; charset=UTF-8");
+		jsonObj = new JSONObject();
+		
+		try {
+			if(usersDTO!=null)
+				jsonObj.put("result", "ok");
+			else
+				jsonObj.put("result", "error");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.print(jsonObj);
+		out.flush();
 		HttpSession session = request.getSession();
 		session.setAttribute("USER", usersDTO);
-		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
+	//	response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
 
 	private void updateUser(HttpServletRequest request,

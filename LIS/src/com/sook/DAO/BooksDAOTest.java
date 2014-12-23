@@ -37,35 +37,15 @@ public class BooksDAOTest {
 	@AfterClass
 	public static void tearDownClass() throws Exception {
 		// Code executed after the last test method
-		
+		booksDAO.deleteBook("1000000000");
 	}
 	
 	@Test
 	public void testInsertBook() throws SQLException {
 		assertEquals(booksDAO.insertBook(booksDTO), 1);
-		booksDAO.deleteBook("1000000000");
-	}
-	
-	@Test
-	public void testUpdateBook() throws SQLException {
-		booksDTO.setBookPrice(1000000);
-		assertEquals(booksDAO.updateBook(booksDTO), 1);
-	}
-/*	
-	@Test
-	public void testDeleteBookSuccess() throws SQLException{
-		String registnum = "1000000000";
-		assertEquals(booksDAO.deleteBook(registnum), 1);
 		
 	}
 	
-	@Test
-	public void testDeleteBookFailure() throws SQLException{
-		String registnum = "0";
-		assertEquals(booksDAO.deleteBook(registnum), 0);
-		
-	}
-	*/
 	 @Test 
 	 public void testSelectBookByRegistNum() {
 		 //등록번호로 검색
@@ -75,11 +55,27 @@ public class BooksDAOTest {
 	 @Test 
 	 public void testSelectBookByAuthor() {
 		 //책 저자로 검색;
-		 assertEquals(booksDAO.selectBook(booksDTO, 16, "John").get(0).getBookTitle(),"Javascript");
+		 assertEquals(booksDAO.selectBook(booksDTO, 16, "John").get(0).getBookTitle(),"Javascript ");
 	 }
 	 
 	 @Test 
 	 public void testgetRentedList() {
-		 assertEquals(booksDAO.getRentedList(booksDTO, "1211514").get(0).getBookTitle(),"Adobe Photoshop");
+		 assertEquals(booksDAO.getRentedList(booksDTO, "1211514").get(0).getBookTitle(),"Design Pattern");
 	 }
+	 
+	 @Test
+	 public void testDeleteBook(){
+		 try {
+			assertEquals(booksDAO.deleteBook("1111"),0);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 }
+	 
+	   @Test
+	   public void testUpdateBook() throws SQLException {
+	      booksDTO.setBookPrice(1000000);
+	      assertEquals(booksDAO.updateBook(booksDTO), 1);
+	   }
 }

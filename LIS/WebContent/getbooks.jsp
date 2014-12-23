@@ -8,9 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%  String button="";
+<%  
+	String button="";
 	String check=""; 
-	int cnt=1; %>
+	int cnt=1; 
+%>
 <jsp:include page="menubar.jsp"></jsp:include>
 <jsp:include page="booksearchfilter.jsp"></jsp:include>
 <table border="1">

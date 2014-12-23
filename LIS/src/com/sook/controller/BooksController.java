@@ -1,9 +1,10 @@
-
 package com.sook.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sook.DAO.BooksDAO;
 import com.sook.DTO.BooksDTO;
-import com.sook.DTO.UsersDTO;
 import com.sook.util.AbstractController;
 import com.sook.util.StatusUtil;
 
@@ -31,14 +31,61 @@ public class BooksController extends AbstractController{
 		} else if("/books/deleteBook".equals(uri)) {
 			deleteBook(request, response);
 		} else if("/books/updateBook".equals(uri)){
-			updateBook(request, response);
+			try {
+				updateBook(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private void updateBook(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws IOException, ServletException, SQLException {
 		// TODO Auto-generated method stub
-		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
+		
+		BooksDTO booksDTO = new BooksDTO();
+		BooksDAO booksDAO = new BooksDAO();
+		System.out.println("updateBook was called");
+		
+		//BooksDTO getBook =new BooksDTO();
+		System.out.println(request.getParameter("bookRegistNumber"));
+		System.out.println(request.getParameter("bookTitle"));
+		System.out.println(request.getParameter("bookAuthor"));
+		System.out.println(request.getParameter("bookPublisher"));
+		System.out.println(Integer.parseInt(request.getParameter("bookPublicationYear")));
+		System.out.println(request.getParameter("bookISBN"));
+		System.out.println(Integer.parseInt(request.getParameter("bookApplicationMark")));
+		System.out.println(request.getParameter("bookCategory"));
+		System.out.println(request.getParameter("bookPrice"));
+		
+		
+		
+		booksDTO.setBookRegistNumber(request.getParameter("bookRegistNumber"));
+		booksDTO.setBookTitle(request.getParameter("bookTitle"));
+		booksDTO.setBookAuthor(request.getParameter("bookAuthor"));
+		booksDTO.setBookPublisher(request.getParameter("bookPublisher"));
+		booksDTO.setBookPublicationYear(Integer.parseInt(request.getParameter("bookPublicationYear")));
+		booksDTO.setBookISBN(request.getParameter("bookISBN"));
+		booksDTO.setBookApplicationMark(Integer.parseInt(request.getParameter("bookApplicationMark")));
+		booksDTO.setBookCategory(Integer.parseInt(request.getParameter("bookCategory")));
+		booksDTO.setBookPrice(Integer.parseInt(request.getParameter("bookPrice")));
+	
+		//수정 불가능한 항목들
+		//booksDTO.setBookCount(Integer.parseInt(request.getParameter("bookCount")));
+		//booksDTO.setBookStatus(Integer.parseInt(request.getParameter("bookStatus")));
+		//booksDTO.setBookRentDate(request.getParameter("bookRentDate"));
+		//booksDTO.setBookReturnDate(request.getParameter("bookReturnDate"));
+		//booksDTO.setBookRentedBy(request.getParameter("bookRentedBy"));
+		
+		if( booksDAO.updateBook(booksDTO) != 1)
+			System.out.println("failed to updateBook");
+		
+		request.setAttribute("GETBOOK", booksDTO);
+
+       // RequestDispatcher rd = request.getRequestDispatcher("getbooks.jsp");  
+        //rd.forward(request, response);  
+        response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
 
 	private void deleteBook(HttpServletRequest request,
@@ -61,6 +108,8 @@ public class BooksController extends AbstractController{
 		int bookApplicationMark = Integer.parseInt(request.getParameter("bookApplicationMark"));
 		int bookCategory = Integer.parseInt(request.getParameter("bookCategory"));
 		int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
+		int bookCount = 0;
+		int bookStatus = 6;
 		
 		booksDTO.setBookApplicationMark(bookApplicationMark);
 		booksDTO.setBookAuthor(bookAuthor);
@@ -71,6 +120,8 @@ public class BooksController extends AbstractController{
 		booksDTO.setBookPublisher(bookPublisher);
 		booksDTO.setBookRegistNumber(bookRegistNumber);
 		booksDTO.setBookTitle(bookTitle);
+		booksDTO.setBookCount(bookCount);
+		booksDTO.setBookStatus(bookStatus);
 		
 		try {
 			booksDAO.insertBook(booksDTO);
@@ -79,7 +130,7 @@ public class BooksController extends AbstractController{
 			e.printStackTrace();
 		}
 
-		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
+		response.sendRedirect(request.getContextPath() + "/books/getBooks?book_filter=registnum&keyword=");
 	}
 
 	private void getRentedList(HttpServletRequest request,
@@ -95,6 +146,9 @@ public class BooksController extends AbstractController{
 		ArrayList<BooksDTO> getRentedBookList = new ArrayList<BooksDTO>();
 				
 		getRentedBookList = booksDAO.getRentedList(booksDTO, userId);
+		if(getRentedBookList.size()==0){
+			request.setAttribute("notFound", "notFound");
+		}
 		request.setAttribute("GETRENTEDBOOKLIST", getRentedBookList );
 						
 		RequestDispatcher view = request.getRequestDispatcher("/getrentedlist.jsp");  
@@ -141,10 +195,13 @@ public class BooksController extends AbstractController{
 				break;
 			}
 			getBookList = booksDAO.selectBook(booksDTO, option, keyword);
+
+			if(getBookList.size()==0){
+				request.setAttribute("notFound", "notFound");
+			}
 			request.setAttribute("GETBOOKLIST", getBookList );
 	
 	        RequestDispatcher rd = request.getRequestDispatcher("/getbooks.jsp");  
 	        rd.forward(request, response);  
 	}
 }
-

@@ -8,7 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<% String check=""; %>
+<%  String button="";
+	String check=""; %>
 <jsp:include page="menubar.jsp"></jsp:include>
 <jsp:include page="booksearchfilter.jsp"></jsp:include>
 <table border="1">
@@ -28,6 +29,14 @@
 			<th>대출일</th>
 			<th>반납예정일</th>
 		</tr>
+		
+		<!-- 검색결과가 없습니다 -->
+		<% 
+			String notFound = (String) request.getAttribute("notFound");
+			if( "notFound".equals(notFound)){ 	
+				%><tr>
+	    		<td colspan="12" align="center">검색결과가 없습니다.</td></tr>
+		<% } %>
 		
 		<form method="post" action="bookdetail.jsp">
     	<% int cnt=1; %>
@@ -49,11 +58,11 @@
 			<c:if test="${booklist.bookStatus == '7'}"><td>대출중</td></c:if> 
 			<td>${booklist.bookRentDate}</td>
 			<td>${booklist.bookReturnDate}</td>
-    	</tr>
+    	</tr>		
 		</c:forEach>
-		</form>
-		
+		</form>		
 </c:if>
+
 <!-- if student -->
 <c:if test="${USER.userPosition == 'student'}">
 <!-- 등록번호, 서명, 저자, 출판사, 청구기호, 대출상태, 반납예정일 -->
@@ -68,8 +77,20 @@
 			<th>대출상태</th>
 			<th>반납예정일</th>
 		</tr>
-		<% int cnt=1;  %>
-		<c:forEach var="booklist" items="${GETBOOKLIST}">			
+		
+		<!-- 검색결과가 없습니다 -->
+		<% 
+			String notFound = (String) request.getAttribute("notFound");
+			if( "notFound".equals(notFound)){ 	
+				%>
+				<tr>
+	    			<td colspan="9" align="center">검색결과가 없습니다.</td>
+	    		</tr>
+		<% } %>
+		
+		<c:forEach var="booklist" items="${GETBOOKLIST}">	
+			 			
+			<% int cnt=1;  %>
     	<tr>
     		<td><input type="checkbox" name="isChecked"></td>
 			<td><%= cnt++ %></td>
@@ -85,11 +106,19 @@
 			<c:if test="${booklist.bookStatus == '7'}"><td>대출중</td></c:if> 
 			<td>${booklist.bookReturnDate}</td>
     	</tr>
-		</c:forEach>
-</c:if>
+    				
+		</c:forEach>	
+		</c:if>
 	</table>
+	
+	<!--  책 삽입 버튼 눌렀을 때 빈 등록칸 뜨게 -->
+	<%  button = request.getParameter("button");
+		if( "insert".equals(button)){ 	%>
+			<jsp:include page="bookinsert.jsp"></jsp:include>
+	<% } %>
+	
+	<!--  각 책 제목 눌렀을 때 해당 상세정보가 뜨게 -->
 	<%  check = request.getParameter("check");
-		System.out.println("check:"+check);
 		if( "yes".equals(check)){ 	%>
 			<jsp:include page="bookdetail.jsp"></jsp:include>
 	<% } %>

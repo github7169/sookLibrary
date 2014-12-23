@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
+import com.sook.DTO.BooksDTO;
 import com.sook.DTO.UsersDTO;
 import com.sook.util.JDBCUtil;
 import com.sook.util.StatusUtil;
@@ -30,6 +34,14 @@ public class UsersDAO {
 
 	private final String CHECK_USER_ID = "SELECT * FROM sookmyung WHERE userId = ?";
 	private final String LOGIN = "SELECT * FROM users WHERE userId = ?";
+	
+	private final String OVERDUE_ID = "SELECT bookReturnDate FROM books WHERE bookRentedBy LIKE ?";
+	private final String OVERDUE_NAME = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userName LIKE ? )";
+	private final String OVERDUE_RESTRICTED = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus ='3')";
+	private final String OVERDUE_AVAILABLE = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '5')";
+	private final String OVERDUE_OVERDUE = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '4')";
+	
+	//private final String GET_OVERDUE_DAY = "SELECT bookRentDate,bookReturnDate FROM books WHERE bookRentedBy LIKE ?";
 	// private final String GET_Restricted_LIST
 	// ="SELECT * FROM users WHERE userStatus LIKE ?";
 	// private final String GET_Available_LIST
@@ -113,47 +125,41 @@ public class UsersDAO {
 		System.out.println("UserDAO : getUsers was called");
 
 		Connection conn = null;
+
 		PreparedStatement pstmt = null;
+
 		ResultSet rs = null;
+
 
 		conn = JDBCUtil.getInstance().getConnection();
 		ArrayList<UsersDTO> list = new ArrayList<UsersDTO>();
+
+		
 		try {
 			switch (option) {
 			case StatusUtil.userOptionId:
-				System.out.println("호출되었습니다.keyword값 : " + keyword);
+				System.out.println("ID호출되었습니다.keyword값 : " + keyword);
 				pstmt = conn.prepareStatement(GET_USERS_BY_ID);
 				userSearchCondition = "userId";
 				break;
-			case StatusUtil.userOptionName:
+			case StatusUtil.userOptionName:			
 				userSearchCondition = "userName";
 				pstmt = conn.prepareStatement(GET_USERS_BY_NAME);
-				break;
-			case StatusUtil.userStatusRestricted:
-				System.out.println("호출되었습니다.keyword값 : " + keyword);
-				userSearchCondition = "restricted";
-				pstmt = conn.prepareStatement(GET_Restricted_LIST);
-				break;
-			case StatusUtil.userStatusAvailable:
-				userSearchCondition = "available";
-				pstmt = conn.prepareStatement(GET_Available_LIST);
-				break;
-			case StatusUtil.userStatusOverdue:
-				userSearchCondition = "overdue";
-				pstmt = conn.prepareStatement(GET_Overdue_LIST);
 				break;
 
 			default:
 				break;
 			}
-
+		
+			
 			pstmt.setString(1, "%" + keyword + "%");
 
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 
 				UsersDTO users = new UsersDTO();
-
+				
 				users.setUserId(rs.getString("userId"));
 				users.setUserName(rs.getString("userName"));
 				users.setUserPhoneNum(rs.getString("userPhoneNum"));
@@ -161,6 +167,7 @@ public class UsersDAO {
 				users.setUserStatus(rs.getInt("userStatus"));
 
 				list.add(users);
+
 			}
 			// test
 			for (int i = 0; i < list.size(); i++) {
@@ -169,6 +176,7 @@ public class UsersDAO {
 						+ "  department  " + list.get(i).getUserDepartment());
 				System.out.println("phone " + list.get(i).getUserPhoneNum()
 						+ "  status  " + list.get(i).getUserStatus());
+			
 			}
 
 		} catch (SQLException e) {
@@ -179,7 +187,7 @@ public class UsersDAO {
 		return list;
 	}
 
-	public ArrayList<UsersDTO> getUsers_by_status(UsersDTO usersDTO,
+	public ArrayList<UsersDTO> getUsersByStatus(UsersDTO usersDTO,
 			int option, int stat) {
 		System.out.println("UserDAO : getUsers was called");
 		Connection conn = null;
@@ -209,10 +217,10 @@ public class UsersDAO {
 				break;
 			}
 
-			System.out.println(stat);
-			// pstmt = conn.prepareStatement(GET_USERS);
+			pstmt.setString(1, "%" + stat + "%");
 
 			rs = pstmt.executeQuery();
+
 			while (rs.next()) {
 
 				UsersDTO users = new UsersDTO();
@@ -222,7 +230,7 @@ public class UsersDAO {
 				users.setUserPhoneNum(rs.getString("userPhoneNum"));
 				users.setUserDepartment(rs.getString("userDepartment"));
 				users.setUserStatus(rs.getInt("userStatus"));
-
+				
 				list.add(users);
 			}
 			// test
@@ -338,5 +346,156 @@ public class UsersDAO {
 		}
 		return result;
 	}
+	
+	
+	
+	public ArrayList<BooksDTO> getOverdueDay (BooksDTO booksDTO, int option, String keyword) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		conn = JDBCUtil.getInstance().getConnection();
+		ArrayList<BooksDTO> list = new ArrayList<BooksDTO>();
+		
+		try {
+			switch (option) {
+
+			case StatusUtil.userOptionId:
+				userSearchCondition = "userId";
+				pstmt = conn.prepareStatement(OVERDUE_ID);
+				pstmt.setString(1, keyword);
+				break;
+
+			case StatusUtil.userOptionName:			
+				userSearchCondition = "userName";
+				pstmt = conn.prepareStatement(OVERDUE_NAME);
+				pstmt.setString(1, keyword);
+				break;
+
+			default:
+				break;
+			}
+			pstmt.setString(1, "%" + keyword + "%");
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				BooksDTO books = new BooksDTO();
+				books.setBookReturnDate(rs.getDate("bookReturnDate"));
+				java.sql.Date str = rs.getDate("bookReturnDate");
+				
+				Date today = new Date();
+				Date returnday = new Date();
+				returnday = str;
+					
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(today);
+				
+				Calendar cal2 = Calendar.getInstance();
+				cal2.setTime(returnday);
+					
+				int count = -1;
+				while( !cal2.after(cal)){
+					count++;
+					cal2.add(Calendar.DATE,1);
+					}
+						
+				int money =+ count*10;
+				books.setBookOverdueDay(money);
+				
+				list.add(books);
+				
+				
+				System.out.println("기준일로부터" + count + "일이 지났습니다.");
+				System.out.println("오늘은 "+ today +"입니다.");
+				System.out.println("연체료는" + money + "입니다.");
+				}
+			
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return list;
+		}
+	
+	
+	
+	public ArrayList<BooksDTO> getOverdueDayByStatus (BooksDTO booksDTO, int option) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		conn = JDBCUtil.getInstance().getConnection();
+		ArrayList<BooksDTO> list = new ArrayList<BooksDTO>();
+		
+		try{
+			switch (option){
+			
+			case StatusUtil.userStatusRestricted:
+				userSearchCondition = "restricted";
+				pstmt = conn.prepareStatement(OVERDUE_RESTRICTED);
+				break;
+
+			case StatusUtil.userStatusAvailable:
+				userSearchCondition = "available";
+				pstmt = conn.prepareStatement(OVERDUE_AVAILABLE);
+				break;
+	
+			case StatusUtil.userStatusOverdue:
+				System.out.println("연체자 목록 호출되었습니다.");
+				userSearchCondition = "overdue";
+				pstmt = conn.prepareStatement(OVERDUE_OVERDUE);
+				break;
+	
+			default:
+				break;
+			
+			}
+			
+			//pstmt.setString(1, "%" + stat + "%");
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				BooksDTO books = new BooksDTO();
+				books.setBookReturnDate(rs.getDate("bookReturnDate"));
+				java.sql.Date str = rs.getDate("bookReturnDate");
+				
+				Date today = new Date();
+				Date returnday = new Date();
+				returnday = str;
+					
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(today);
+				
+				Calendar cal2 = Calendar.getInstance();
+				cal2.setTime(returnday);
+					
+				int count = -1;
+				while( !cal2.after(cal)){
+					count++;
+					cal2.add(Calendar.DATE,1);
+					}
+						
+				int money =+ count*10;
+				books.setBookOverdueDay(money);
+				
+				list.add(books);
+				
+				
+				System.out.println("기준일로부터" + count + "일이 지났습니다.");
+				System.out.println("오늘은 "+ today +"입니다.");
+				System.out.println("연체료는" + money + "입니다.");
+				}
+			
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return list;
+		}
+		
+		
+
 
 }

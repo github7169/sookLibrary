@@ -1,3 +1,4 @@
+
 package com.sook.DAO;
 
 import static org.junit.Assert.*;
@@ -39,9 +40,7 @@ public class UsersDAOTest {
    
    @Test
    public void testLoginUser() {
-      assertEquals(usersDAO.login(usersDTO).getUserId(), "1211453");
-   }
-   
-
+	      assertEquals(usersDAO.login(usersDTO).getUserId(), "1211453");
+}
 
 }

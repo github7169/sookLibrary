@@ -19,6 +19,7 @@
 				success : function(data) {
 					if (data.result == "success") {
 						alert('탈퇴하였습니다.');
+						location.href="login.jsp";
 					} else {
 						alert('미반납된 책이 있습니다.');
 					}

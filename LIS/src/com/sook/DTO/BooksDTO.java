@@ -19,6 +19,7 @@ public class BooksDTO implements Serializable{
 	private Date bookReturnDate; 		/* 반납일자  (YYMMDD) */
 	private UsersDTO bookRentedBy;
 	private int bookOverdueDay;
+	private int bookRentCount;
 	public String getBookRegistNumber() {
 		return bookRegistNumber;
 	}
@@ -110,6 +111,14 @@ public class BooksDTO implements Serializable{
 		
 	public void setBookOverdueDay(int count) {
 		this.bookOverdueDay = count;
+	}
+	
+	public int getBookRentCount() {
+		return bookRentCount;
 	}	
+	
+	public void setBookRentCount(int bookCount){
+		this.bookRentCount = bookCount; 
+	}
 	
 }

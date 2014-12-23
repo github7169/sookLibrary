@@ -2,9 +2,12 @@ package com.sook.DAO;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.sook.DTO.BooksDTO;
 import com.sook.DTO.UsersDTO;
 import com.sook.util.StatusUtil;
 
@@ -12,6 +15,8 @@ public class UsersDAOTest {
    private static UsersDAO usersDAO;
    private static UsersDTO usersDTO;
    @BeforeClass
+   
+   
    public static void setUpClass() throws Exception {
       // Code executed before the first test method
       usersDAO = new UsersDAO();
@@ -26,6 +31,7 @@ public class UsersDAOTest {
       usersDTO.setUserStatus(StatusUtil.userStatusAvailable);
    }
 
+
    @Test
    public void testInsertUser() {
       assertEquals(usersDAO.insertUser(usersDTO), 1);
@@ -37,11 +43,42 @@ public class UsersDAOTest {
       assertEquals(usersDAO.updateUser(usersDTO), 1);
    }
    
+   
    @Test
    public void testLoginUser() {
       assertEquals(usersDAO.login(usersDTO), 1);
    }
+ 
+   /* 
+   @Test
+   public void testGetUsers(){
+	   assertArrayListEquals(usersDAO.getUsers(usersDTO, 20, "jisu"),list);
+   }
+
+  
+
+   @Test
+   public void testGetUsersByStatus(){
+	   
+   }
+   @Test
+   public void testGetOverdueDayByStatus(){
+	   
+   }
    
+   @Test
+   public void testGetOverdueDay(){
+	   
+   }
+}*/
 
-
+/*
+   public ArrayList<UsersDTO> getUsers(UsersDTO usersDTO, int option,String keyword)
+   public ArrayList<UsersDTO> getUsersByStatus(UsersDTO usersDTO,int option, int stat)
+   public ArrayList<BooksDTO> getOverdueDayByStatus (BooksDTO booksDTO, int option)
+   public ArrayList<BooksDTO> getOverdueDay (BooksDTO booksDTO, int option, String keyword)
+   */
+   
 }
+
+

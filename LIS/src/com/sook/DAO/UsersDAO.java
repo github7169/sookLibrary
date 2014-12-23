@@ -19,14 +19,11 @@ public class UsersDAO {
 	private static final String DELETE = "DELETE FROM users WHERE userId= ?";
 	private final String INSERT_USER = "INSERT INTO users(userId, userPwd, userName, userDepartment, userPhoneNum, userPosition) VALUE(?,?,?,?,?,?)";
 	private final String UPDATE_USER = "UPDATE users SET userPwd = ?, userName = ?, userDepartment = ?, userPhoneNum =? where userId=?";
-	// 학생의 아이디 혹은 이름으로 검색
+	
 	String userSearchCondition = null;
 
 	private final String GET_USERS_BY_ID = "SELECT * FROM users WHERE userId LIKE ?";
 	private final String GET_USERS_BY_NAME = "SELECT * FROM users WHERE userName LIKE ?";
-
-	// private final String GET_USERS_BY_STATUS
-	// ="SElECT * FROM users WHERE userStatus LIKE?";
 
 	private final String GET_Restricted_LIST = "SELECT * FROM users WHERE userStatus LIKE ?";
 	private final String GET_Available_LIST = "SELECT * FROM users WHERE userStatus LIKE ?";
@@ -41,17 +38,6 @@ public class UsersDAO {
 	private final String OVERDUE_AVAILABLE = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '5')";
 	private final String OVERDUE_OVERDUE = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '4')";
 	
-	//private final String GET_OVERDUE_DAY = "SELECT bookRentDate,bookReturnDate FROM books WHERE bookRentedBy LIKE ?";
-	// private final String GET_Restricted_LIST
-	// ="SELECT * FROM users WHERE userStatus LIKE ?";
-	// private final String GET_Available_LIST
-	// ="SELECT * FROM users WHERE userStatus LIKE ?";
-	// private final String GET_Overdue_LIST
-	// ="SELECT * FROM users WHERE userStatus LIKE ?";
-
-	// private final String GET_USER_LIST =
-	// "SELECT * FROM users WHERE bookRentedBy = ?;";
-
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
@@ -354,6 +340,10 @@ public class UsersDAO {
 		ResultSet rs = null;
 		conn = JDBCUtil.getInstance().getConnection();
 		ArrayList<BooksDTO> list = new ArrayList<BooksDTO>();
+		BooksDTO books = new BooksDTO();
+		int bookcount = 0;
+		int money = 0;
+		
 		
 		try {
 			switch (option) {
@@ -377,7 +367,7 @@ public class UsersDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				BooksDTO books = new BooksDTO();
+				//BooksDTO books = new BooksDTO();
 				books.setBookReturnDate(rs.getDate("bookReturnDate"));
 				java.sql.Date str = rs.getDate("bookReturnDate");
 				
@@ -396,25 +386,19 @@ public class UsersDAO {
 					count++;
 					cal2.add(Calendar.DATE,1);
 					}
-						
-				int money =+ count*10;
+				
+				money = money+count*10;	
+				bookcount++;		
 				books.setBookOverdueDay(money);
-				
-				list.add(books);
-				
-				
-				System.out.println("기준일로부터" + count + "일이 지났습니다.");
-				System.out.println("오늘은 "+ today +"입니다.");
-				System.out.println("연체료는" + money + "입니다.");
+				books.setBookRentCount(bookcount);
 				}
 			
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return list;
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		list.add(books);
+		
+		return list;	
 		}
 	
 	
@@ -425,6 +409,10 @@ public class UsersDAO {
 		ResultSet rs = null;
 		conn = JDBCUtil.getInstance().getConnection();
 		ArrayList<BooksDTO> list = new ArrayList<BooksDTO>();
+		BooksDTO books = new BooksDTO();
+		int bookcount = 0;
+		int money = 0;
+		
 		
 		try{
 			switch (option){
@@ -440,7 +428,6 @@ public class UsersDAO {
 				break;
 	
 			case StatusUtil.userStatusOverdue:
-				System.out.println("연체자 목록 호출되었습니다.");
 				userSearchCondition = "overdue";
 				pstmt = conn.prepareStatement(OVERDUE_OVERDUE);
 				break;
@@ -449,12 +436,10 @@ public class UsersDAO {
 				break;
 			
 			}
-			
-			//pstmt.setString(1, "%" + stat + "%");
+		
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				BooksDTO books = new BooksDTO();
 				books.setBookReturnDate(rs.getDate("bookReturnDate"));
 				java.sql.Date str = rs.getDate("bookReturnDate");
 				
@@ -473,25 +458,22 @@ public class UsersDAO {
 					count++;
 					cal2.add(Calendar.DATE,1);
 					}
-						
-				int money =+ count*10;
+
+				money = money+count*10;
+				bookcount++;	
 				books.setBookOverdueDay(money);
-				
-				list.add(books);
-				
-				
-				System.out.println("기준일로부터" + count + "일이 지났습니다.");
-				System.out.println("오늘은 "+ today +"입니다.");
-				System.out.println("연체료는" + money + "입니다.");
+				books.setBookRentCount(bookcount);
 				}
-			
+
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+	
+			list.add(books);
 			return list;
+			
 		}
 		
 		

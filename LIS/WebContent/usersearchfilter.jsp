@@ -13,6 +13,7 @@
 			<option value="default"></option>
 			<option value="userId">학번</option>
 			<option value="userName">이름</option>
+			
 		</select>
 		<input type="text" name="keyword">
 		상태

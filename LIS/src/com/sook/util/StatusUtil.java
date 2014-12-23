@@ -8,7 +8,7 @@ public class StatusUtil {
 	public final static String userPositionLibrarian = "librarian";
 	public final static String userPositionStudent = "student";
 	
-	//userState
+	//userState & userSerchOption
 	public final static int userStatusLibrarian = 2;
 	public final static int userStatusRestricted = 3;
 	public final static int userStatusOverdue = 4;
@@ -37,5 +37,4 @@ public class StatusUtil {
 	   //userSearchOption
 	 public final static int userOptionId = 19;
 	 public final static int userOptionName =20;
-	 public final static int userOptionStatus=21;
 }

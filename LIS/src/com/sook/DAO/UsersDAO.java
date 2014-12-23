@@ -32,11 +32,11 @@ public class UsersDAO {
 	private final String CHECK_USER_ID = "SELECT * FROM sookmyung WHERE userId = ?";
 	private final String LOGIN = "SELECT * FROM users WHERE userId = ?";
 	
-	private final String OVERDUE_ID = "SELECT bookReturnDate FROM books WHERE bookRentedBy LIKE ?";
-	private final String OVERDUE_NAME = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userName LIKE ? )";
-	private final String OVERDUE_RESTRICTED = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus ='3')";
-	private final String OVERDUE_AVAILABLE = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '5')";
-	private final String OVERDUE_OVERDUE = "SELECT bookReturnDate FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '4')";
+	private final String OVERDUE_ID = "SELECT bookReturnDate,bookRentedBy FROM books WHERE bookRentedBy LIKE ?";
+	private final String OVERDUE_NAME = "SELECT bookReturnDate,bookRentedBy FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userName LIKE ? )";
+	private final String OVERDUE_RESTRICTED = "SELECT bookReturnDate,bookRentedBy FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus ='3')";
+	private final String OVERDUE_AVAILABLE = "SELECT bookReturnDate,bookRentedBy FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '5')";
+	private final String OVERDUE_OVERDUE = "SELECT bookReturnDate,bookRentedBy FROM books WHERE bookRentedBy IN (SELECT userId FROM users WHERE userStatus = '4')";
 	
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
@@ -409,7 +409,10 @@ public class UsersDAO {
 		ResultSet rs = null;
 		conn = JDBCUtil.getInstance().getConnection();
 		ArrayList<BooksDTO> list = new ArrayList<BooksDTO>();
+		ArrayList<BooksDTO> list2 = new ArrayList<BooksDTO>();
 		BooksDTO books = new BooksDTO();
+		BooksDTO books2 = new BooksDTO();
+		UsersDTO users = new UsersDTO();
 		int bookcount = 0;
 		int money = 0;
 		
@@ -441,38 +444,80 @@ public class UsersDAO {
 			
 			while (rs.next()) {
 				books.setBookReturnDate(rs.getDate("bookReturnDate"));
-				java.sql.Date str = rs.getDate("bookReturnDate");
 				
-				Date today = new Date();
-				Date returnday = new Date();
-				returnday = str;
-					
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(today);
+				users.setUserId(rs.getString("bookRentedBy"));
+				books.setBookRentedBy(users);
 				
-				Calendar cal2 = Calendar.getInstance();
-				cal2.setTime(returnday);
-					
-				int count = -1;
-				while( !cal2.after(cal)){
-					count++;
-					cal2.add(Calendar.DATE,1);
-					}
 
-				money = money+count*10;
-				bookcount++;	
-				books.setBookOverdueDay(money);
-				books.setBookRentCount(bookcount);
-				}
-
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				list.add(books);
 			}
 	
-			list.add(books);
-			return list;
+		
+			for (int i = 0; i < list.size(); i++) {
+			if(i==0  || list.get(i).getBookRentedBy() != list.get(i-1).getBookRentedBy() ){
+					Date str = list.get(i).getBookReturnDate();
+					Date today = new Date();
+					Date returnday = new Date();
+					returnday = str;
+						
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(today);
+					
+					Calendar cal2 = Calendar.getInstance();
+					cal2.setTime(returnday);
+						
+					int count = -1;
+					while( !cal2.after(cal)){
+						count++;
+						cal2.add(Calendar.DATE,1);
+						}
+					
+				books2.setBookRentCount(count);
+				money = count*10;	
+				books2.setBookOverdueDay(money);
+				}
+				
+				else if(list.get(i).getBookRentedBy()==list.get(i-1).getBookRentedBy()){
+					Date str = list.get(i).getBookReturnDate();
+					Date today = new Date();
+					Date returnday = new Date();
+					returnday = str;
+						
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(today);
+					
+					Calendar cal2 = Calendar.getInstance();
+					cal2.setTime(returnday);
+					
+					int count = -1;
+					while( !cal2.after(cal)){
+						count++;
+						cal2.add(Calendar.DATE,1);
+						}
+					money= list.get(i).getBookOverdueDay(); 	
+					money= money+count*10;
+					
+					books2.setBookRentCount(count);
+					books2.setBookOverdueDay(money);
+
+				}
+				else{
+					
+				}
+		}
+		}
+			catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				// test
+				for (int a = 0; a < list2.size(); a++) {
+					System.out.println("야야야 " + list2.get(a).getBookOverdueDay()
+							+ ", " + list2.get(a).getBookRentedBy().getUserId());
+				}
+				
+			return list2;
 			
 		}
 		

@@ -105,20 +105,5 @@ public class BooksDTO implements Serializable{
 		this.bookRentedBy = bookRentedBy;
 	}
 	
-	public int getBookOverdueDay() {
-		return bookOverdueDay;
-	}
-		
-	public void setBookOverdueDay(int count) {
-		this.bookOverdueDay = count;
-	}
-	
-	public int getBookRentCount() {
-		return bookRentCount;
-	}	
-	
-	public void setBookRentCount(int bookCount){
-		this.bookRentCount = bookCount; 
-	}
-	
+
 }

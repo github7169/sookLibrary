@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sook.DAO.BooksDAO;
 import com.sook.DAO.UsersDAO;
+import com.sook.DTO.BooksDTO;
 import com.sook.DTO.UsersDTO;
 import com.sook.util.AbstractController;
 import com.sook.util.StatusUtil;
@@ -155,14 +157,25 @@ public class UsersController extends AbstractController {
 		UsersDTO usersDTO = new UsersDTO();
 		System.out.println("getUsers was called + getUsers_by_status");
 		String keyword = request.getParameter("keyword");
-
+		
+		//String bookRentedBy = request.getParameter("userId");
+		
 		String[] selectedOption = request.getParameterValues("userFilter");
 		String[] selectedOptionStatus = request.getParameterValues("statusFilter");
 
 		int option = 0;
 		// 연체 유저 리스트를 여기에 넣는다.
 		ArrayList<UsersDTO> userlist = new ArrayList<UsersDTO>();
-
+		
+		BooksDTO booksDTO = new BooksDTO();
+		//UsersDAO usersDAO = new UsersDAO();			
+		System.out.println("getOverdueDay was called");
+		
+		ArrayList<BooksDTO> getOverdueDay = new ArrayList<BooksDTO>();
+				
+		getOverdueDay = usersDAO.getOverdueDay(booksDTO, keyword);
+		
+		
 		switch (selectedOption[0]) {
 		case "userId":
 			System.out.println("userId was selected");
@@ -180,6 +193,14 @@ public class UsersController extends AbstractController {
 			break;
 		}
 
+		
+
+		
+		
+				
+		//getRentedBookList = booksDAO.getRentedList(booksDTO, bookRentedBy);
+		//request.setAttribute("GETRENTEDBOOKLIST", getRentedBookList );
+						
 			
 		switch (selectedOptionStatus[0]) {
 		case "overdue":
@@ -205,7 +226,13 @@ public class UsersController extends AbstractController {
 		}
 
 		request.setAttribute("USERLIST", userlist);
-
+		request.setAttribute("GETOVERDUEDAY", getOverdueDay );
+		
+		if(userlist.size()==0){
+			request.setAttribute("notFound", "notFound");
+		}
+		
+		
 		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");
 		view.forward(request, response);
 	}
@@ -239,4 +266,24 @@ public class UsersController extends AbstractController {
 		session.setAttribute("USER", usersDTO);
 		response.sendRedirect(request.getContextPath() + "/getbooks.jsp");
 	}
+	
+/*	
+	private void getOverdueDay(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		
+		BooksDTO booksDTO = new BooksDTO();
+		UsersDAO usersDAO = new UsersDAO();			
+		System.out.println("getOverdueDay was called");
+		
+		String bookRentedBy = request.getParameter("Keyword");
+		
+		ArrayList<BooksDTO> getOverdueDay = new ArrayList<BooksDTO>();
+				
+		getOverdueDay = usersDAO.getOverdueDay(booksDTO, bookRentedBy);
+		request.setAttribute("GETOVERDUEDAY", getOverdueDay );
+						
+		RequestDispatcher view = request.getRequestDispatcher("/getusers.jsp");  
+		//view.forward(request, response);  
+	}*/
 }

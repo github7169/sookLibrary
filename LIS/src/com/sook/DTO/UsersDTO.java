@@ -1,6 +1,7 @@
 package com.sook.DTO;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class UsersDTO implements Serializable{
 	private String userId; 
@@ -10,6 +11,9 @@ public class UsersDTO implements Serializable{
 	private String userPhoneNum;	/* 연락처 (‘-’구분 없이 11자리 이내의  숫자) */
 	private String userPosition; 			/*- 신분 (student | librarian) */	
 	private int userStatus; 	/* 이용자 상태 (available | overdue | restricted) */
+	
+	private Date ReturnDate;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -54,5 +58,9 @@ public class UsersDTO implements Serializable{
 		this.userStatus = userStatus;
 	}	
 	
+		
+	
+
+
 
 }

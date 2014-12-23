@@ -61,7 +61,6 @@ public class BooksDAO {
 			pstmt.setInt(++idx, booksDTO.getBookPrice());
 
 			pstmt.executeUpdate();
-				
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

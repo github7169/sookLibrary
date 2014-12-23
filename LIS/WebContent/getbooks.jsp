@@ -9,14 +9,14 @@
 </head>
 <body>
 <%  String button="";
-	String check=""; %>
+	String check=""; 
+	int cnt=1; %>
 <jsp:include page="menubar.jsp"></jsp:include>
 <jsp:include page="booksearchfilter.jsp"></jsp:include>
 <table border="1">
 <c:if test="${USER.userPosition == 'librarian'}">
 <!-- if librarian -->
 		<tr>
-			<th><input type="checkbox" name="isChecked"></th>
 			<th>no</th>
 			<th>등록번호</th>
 			<th>서명</th>
@@ -35,15 +35,13 @@
 			String notFound = (String) request.getAttribute("notFound");
 			if( "notFound".equals(notFound)){ 	
 				%><tr>
-	    		<td colspan="12" align="center">검색결과가 없습니다.</td></tr>
+	    		<td colspan="11" align="center">검색결과가 없습니다.</td></tr>
 		<% } %>
 		
 		<form method="post" action="bookdetail.jsp">
-    	<% int cnt=1; %>
 		<c:forEach var="booklist" items="${GETBOOKLIST}">			
     	<tr>
-    		<td><input type="checkbox" name="check<%= cnt %>"></td>
-			<td><%= cnt++ %></td>
+    		<td><%= cnt++ %></td>
     		<td>${booklist.bookRegistNumber}</td>
 			<td>			 
 			<a href="<c:url value="/books/getBooks?book_filter=registnum&keyword=${booklist.bookRegistNumber}&check=yes"/>">${booklist.bookTitle}</a>  					 
@@ -68,7 +66,6 @@
 <c:if test="${USER.userPosition == 'student'}">
 <!-- 등록번호, 서명, 저자, 출판사, 청구기호, 대출상태, 반납예정일 -->
 		<tr>
-			<th><input type="checkbox" name="isChecked"></th>
 			<th>no</th>
 			<th>등록번호</th>
 			<th>서명</th>
@@ -85,17 +82,14 @@
 			if( "notFound".equals(notFound)){ 	
 				%>
 				<tr>
-	    			<td colspan="9" align="center">검색결과가 없습니다.</td>
+	    			<td colspan="8" align="center">검색결과가 없습니다.</td>
 	    		</tr>
 		<% } %>
 		
 		<c:forEach var="booklist" items="${GETBOOKLIST}">	
-			 			
-			<% int cnt=1;  %>
+			 		
     	<tr>
-    	
-    		<td><input type="checkbox" name="listCheckbox" value="${booklist.bookRegistNumber}"></td>
-			<td><%= cnt++ %></td>
+    		<td><%= cnt++ %></td>
     		<td>${booklist.bookRegistNumber}</td>
 			<td>	
 			<a href="<c:url value="/books/getBooks?book_filter=registnum&keyword=${booklist.bookRegistNumber}&check=yes"/>">${booklist.bookTitle}</a>  					 

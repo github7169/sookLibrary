@@ -16,7 +16,7 @@ import com.sook.util.StatusUtil;
 
 public class UsersDAO {
 
-	private static final String DELETE = "DELETE FROM users WHERE userId= ?";
+	private static final String DELETE = "DELETE FROM users WHERE userId= ? AND NOT EXISTS(select * from books where bookRentedBy=?)";
 	private final String INSERT_USER = "INSERT INTO users(userId, userPwd, userName, userDepartment, userPhoneNum, userPosition) VALUE(?,?,?,?,?,?)";
 	private final String UPDATE_USER = "UPDATE users SET userPwd = ?, userName = ?, userDepartment = ?, userPhoneNum =? where userId=?";
 	// 학생의 아이디 혹은 이름으로 검색
@@ -329,6 +329,7 @@ public class UsersDAO {
 		try {
 			pstmt = conn.prepareStatement(DELETE);
 			int idx= 0;
+			pstmt.setString(++idx, usersDTO.getUserId());
 			pstmt.setString(++idx, usersDTO.getUserId());
 			
 			result = pstmt.executeUpdate();

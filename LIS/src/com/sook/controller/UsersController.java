@@ -155,40 +155,30 @@ public class UsersController extends AbstractController {
 		// TODO Auto-generated method stub
 		UsersDAO usersDAO = new UsersDAO();
 		UsersDTO usersDTO = new UsersDTO();
-		System.out.println("getUsers was called + getUsers_by_status");
 		String keyword = request.getParameter("keyword");
 		
-		//String bookRentedBy = request.getParameter("userId");
 		
 		String[] selectedOption = request.getParameterValues("userFilter");
 		String[] selectedOptionStatus = request.getParameterValues("statusFilter");
 
 		int option = 0;
-		// 연체 유저 리스트를 여기에 넣는다.
 		ArrayList<UsersDTO> userlist = new ArrayList<UsersDTO>();
 		
-		BooksDTO booksDTO = new BooksDTO();
-		//UsersDAO usersDAO = new UsersDAO();			
-		System.out.println("getOverdueDay was called");
-		
-		ArrayList<BooksDTO> getOverdueDay = new ArrayList<BooksDTO>();
+		BooksDTO booksDTO = new BooksDTO();			
 				
 		
 		
 		
 		switch (selectedOption[0]) {
 		case "userId":
-			System.out.println("userId was selected");
 			usersDTO.setUserId(keyword);
 			option = StatusUtil.userOptionId;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
-			getOverdueDay = usersDAO.getOverdueDay(booksDTO, option, keyword);
 			break;
 		case "userName":
 			usersDTO.setUserName(keyword);
 			option = StatusUtil.userOptionName;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
-			getOverdueDay = usersDAO.getOverdueDay(booksDTO, option, keyword);
 			break;
 			
 		default:
@@ -200,21 +190,18 @@ public class UsersController extends AbstractController {
 			usersDTO.setUserStatus(4);
 			option = StatusUtil.userStatusOverdue;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 4);
-			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		case "restricted":
 			usersDTO.setUserStatus(3);
 			option = StatusUtil.userStatusRestricted;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 3);
-			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		case "available":
 			usersDTO.setUserStatus(5);
 			option = StatusUtil.userStatusAvailable;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 5);
-			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		default:
@@ -222,7 +209,6 @@ public class UsersController extends AbstractController {
 		}
 
 		request.setAttribute("USERLIST", userlist);
-		request.setAttribute("GETOVERDUEDAY", getOverdueDay );
 		
 		if(userlist.size()==0){
 			request.setAttribute("notFound", "notFound");

@@ -9,13 +9,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.sook.DTO.BooksDTO;
-import com.sook.DTO.UsersDTO;
 import com.sook.util.StatusUtil;
 
 public class BooksDAOTest {
 	private static BooksDAO booksDAO;
 	private static BooksDTO booksDTO;
-
+	
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 		// Code executed before the first test method
@@ -23,7 +22,7 @@ public class BooksDAOTest {
 		booksDTO = new BooksDTO();
 		
 		booksDTO.setBookRegistNumber("1000000000");
-		booksDTO.setBookTitle("TestTitle");
+		booksDTO.setBookTitle("TEST");
 		booksDTO.setBookAuthor("test");
 		booksDTO.setBookPublisher("publisher");
 		booksDTO.setBookPublicationYear(2015);
@@ -31,24 +30,28 @@ public class BooksDAOTest {
 		booksDTO.setBookApplicationMark(11111);
 		booksDTO.setBookCategory(StatusUtil.bookCategoryOthers);
 		booksDTO.setBookPrice(20000);
+		booksDTO.setBookCount(0);
+		booksDTO.setBookStatus(6);
 	}
 	
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		// Code executed before the first test method
+		// Code executed after the last test method
+		
 	}
 	
 	@Test
 	public void testInsertBook() throws SQLException {
 		assertEquals(booksDAO.insertBook(booksDTO), 1);
+		booksDAO.deleteBook("1000000000");
 	}
-
+	
 	@Test
 	public void testUpdateBook() throws SQLException {
 		booksDTO.setBookPrice(1000000);
 		assertEquals(booksDAO.updateBook(booksDTO), 1);
 	}
-	
+/*	
 	@Test
 	public void testDeleteBookSuccess() throws SQLException{
 		String registnum = "1000000000";
@@ -62,23 +65,21 @@ public class BooksDAOTest {
 		assertEquals(booksDAO.deleteBook(registnum), 0);
 		
 	}
-	
+	*/
 	 @Test 
 	 public void testSelectBookByRegistNum() {
 		 //등록번호로 검색
-		 assertEquals(booksDAO.selectBook(booksDTO, 14, "10").get(0).getBookTitle(),"TestTitle");
-		
+		 assertEquals(booksDAO.selectBook(booksDTO, 14, "12345").get(0).getBookTitle(),"Software");
 	 }
 	 
 	 @Test 
 	 public void testSelectBookByAuthor() {
-		 //책 저자로 검색
-		 assertEquals(booksDAO.selectBook(booksDTO, 16, "test").get(0).getBookTitle(),"TestTitle");
+		 //책 저자로 검색;
+		 assertEquals(booksDAO.selectBook(booksDTO, 16, "John").get(0).getBookTitle(),"Javascript");
 	 }
 	 
 	 @Test 
 	 public void testgetRentedList() {
-		 assertEquals(booksDAO.getRentedList(booksDTO, "1211453").get(0).getBookTitle(),"소프트웨어 공학");
+		 assertEquals(booksDAO.getRentedList(booksDTO, "1211514").get(0).getBookTitle(),"Adobe Photoshop");
 	 }
-
 }

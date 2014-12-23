@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import com.sook.DAO.BooksDAO;
-
 import com.sook.DAO.UsersDAO;
 import com.sook.DTO.BooksDTO;
 import com.sook.DTO.UsersDTO;
@@ -26,7 +23,7 @@ public class UsersController extends AbstractController {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String uri = getURI(request);
-
+		System.out.println(uri);
 		if ("/users/insertUser".equals(uri)) {
 			insertUser(request, response);
 		} else if ("/users/login".equals(uri)) {
@@ -55,24 +52,14 @@ public class UsersController extends AbstractController {
 		usersDTO = (UsersDTO) session.getAttribute("USER");
 
 		int result = usersDAO.deleteUser(usersDTO);
-		
-		PrintWriter out = response.getWriter();
-		response.setContentType("application/json; charset=UTF-8");
-		JSONObject jsonObj = new JSONObject();
-
-		try {
-			if (result != 0) {
-				session.invalidate();
-				jsonObj.put("result", "success");
-			} else {
-				jsonObj.put("result", "fail");
-			}
-			out.print(jsonObj);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (result != 0) {
+			System.out.println("삭제되었습니다.");
+		} else {
+			System.out.println("삭제에 실패하였습니다.");
 		}
-		out.flush();
+
+		session.invalidate();
+		response.sendRedirect(request.getContextPath() + "/login.jsp");
 
 	}
 
@@ -91,34 +78,24 @@ public class UsersController extends AbstractController {
 		UsersDAO usersDAO = new UsersDAO();
 
 		String userId = request.getParameter("userId");
-		
 		usersDTO.setUserId(userId);
-		
-		PrintWriter out;
-		JSONObject jsonObj;
-		out = response.getWriter();
-		response.setContentType("application/json; charset=UTF-8");
-		jsonObj = new JSONObject();
-		
+
 		try {
 			usersDTO = usersDAO.checkUserId(usersDTO);
 			if (usersDTO.getUserId() == null) {
-				jsonObj.put("result", "error");
+				System.out.println("check userId error");
+				request.setAttribute("checkResult", "error");
 			} else {
-				jsonObj.put("result", "ok");
-				jsonObj.put("position", usersDTO.getUserPosition());
+				request.setAttribute("checkResult", "ok");
+				request.setAttribute("position", usersDTO.getUserPosition());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		out.print(jsonObj);
-		out.flush();
-		// RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");
-		// view.forward(request, response);
+
+		RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");
+		view.forward(request, response);
 
 	}
 
@@ -156,7 +133,15 @@ public class UsersController extends AbstractController {
 		String userPwd = request.getParameter("userPwd");
 		String userDepartment = request.getParameter("userDepartment");
 
-		usersDTO.set(userPhoneNum, userDepartment, userName, userPwd, userId);
+		System.out.println("userName" + userName);
+		System.out.println("userDepartment" + userDepartment);
+		System.out.println("userName" + userName);
+
+		usersDTO.setUserPhoneNum(userPhoneNum);
+		usersDTO.setUserDepartment(userDepartment);
+		usersDTO.setUserName(userName);
+		usersDTO.setUserPwd(userPwd);
+		usersDTO.setUserId(userId);
 
 		int result = usersDAO.updateUser(usersDTO);
 		if (result == 0)
@@ -170,38 +155,30 @@ public class UsersController extends AbstractController {
 		// TODO Auto-generated method stub
 		UsersDAO usersDAO = new UsersDAO();
 		UsersDTO usersDTO = new UsersDTO();
-		System.out.println("getUsers was called + getUsers_by_status");
 		String keyword = request.getParameter("keyword");
+		
 		
 		String[] selectedOption = request.getParameterValues("userFilter");
 		String[] selectedOptionStatus = request.getParameterValues("statusFilter");
 
 		int option = 0;
-		// 연체 유저 리스트를 여기에 넣는다.
 		ArrayList<UsersDTO> userlist = new ArrayList<UsersDTO>();
 		
-		BooksDTO booksDTO = new BooksDTO();
-		//UsersDAO usersDAO = new UsersDAO();			
-		System.out.println("getOverdueDay was called");
-		
-		ArrayList<BooksDTO> getOverdueDay = new ArrayList<BooksDTO>();
+		BooksDTO booksDTO = new BooksDTO();			
 				
 		
 		
 		
 		switch (selectedOption[0]) {
 		case "userId":
-			System.out.println("userId was selected");
 			usersDTO.setUserId(keyword);
 			option = StatusUtil.userOptionId;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
-			getOverdueDay = usersDAO.getOverdueDay(booksDTO, option, keyword);
 			break;
 		case "userName":
 			usersDTO.setUserName(keyword);
 			option = StatusUtil.userOptionName;
 			userlist = usersDAO.getUsers(usersDTO, option, keyword);
-			getOverdueDay = usersDAO.getOverdueDay(booksDTO, option, keyword);
 			break;
 			
 		default:
@@ -213,21 +190,18 @@ public class UsersController extends AbstractController {
 			usersDTO.setUserStatus(4);
 			option = StatusUtil.userStatusOverdue;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 4);
-			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		case "restricted":
 			usersDTO.setUserStatus(3);
 			option = StatusUtil.userStatusRestricted;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 3);
-			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		case "available":
 			usersDTO.setUserStatus(5);
 			option = StatusUtil.userStatusAvailable;
 			userlist = usersDAO.getUsersByStatus(usersDTO, option, 5);
-			getOverdueDay = usersDAO.getOverdueDayByStatus(booksDTO, option);
 			break;
 
 		default:
@@ -235,7 +209,6 @@ public class UsersController extends AbstractController {
 		}
 
 		request.setAttribute("USERLIST", userlist);
-		request.setAttribute("GETOVERDUEDAY", getOverdueDay );
 		
 		if(userlist.size()==0){
 			request.setAttribute("notFound", "notFound");
@@ -259,7 +232,6 @@ public class UsersController extends AbstractController {
 		String userName = request.getParameter("userName");
 		String userDepartment = request.getParameter("userDepartment");
 		String userPhoneNum = request.getParameter("userPhoneNum");
-		String userPosition = request.getParameter("userPosition");
 
 		usersDTO.setUserDepartment(userDepartment);
 		usersDTO.setUserId(userId);
@@ -267,7 +239,7 @@ public class UsersController extends AbstractController {
 		usersDTO.setUserPhoneNum(userPhoneNum);
 		usersDTO.setUserPwd(userPwd);
 		// 임시로 사서로 가입
-		usersDTO.setUserPosition(userPosition);
+		usersDTO.setUserPosition(StatusUtil.userPositionLibrarian);
 
 		int result = usersDAO.insertUser(usersDTO);
 		if (result == 0)

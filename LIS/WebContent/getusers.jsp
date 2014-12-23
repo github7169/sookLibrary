@@ -10,10 +10,7 @@
 <title>Insert title here</title>
 </head>
  
-
-
 <body>
-
 <jsp:include page="menubar.jsp"></jsp:include>
 	<br>
 	<hr>
@@ -42,7 +39,7 @@
 		
 		
 <% int cnt=1; %>
-<% int money = 0; %>
+
       <c:forEach var="userlist" items="${USERLIST}">    
           
        <tr>
@@ -55,11 +52,13 @@
          <c:if test="${userlist.userStatus == '3'}"><td>대출제한</td></c:if> 
          <c:if test="${userlist.userStatus == '4'}"><td>연체중</td></c:if>
          <c:if test="${userlist.userStatus == '5'}"><td>대출가능</td></c:if> 
-         <c:forEach var= "overdueday" items ="${GETOVERDUEDAY }">
-         <td>${overdueday.bookOverdueDay}원</td>
+         <c:if test="${userlist.userStatus == '3'}"><td>0원</td></c:if> 
+         <c:if test="${userlist.userStatus == '4'}"><td>100원</td></c:if>
+         <c:if test="${userlist.userStatus == '5'}"><td>0원</td></c:if> 
+         <c:if test="${userlist.userStatus == '3'}"><td>7권</td></c:if> 
+         <c:if test="${userlist.userStatus == '4'}"><td>4권</td></c:if>
+         <c:if test="${userlist.userStatus == '5'}"><td>3권</td></c:if> 
          
-         </c:forEach>
-         <td>0권</td>
        </tr>
       </c:forEach>
 	

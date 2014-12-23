@@ -44,4 +44,15 @@ public class UsersDAOTest {
 		// Code executed after the last test method
 		usersDAO.deleteUser(usersDTO);
 	}
+
+	@Test
+	public void testGetUsers(){
+   		assertEquals(usersDAO.getUsers(usersDTO,20,"jisu").get(0).getUserName(),"jisu");
+	}
+   
+	@Test
+   	public void testGetUsersByStatus(){
+	   assertEquals(usersDAO.getUsersByStatus(usersDTO,5,5).get(0).getUserName(),"jisu");
+	}
+	
 }

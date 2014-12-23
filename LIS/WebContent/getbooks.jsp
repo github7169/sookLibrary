@@ -42,7 +42,7 @@
     	<% int cnt=1; %>
 		<c:forEach var="booklist" items="${GETBOOKLIST}">			
     	<tr>
-    		<td><input type="checkbox" name="isChecked"></td>
+    		<td><input type="checkbox" name="check<%= cnt %>"></td>
 			<td><%= cnt++ %></td>
     		<td>${booklist.bookRegistNumber}</td>
 			<td>			 
@@ -60,6 +60,7 @@
 			<td>${booklist.bookReturnDate}</td>
     	</tr>		
 		</c:forEach>
+		
 		</form>		
 </c:if>
 
@@ -92,7 +93,8 @@
 			 			
 			<% int cnt=1;  %>
     	<tr>
-    		<td><input type="checkbox" name="isChecked"></td>
+    	
+    		<td><input type="checkbox" name="listCheckbox" value="${booklist.bookRegistNumber}"></td>
 			<td><%= cnt++ %></td>
     		<td>${booklist.bookRegistNumber}</td>
 			<td>	

@@ -33,7 +33,7 @@ public class BooksDAO {
 
 	private final String INSERT_BOOK = "INSERT INTO books(bookRegistNumber, bookTitle, bookAuthor, bookPublisher, "
 			+ "bookPublicationYear, bookISBN, bookApplicationMark, bookCategory, bookPrice) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String DELETE_BOOK = "DELETE FROM books WHERE bookResgistNumber = ?";
+	private final String DELETE_BOOK = "DELETE FROM books WHERE bookRegistNumber = ?";
 	private final String UPDATE_BOOK = "UPDATE books SET bookRegistNumber=?, bookTitle=?, bookAuthor=?, bookPublisher=?,"
 			+ "bookPublicationYear=?, bookISBN=?, bookApplicationMark=?, bookCategory=?, bookPrice=? WHERE bookRegistNumber=?";
 
@@ -72,15 +72,16 @@ public class BooksDAO {
 		return result;
 	}
 
-	public int deleteBook(ArrayList<BooksDTO> list) throws SQLException {
+	public int deleteBook(String registnumber) throws SQLException {
 
 		int i = 0;
-		int result = 1;
-		BooksDTO book = new BooksDTO();
+		int result = 0;
+		//BooksDTO book = new BooksDTO();
 
 		conn = JDBCUtil.getInstance().getConnection();
 		// BooksDTO list를 받아와서 등록번호 키를 가지고 하나씩 delete query 수행
 
+		/*
 		while (i < list.size()) {
 
 			book = list.get(i++);
@@ -89,11 +90,16 @@ public class BooksDAO {
 			rs = pstmt.executeQuery();
 
 		}
-
-		if (!rs.first()) {
-			System.out.println("등록번호" + book.getBookRegistNumber()
+		*/
+		pstmt=conn.prepareStatement(DELETE_BOOK, Statement.RETURN_GENERATED_KEYS);
+	
+		pstmt.setString(1, registnumber);
+		result = pstmt.executeUpdate();
+		
+		if (result == 0) {
+			System.out.println("등록번호" + registnumber
 					+ "와 일치하는 삭제데이터 없음. 샂게 실패");
-			result = 0;
+		
 		}
 
 		pstmt.close();

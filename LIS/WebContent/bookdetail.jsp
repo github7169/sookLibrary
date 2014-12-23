@@ -84,7 +84,7 @@
 		</c:forEach>
 		
 		<input type="button" value="수정" onclick="sendUpdate()">		
-		<input type="button" value="삭제" onClick="deleteBook()">
+		<input type="button" value="삭제" onClick="sendDelete()">
 	</c:if>
 	</form>
 	

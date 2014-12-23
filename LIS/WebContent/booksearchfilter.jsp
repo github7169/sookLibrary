@@ -27,7 +27,9 @@
 					"<c:url value='/books/getBooks?book_filter=registnum&keyword=&button=insert'/>";
 			}
 		</script>		
-		<input type="button" value="삭제" onClick="alert('정말로 삭제하시겠습니까?')"/>
+		
+		<input type="button" value="삭제" onClick="location.href='deleteBook'"/>
+		 
 	</form>
 </body>
 </html>

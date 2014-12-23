@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -21,10 +20,9 @@ function check(){
 	   		success : function(data){
 	   			if(data.result=="ok"){
 	   				alert('존재하는 학번 / 교번입니다.');
-	   			 $('.position').html(data.position); 
+	   			 $('#userPosition').val(data.position); 
 	   			} else {
 	   				alert('존재하지 않는 학번 /교번 입니다.');
-	   				$('.position').html('학번 / 교번을 조회하세요'); 
 	   			}
 	   				
 	   			}
@@ -40,12 +38,10 @@ function regist(){
 	var userDepartment = document.getElementById("userDepartment");
 	var userPhoneNum = document.getElementById("userPhoneNum");
 	var userPosition = document.getElementById("userPosition");
-	
-	alert(userId);
-	if(userId == null | userPwd == null || userName ==null || userDepartment ==null || userPhoneNum ==null ||  userPosition == '학번 / 교번을 조회하세요' )
-		alert("모든 항목을 입력하세요");
+	if(userId != null & userPwd!=null & userName!=null & userDepartment!=null & userPhoneNum != null & userPosition!=null )
+		location.href="<c:url value='/users/insertUser'/>?userId="+userId.value+"&userPwd="+userPwd.value+"&userName="+userName.value+"&userDepartment="+userDepartment.value+"&userPhoneNum="+userPhoneNum.value+"&userPosition="+userPosition.value;
 	else
-		location.href="<c:url value='/users/insertUser'/>";
+		alert("모든 항목을 입력하세요");
 		
 }
 </script>
@@ -61,24 +57,25 @@ function regist(){
 			<tr>
 				<td>신분</td>
 				<td>
-					<a class="position" name="userPosition">학번 / 교번을 조회하세요</a>
+					<input type="text"  id="userPosition" class="userPosition" maxlength="7" readonly="readonly"/>
+					<!-- <a class="position" name="userPosition" value="학번 / 교번을 조회하세요">학번 / 교번을 조회하세요</a> -->
 				</td>
 			</tr>
 			<tr>
 				<td>패스워드</td>
-				<td><input type="password" name="userPwd" maxlength="20"> </td>
+				<td><input type="password" id="userPwd" name="userPwd" maxlength="20"> </td>
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td><input type="text" name="userName" maxlength="10"></td>
+				<td><input type="text" id="userName"  name ="userName" maxlength="10"></td>
 			</tr>
 			<tr>
 				<td>*학과</td>
-				<td><input type="text" name="userDepartment" maxlength="30"></td>
+				<td><input type="text" id="userDepartment" name="userDepartment" maxlength="30"></td>
 			</tr>
 			<tr>
 				<td>연락처</td>
-				<td><input type="text" name="userPhoneNum" maxlength="20"></td>
+				<td><input type="text" id="userPhoneNum" name="userPhoneNum" maxlength="20"></td>
 			</tr>
 			<tr>
 				<td>* 사서의 경우 교직원 번호와 부서를 입력합니다.</td>

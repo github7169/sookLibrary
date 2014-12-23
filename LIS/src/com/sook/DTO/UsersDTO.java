@@ -81,4 +81,11 @@ public class UsersDTO implements Serializable{
 	}	
 	
 
+	public void set(String userPhoneNum, String userDepartment, String userName, String userPwd, String userId){
+		this.userPhoneNum = userPhoneNum;
+		this.userDepartment = userDepartment;
+		this.userName = userName;
+		this.userPwd = userPwd;
+		this.userId = userId;
+	}
 }

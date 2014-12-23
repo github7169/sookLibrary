@@ -103,6 +103,7 @@ public class UsersDAO {
 			pstmt.setString(++idx, usersDTO.getUserId());
 
 			result = pstmt.executeUpdate();
+			System.out.println("result was "+result);
 		}
 
 		catch (SQLException e) {

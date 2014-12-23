@@ -26,7 +26,7 @@ public class UsersController extends AbstractController {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String uri = getURI(request);
-		System.out.println(uri);
+
 		if ("/users/insertUser".equals(uri)) {
 			insertUser(request, response);
 		} else if ("/users/login".equals(uri)) {
@@ -58,7 +58,6 @@ public class UsersController extends AbstractController {
 		
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
-		
 		JSONObject jsonObj = new JSONObject();
 
 		try {
@@ -92,26 +91,22 @@ public class UsersController extends AbstractController {
 		UsersDAO usersDAO = new UsersDAO();
 
 		String userId = request.getParameter("userId");
-		System.out.println("userId : " + userId);
+		
 		usersDTO.setUserId(userId);
-		PrintWriter out = response.getWriter();
+		
+		PrintWriter out;
+		JSONObject jsonObj;
+		out = response.getWriter();
 		response.setContentType("application/json; charset=UTF-8");
-		JSONObject jsonObj = new JSONObject();
+		jsonObj = new JSONObject();
+		
 		try {
 			usersDTO = usersDAO.checkUserId(usersDTO);
 			if (usersDTO.getUserId() == null) {
-				request.setAttribute("checkResult", "error");
 				jsonObj.put("result", "error");
-				System.out.println(jsonObj);
-				out.print(jsonObj);
 			} else {
-				request.setAttribute("checkResult", "ok");
-				request.setAttribute("position", usersDTO.getUserPosition());
-				request.setAttribute("userId", usersDTO.getUserId());
 				jsonObj.put("result", "ok");
 				jsonObj.put("position", usersDTO.getUserPosition());
-				System.out.println(jsonObj);
-				out.print(jsonObj);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -120,6 +115,7 @@ public class UsersController extends AbstractController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		out.print(jsonObj);
 		out.flush();
 		// RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");
 		// view.forward(request, response);
@@ -160,15 +156,7 @@ public class UsersController extends AbstractController {
 		String userPwd = request.getParameter("userPwd");
 		String userDepartment = request.getParameter("userDepartment");
 
-		System.out.println("userName" + userName);
-		System.out.println("userDepartment" + userDepartment);
-		System.out.println("userName" + userName);
-
-		usersDTO.setUserPhoneNum(userPhoneNum);
-		usersDTO.setUserDepartment(userDepartment);
-		usersDTO.setUserName(userName);
-		usersDTO.setUserPwd(userPwd);
-		usersDTO.setUserId(userId);
+		usersDTO.set(userPhoneNum, userDepartment, userName, userPwd, userId);
 
 		int result = usersDAO.updateUser(usersDTO);
 		if (result == 0)
@@ -184,8 +172,6 @@ public class UsersController extends AbstractController {
 		UsersDTO usersDTO = new UsersDTO();
 		System.out.println("getUsers was called + getUsers_by_status");
 		String keyword = request.getParameter("keyword");
-		
-		//String bookRentedBy = request.getParameter("userId");
 		
 		String[] selectedOption = request.getParameterValues("userFilter");
 		String[] selectedOptionStatus = request.getParameterValues("statusFilter");
@@ -273,6 +259,7 @@ public class UsersController extends AbstractController {
 		String userName = request.getParameter("userName");
 		String userDepartment = request.getParameter("userDepartment");
 		String userPhoneNum = request.getParameter("userPhoneNum");
+		String userPosition = request.getParameter("userPosition");
 
 		usersDTO.setUserDepartment(userDepartment);
 		usersDTO.setUserId(userId);
@@ -280,7 +267,7 @@ public class UsersController extends AbstractController {
 		usersDTO.setUserPhoneNum(userPhoneNum);
 		usersDTO.setUserPwd(userPwd);
 		// 임시로 사서로 가입
-		usersDTO.setUserPosition(StatusUtil.userPositionLibrarian);
+		usersDTO.setUserPosition(userPosition);
 
 		int result = usersDAO.insertUser(usersDTO);
 		if (result == 0)

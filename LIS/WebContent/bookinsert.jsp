@@ -21,7 +21,7 @@
 			<tr>
 				<td>서명</td><td> <input type="text" name="bookTitle"> </td>
 				<td>청구기호</td><td><input type="text" name="bookApplicationMark"></td>
-				<td>대출상태</td><td><input type="text" name="bookStatus" value=6 disabled></td>		
+				<td>대출상태</td><td><input type="text" name="bookStatus" value="6" disabled/></td>		
 			</tr>
 			<tr>
 				<td>저자 </td><td><input type="text" name="bookAuthor"></td>
@@ -43,7 +43,7 @@
 			</tr>
 			<tr>
 				<td>출판년도</td><td><input type="text" name="bookPublicationYear"></td>
-				<td>대출횟수</td><td><input type="text" name="bookCount" value=0 disabled></td>
+				<td>대출횟수</td><td><input type="text" name="bookCount" value="0" disabled/></td>
 			</tr>
 		</table>
 		

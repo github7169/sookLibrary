@@ -32,7 +32,7 @@ public class BooksDAO {
 	private final String GET_LENTED_LIST = "SELECT * FROM books WHERE bookRentedBy = ?;";
 
 	private final String INSERT_BOOK = "INSERT INTO books(bookRegistNumber, bookTitle, bookAuthor, bookPublisher, "
-			+ "bookPublicationYear, bookISBN, bookApplicationMark, bookCategory, bookPrice) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "bookPublicationYear, bookISBN, bookApplicationMark, bookCategory, bookPrice, bookCount, bookStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String DELETE_BOOK = "DELETE FROM books WHERE bookResgistNumber = ?";
 	private final String UPDATE_BOOK = "UPDATE books SET bookRegistNumber=?, bookTitle=?, bookAuthor=?, bookPublisher=?,"
 			+ "bookPublicationYear=?, bookISBN=?, bookApplicationMark=?, bookCategory=?, bookPrice=? WHERE bookRegistNumber=?";
@@ -59,6 +59,8 @@ public class BooksDAO {
 			pstmt.setInt(++idx, booksDTO.getBookApplicationMark());
 			pstmt.setInt(++idx, booksDTO.getBookCategory());
 			pstmt.setInt(++idx, booksDTO.getBookPrice());
+			pstmt.setInt(++idx, 0);
+			pstmt.setInt(++idx, 6);
 
 			pstmt.executeUpdate();
 

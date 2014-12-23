@@ -45,14 +45,22 @@ public class BooksDAOTest {
 
 	@Test
 	public void testUpdateBook() throws SQLException {
-		booksDTO.setBookAuthor("updateTitle");
+		booksDTO.setBookPrice(1000000);
 		assertEquals(booksDAO.updateBook(booksDTO), 1);
 	}
- */
+	*/
 	
 	 @Test 
-	 public void testSelectBook() {
+	 public void testSelectBookByRegistNum() {
+		 //등록번호로 검색
 		 assertEquals(booksDAO.selectBook(booksDTO, 14, "10").get(0).getBookTitle(),"TestTitle");
+		
+	 }
+	 
+	 @Test 
+	 public void testSelectBookByAuthor() {
+		 //책 저자로 검색
+		 assertEquals(booksDAO.selectBook(booksDTO, 16, "test").get(0).getBookTitle(),"TestTitle");
 	 }
 	 
 	 @Test 

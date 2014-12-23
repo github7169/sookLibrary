@@ -37,7 +37,7 @@ public class BooksDAOTest {
 	public static void tearDownClass() throws Exception {
 		// Code executed before the first test method
 	}
-	/*
+	
 	@Test
 	public void testInsertBook() throws SQLException {
 		assertEquals(booksDAO.insertBook(booksDTO), 1);
@@ -48,7 +48,20 @@ public class BooksDAOTest {
 		booksDTO.setBookPrice(1000000);
 		assertEquals(booksDAO.updateBook(booksDTO), 1);
 	}
-	*/
+	
+	@Test
+	public void testDeleteBookSuccess() throws SQLException{
+		String registnum = "1000000000";
+		assertEquals(booksDAO.deleteBook(registnum), 1);
+		
+	}
+	
+	@Test
+	public void testDeleteBookFailure() throws SQLException{
+		String registnum = "0";
+		assertEquals(booksDAO.deleteBook(registnum), 0);
+		
+	}
 	
 	 @Test 
 	 public void testSelectBookByRegistNum() {

@@ -39,7 +39,7 @@ public class UsersDAOTest {
    
    @Test
    public void testLoginUser() {
-      assertEquals(usersDAO.login(usersDTO), 1);
+      assertEquals(usersDAO.login(usersDTO).getUserId(), "1211453");
    }
    
 

@@ -6,6 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인 페이지</title>
+<script type="text/javascript">
+function login(){
+	var userId = document.getElementById("userId").value;
+	var userPwd =document.getElementById("userPwd").value;
+	
+}
+</script>
 </head>
 <body>
 	<center>
@@ -14,11 +21,11 @@
 			<table>
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" name="userId"></td>
+					<td><input type="text" name="userId" id="userId"></td>
 				</tr>
 				<tr>
 					<td>패스워드</td>
-					<td><input type="password" name="userPwd"></td>
+					<td><input type="password" name="userPwd" id="userPwd"></td>
 				</tr>
 				<tr>
 					<td><input type="submit" value="로그인"></td>

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.sook.DAO.UsersDAO;
 import com.sook.DTO.UsersDTO;
 import com.sook.util.AbstractController;
@@ -50,14 +53,25 @@ public class UsersController extends AbstractController {
 		usersDTO = (UsersDTO) session.getAttribute("USER");
 
 		int result = usersDAO.deleteUser(usersDTO);
-		if (result != 0) {
-			System.out.println("삭제되었습니다.");
-		} else {
-			System.out.println("삭제에 실패하였습니다.");
-		}
+		
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json; charset=UTF-8");
+		
+		JSONObject jsonObj = new JSONObject();
 
-		session.invalidate();
-		response.sendRedirect(request.getContextPath() + "/login.jsp");
+		try {
+			if (result != 0) {
+				session.invalidate();
+				jsonObj.put("result", "success");
+			} else {
+				jsonObj.put("result", "fail");
+			}
+			out.print(jsonObj);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.flush();
 
 	}
 
@@ -76,24 +90,37 @@ public class UsersController extends AbstractController {
 		UsersDAO usersDAO = new UsersDAO();
 
 		String userId = request.getParameter("userId");
+		System.out.println("userId : " + userId);
 		usersDTO.setUserId(userId);
-
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json; charset=UTF-8");
+		JSONObject jsonObj = new JSONObject();
 		try {
 			usersDTO = usersDAO.checkUserId(usersDTO);
 			if (usersDTO.getUserId() == null) {
-				System.out.println("check userId error");
 				request.setAttribute("checkResult", "error");
+				jsonObj.put("result", "error");
+				System.out.println(jsonObj);
+				out.print(jsonObj);
 			} else {
 				request.setAttribute("checkResult", "ok");
 				request.setAttribute("position", usersDTO.getUserPosition());
+				request.setAttribute("userId", usersDTO.getUserId());
+				jsonObj.put("result", "ok");
+				jsonObj.put("position", usersDTO.getUserPosition());
+				System.out.println(jsonObj);
+				out.print(jsonObj);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");
-		view.forward(request, response);
+		out.flush();
+		// RequestDispatcher view = request.getRequestDispatcher("/regist.jsp");
+		// view.forward(request, response);
 
 	}
 
